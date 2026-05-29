@@ -47,7 +47,10 @@ const jsonLd = {
   telephone: SITE_CONFIG.phone,
   email: SITE_CONFIG.email,
   priceRange: "$149 - $499",
-  founder: { "@type": "Person", name: SITE_CONFIG.founder },
+  founder: [
+    { "@type": "Person", name: "José Chugchilán" },
+    { "@type": "Person", name: "Pierre Carrion" },
+  ],
   address: { "@type": "PostalAddress", addressLocality: "Quito", addressCountry: "EC" },
   areaServed: { "@type": "Place", name: "Latinoamérica" },
   sameAs: [SITE_CONFIG.whatsapp],
