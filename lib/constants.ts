@@ -224,50 +224,82 @@ export const NAV_LINKS = [
 export interface PortfolioProject {
   id: string;
   title: string;
+  shortTitle: string;
   description: string;
   url: string;
-  image: string;
   status: string;
   featured: boolean;
+  client: string;
+  year: string;
   tags: string[];
-  color: "amber" | "orange";
+  stats: { label: string; value: string }[];
+  highlight: string;
+  tech: string[];
+  color: "blue" | "green" | "purple";
 }
 
 export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
   {
     id: "pueblos-magicos",
-    title: "Pueblos Mágicos — Arquitectura",
+    title: "Pueblos Mágicos del Ecuador",
+    shortTitle: "Pueblos Mágicos",
     description:
-      "Plataforma de exploración de pueblos mágicos mexicanos con enfoque en arquitectura colonial y sostenibilidad.",
+      "Plataforma editorial que documenta los 21 Pueblos Mágicos y 2 Rincones Mágicos del Ecuador. Explora destinos con valor cultural, histórico, arquitectónico y natural, certificados por el Ministerio de Turismo.",
     url: "https://pueblos-magicos-arquitectura.vercel.app/",
-    image: "https://picsum.photos/seed/pueblos-magicos/1200/600",
-    status: "En desarrollo",
+    status: "En desarrollo activo",
     featured: true,
-    tags: ["Turismo", "Arquitectura", "México", "Sostenibilidad"],
-    color: "amber",
+    client: "Ministerio de Turismo del Ecuador",
+    year: "2026",
+    tags: ["Turismo", "Cultura", "Ecuador", "Patrimonio", "Editorial"],
+    stats: [
+      { label: "Pueblos documentados", value: "21" },
+      { label: "Altitud media", value: "2,325 m" },
+      { label: "Regiones", value: "4 mundos" },
+    ],
+    highlight: "Programa '4 Mundos' · Ministerio de Turismo del Ecuador",
+    tech: ["Next.js", "Mapbox", "Vercel"],
+    color: "blue",
   },
   {
     id: "expo-turismo",
-    title: "Expo Turismo Sostenible 2026",
+    title: "Expo Turismo Sostenible Ecuador 2026",
+    shortTitle: "Expo Turismo 2026",
     description:
-      "Plataforma interactiva para exposición internacional de turismo sostenible con agenda de eventos.",
+      "Plataforma oficial del encuentro nacional que impulsa un turismo más responsable y competitivo. Evento el 16 de julio 2026 en Quito — Plataforma Gubernamental Norte. Certificaciones internacionales, networking premium e innovación.",
     url: "https://expo-turismo-sostenible-2026.vercel.app/",
-    image: "https://picsum.photos/seed/expo-turismo/1200/600",
-    status: "En desarrollo",
+    status: "En desarrollo activo",
     featured: false,
-    tags: ["Turismo", "Sostenibilidad", "Eventos", "Web3"],
-    color: "orange",
+    client: "Viceministerio de Turismo · Ecuador",
+    year: "2026",
+    tags: ["Eventos", "Sostenibilidad", "Turismo", "Ecuador", "Gobierno"],
+    stats: [
+      { label: "Fecha del evento", value: "16 Jul" },
+      { label: "Ciudad", value: "Quito" },
+      { label: "Entrada", value: "Gratuita" },
+    ],
+    highlight: "Viceministerio de Turismo del Ecuador · 16 de Julio 2026",
+    tech: ["React", "Tailwind", "Vercel"],
+    color: "green",
   },
   {
     id: "meteor-nights",
-    title: "Meteor Nights — Experiencia Nocturna",
+    title: "Meteor Nights — Astroturismo Premium",
+    shortTitle: "Meteor Nights",
     description:
-      "Aplicación inmersiva para observación de meteoros con realidad aumentada y datos astronómicos en tiempo real.",
+      "Plataforma de tours premium de astroturismo para observar lluvias de meteoros en 4 destinos Starlight certificados: Atacama, Ampimpa, Valle del Elqui y Tatacoa. Experiencias nocturnas con guías expertos.",
     url: "https://meteor-nights-final.vercel.app/",
-    image: "https://picsum.photos/seed/meteor-nights/1200/600",
-    status: "En desarrollo",
+    status: "En desarrollo activo",
     featured: false,
-    tags: ["Astronomía", "AR", "Experiencia", "Educación"],
-    color: "orange",
+    client: "Nixo Agency Project",
+    year: "2026",
+    tags: ["Astroturismo", "Experiencias", "Premium", "Naturaleza"],
+    stats: [
+      { label: "Destinos", value: "4" },
+      { label: "Noches claras", value: "330+" },
+      { label: "Viajeros", value: "1,000+" },
+    ],
+    highlight: "Certificado Starlight Internacional · Desde $179 USD",
+    tech: ["React", "Framer Motion", "Vercel"],
+    color: "purple",
   },
 ];

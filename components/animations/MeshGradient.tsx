@@ -14,8 +14,8 @@ interface MeshGradientProps {
  */
 export function MeshGradient({ className, dark = false }: MeshGradientProps) {
   const blobs = dark
-    ? ["rgba(249,115,22,0.30)", "rgba(217,119,6,0.28)", "rgba(180,83,9,0.26)"]
-    : ["rgba(217,119,6,0.20)", "rgba(249,115,22,0.14)", "rgba(180,83,9,0.16)"];
+    ? ["rgba(0,113,227,0.32)", "rgba(52,199,89,0.24)", "rgba(0,119,237,0.28)"]
+    : ["rgba(0,113,227,0.10)", "rgba(52,199,89,0.08)", "rgba(0,119,237,0.07)"];
 
   return (
     <div

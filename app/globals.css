@@ -1,25 +1,26 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────
-   Design tokens — dark theme + Amber/Orange accent (Nixo)
+   Design tokens — Apple design system (white + Blue/Green)
    ───────────────────────────────────────────── */
 :root {
-  --background: #0f0f0f;
-  --foreground: #ffffff;
-  --muted: #a1a1aa;
-  --muted-foreground: #71717a;
-  --border: #333333;
-  --card: #1a1a1a;
+  --background: #ffffff;
+  --foreground: #000000;
+  --muted: #a1a1a6;
+  --muted-foreground: #515154;
+  --border: #e5e5e7;
+  --card: #f5f5f7;
 
-  --accent: #d97706;        /* Dorado principal */
-  --accent-light: #f97316;  /* Naranja highlight */
-  --accent-dark: #b45309;   /* Dorado oscuro */
-  --accent-muted: rgba(217, 119, 6, 0.1);
+  --accent: #0071e3;          /* Apple Blue (primario) */
+  --accent-light: #0077ed;    /* Blue más claro */
+  --accent-dark: #0051ba;     /* Blue más oscuro */
+  --accent-muted: rgba(0, 113, 227, 0.08);
+  --accent-success: #34c759;  /* Apple Green */
 
-  --glass-bg: rgba(26, 26, 26, 0.8);
-  --glass-border: rgba(217, 119, 6, 0.2);
-  --shadow-color: rgba(0, 0, 0, 0.3);
-  --shadow-accent: rgba(217, 119, 6, 0.2);
+  --glass-bg: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --shadow-color: rgba(0, 0, 0, 0.05);
+  --shadow-accent: rgba(0, 113, 227, 0.1);
 }
 
 /* Expose tokens to Tailwind utilities (bg-accent, text-muted, border-border…) */
@@ -34,6 +35,7 @@
   --color-accent-light: var(--accent-light);
   --color-accent-dark: var(--accent-dark);
   --color-accent-muted: var(--accent-muted);
+  --color-accent-success: var(--accent-success);
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
