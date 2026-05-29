@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 interface MeshGradientProps {
   className?: string;
-  /** Use the darker emerald palette for CTA sections on dark backgrounds. */
+  /** Use the more saturated amber palette for CTA sections. */
   dark?: boolean;
 }
 
@@ -14,8 +14,8 @@ interface MeshGradientProps {
  */
 export function MeshGradient({ className, dark = false }: MeshGradientProps) {
   const blobs = dark
-    ? ["rgba(16,185,129,0.35)", "rgba(5,150,105,0.25)", "rgba(4,120,87,0.30)"]
-    : ["rgba(16,185,129,0.18)", "rgba(5,150,105,0.12)", "rgba(167,243,208,0.20)"];
+    ? ["rgba(249,115,22,0.30)", "rgba(217,119,6,0.28)", "rgba(180,83,9,0.26)"]
+    : ["rgba(217,119,6,0.20)", "rgba(249,115,22,0.14)", "rgba(180,83,9,0.16)"];
 
   return (
     <div

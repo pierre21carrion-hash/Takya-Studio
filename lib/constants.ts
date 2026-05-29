@@ -220,3 +220,54 @@ export const NAV_LINKS = [
   { label: "Precios", href: "#precios" },
   { label: "FAQ", href: "#faq" },
 ] as const;
+
+export interface PortfolioProject {
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+  image: string;
+  status: string;
+  featured: boolean;
+  tags: string[];
+  color: "amber" | "orange";
+}
+
+export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
+  {
+    id: "pueblos-magicos",
+    title: "Pueblos Mágicos — Arquitectura",
+    description:
+      "Plataforma de exploración de pueblos mágicos mexicanos con enfoque en arquitectura colonial y sostenibilidad.",
+    url: "https://pueblos-magicos-arquitectura.vercel.app/",
+    image: "https://picsum.photos/seed/pueblos-magicos/1200/600",
+    status: "En desarrollo",
+    featured: true,
+    tags: ["Turismo", "Arquitectura", "México", "Sostenibilidad"],
+    color: "amber",
+  },
+  {
+    id: "expo-turismo",
+    title: "Expo Turismo Sostenible 2026",
+    description:
+      "Plataforma interactiva para exposición internacional de turismo sostenible con agenda de eventos.",
+    url: "https://expo-turismo-sostenible-2026.vercel.app/",
+    image: "https://picsum.photos/seed/expo-turismo/1200/600",
+    status: "En desarrollo",
+    featured: false,
+    tags: ["Turismo", "Sostenibilidad", "Eventos", "Web3"],
+    color: "orange",
+  },
+  {
+    id: "meteor-nights",
+    title: "Meteor Nights — Experiencia Nocturna",
+    description:
+      "Aplicación inmersiva para observación de meteoros con realidad aumentada y datos astronómicos en tiempo real.",
+    url: "https://meteor-nights-final.vercel.app/",
+    image: "https://picsum.photos/seed/meteor-nights/1200/600",
+    status: "En desarrollo",
+    featured: false,
+    tags: ["Astronomía", "AR", "Experiencia", "Educación"],
+    color: "orange",
+  },
+];
