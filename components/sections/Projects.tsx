@@ -99,7 +99,7 @@ export function Projects() {
                       <ArrowRight
                         size={18}
                         weight="bold"
-                        className={isSelected ? "text-[#0071e3]" : "text-[#a1a1a6]"}
+                        className={isSelected ? "text-[#0071e3]" : "text-[#6e6e73]"}
                       />
                     </motion.div>
                   </div>
@@ -127,7 +127,7 @@ export function Projects() {
                       {project.stats.map((stat) => (
                         <div key={stat.label} className="text-center">
                           <p className="text-xs font-bold text-[#0071e3]">{stat.value}</p>
-                          <p className="text-[10px] leading-tight text-[#a1a1a6]">{stat.label}</p>
+                          <p className="text-[10px] leading-tight text-[#6e6e73]">{stat.label}</p>
                         </div>
                       ))}
                     </motion.div>
@@ -157,7 +157,7 @@ export function Projects() {
                   </div>
                   <div className="mx-3 flex-1">
                     <div className="flex items-center gap-2 rounded-lg border border-[#e5e5e7] bg-white px-3 py-1.5">
-                      <Globe size={12} className="flex-shrink-0 text-[#a1a1a6]" />
+                      <Globe size={12} className="flex-shrink-0 text-[#6e6e73]" />
                       <span className="truncate font-mono text-xs text-[#515154]">
                         {selected.url.replace("https://", "")}
                       </span>
@@ -183,7 +183,7 @@ export function Projects() {
                         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                         className="h-8 w-8 rounded-full border-2 border-[#e5e5e7] border-t-[#0071e3]"
                       />
-                      <p className="text-sm text-[#a1a1a6]">Cargando {selected.shortTitle}…</p>
+                      <p className="text-sm text-[#6e6e73]">Cargando {selected.shortTitle}…</p>
                     </div>
                   )}
                   <iframe
@@ -211,7 +211,7 @@ export function Projects() {
                   <div className="flex items-center justify-between gap-4">
                     <div className="min-w-0">
                       <h3 className="truncate text-base font-bold text-[#1d1d1f]">{selected.title}</h3>
-                      <p className="mt-0.5 text-xs text-[#a1a1a6]">
+                      <p className="mt-0.5 text-xs text-[#6e6e73]">
                         {selected.client} · {selected.year}
                       </p>
                     </div>
@@ -233,7 +233,7 @@ export function Projects() {
 
                   {/* Tech stack */}
                   <div className="mt-4 flex items-center gap-2">
-                    <Code size={12} className="text-[#a1a1a6]" />
+                    <Code size={12} className="text-[#6e6e73]" />
                     {selected.tech.map((t) => (
                       <span
                         key={t}

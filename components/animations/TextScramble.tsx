@@ -57,7 +57,9 @@ export function TextScramble({ text, className, speed = 32 }: TextScrambleProps)
   }, [text, speed]);
 
   return (
-    <span className={className} aria-label={text}>
+    <span className={className}>
+      {/* Real text for screen readers; the scrambling glyphs are decorative. */}
+      <span className="sr-only">{text}</span>
       <span aria-hidden="true">{output}</span>
     </span>
   );
