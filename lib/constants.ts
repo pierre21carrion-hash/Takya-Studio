@@ -256,7 +256,7 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
       { label: "Altitud media", value: "2,325 m" },
       { label: "Regiones", value: "4 mundos" },
     ],
-    highlight: "Programa '4 Mundos' · Ministerio de Turismo del Ecuador",
+    highlight: "21 Pueblos Mágicos · Ecuador · En desarrollo",
     tech: ["Next.js", "Mapbox", "Vercel"],
     color: "blue",
   },

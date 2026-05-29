@@ -91,7 +91,6 @@ export function Projects() {
                       >
                         {project.shortTitle}
                       </h3>
-                      <p className="line-clamp-2 text-xs text-[#a1a1a6]">{project.highlight}</p>
                     </div>
                     <motion.div
                       animate={{ rotate: isSelected ? 45 : 0 }}
