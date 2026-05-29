@@ -1,26 +1,101 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────
+   Design tokens — Zinc neutrals + single Emerald accent
+   ───────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fafafa;
+  --foreground: #18181b;
+  --muted: #71717a;
+  --muted-foreground: #a1a1aa;
+  --border: #e4e4e7;
+  --card: #ffffff;
+
+  --accent: #059669;
+  --accent-light: #10b981;
+  --accent-dark: #047857;
+  --accent-muted: rgba(5, 150, 105, 0.1);
+
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --shadow-color: rgba(24, 24, 27, 0.06);
+  --shadow-accent: rgba(5, 150, 105, 0.15);
 }
 
+/* Expose tokens to Tailwind utilities (bg-accent, text-muted, border-border…) */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
+  --color-accent-dark: var(--accent-dark);
+  --color-accent-muted: var(--accent-muted);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Cinematic easing (Emil Kowalski) */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-expo: cubic-bezier(0.16, 0.1, 0.3, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--accent-muted);
+  color: var(--accent-dark);
+}
+
+/* ─── Reusable surfaces ─── */
+@layer components {
+  /* Liquid glass — frosted, hairline border, NO neon glow */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.85) inset,
+      0 8px 32px var(--shadow-color);
+  }
+}
+
+/* Grain overlay texture */
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+}
+
+/* ─── Keyframes ─── */
+@keyframes marquee  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes floaty   { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
+@keyframes blink    { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes loadbar  { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+@keyframes pulsedot { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.25); opacity: 0.6; } }
+
+.animate-marquee { animation: marquee var(--marquee-duration, 32s) linear infinite; }
+.animate-floaty  { animation: floaty 5s ease-in-out infinite; }
+.animate-blink   { animation: blink 1s step-end infinite; }
+.animate-loadbar { animation: loadbar 2s var(--ease-out-expo) infinite; }
+.animate-pulsedot{ animation: pulsedot 1.6s ease-in-out infinite; }
+
+/* ─── Accessibility: honor reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
