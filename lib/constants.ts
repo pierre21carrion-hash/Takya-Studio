@@ -11,7 +11,7 @@ export const SITE_CONFIG = {
   whatsapp: "https://wa.me/593978775471",
   whatsappNumber: "593978775471",
   hours: "Lun–Vie 9am–6pm (ECT)",
-  url: "https://nixo-web.vercel.app",
+  url: "https://nixo-studio-next.vercel.app",
   year: 2026,
 } as const;
 
