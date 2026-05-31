@@ -22,7 +22,7 @@ export function MeshGradient({ className, dark = false }: MeshGradientProps) {
       {blobs.map((color, i) => (
         <div
           key={i}
-          className="animate-drift absolute h-[40rem] w-[40rem] rounded-full blur-[120px]"
+          className="animate-drift absolute h-[40rem] w-[40rem] rounded-full blur-[96px]"
           style={{
             background: color,
             top: `${i * 18 - 10}%`,
