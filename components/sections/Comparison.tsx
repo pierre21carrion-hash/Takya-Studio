@@ -190,22 +190,22 @@ export function Comparison() {
         {/* Why not Wix / WordPress — centered, max 680px */}
         <div className="mx-auto mt-16 max-w-[680px] rounded-3xl border border-[#e5e5e7] bg-[#f5f5f7] p-8 md:p-10">
           <h3 className="mb-6 text-2xl font-bold tracking-tight text-[#1d1d1f]">
-            Por qué no Wix ni WordPress
+            ¿Por qué no hacerlo tú mismo?
           </h3>
           <div className="flex flex-col gap-5 text-[15px] leading-relaxed text-[#515154]">
             <p>
-              <span className="font-semibold text-[#1d1d1f]">Wix:</span> pagas suscripción mensual
-              para siempre. El código que genera es pesado y Google lo penaliza en velocidad. Cuando
-              cancelas, pierdes todo.
+              <span className="font-semibold text-[#1d1d1f]">Plataformas de arrastrar y soltar:</span>{" "}
+              pagas suscripción mensual para siempre. El código que generan es pesado, Google las
+              penaliza en velocidad y cuando cancelas, pierdes todo lo que construiste.
             </p>
             <p>
-              <span className="font-semibold text-[#1d1d1f]">WordPress:</span> necesita
-              mantenimiento constante, actualizaciones, plugins de seguridad y alguien que lo
-              gestione. El 40% de los sitios hackeados en internet son WordPress.
+              <span className="font-semibold text-[#1d1d1f]">Gestores de contenido tradicionales:</span>{" "}
+              necesitan mantenimiento constante, actualizaciones, plugins de seguridad y alguien
+              técnico que los gestione. Son la causa del 40% de los sitios hackeados en internet.
             </p>
             <p>
-              <span className="font-semibold text-[#1d1d1f]">Vekto</span> usa Next.js — la
-              tecnología de Nike, TikTok y OpenAI. Tu web es tuya, no depende de ninguna plataforma,
+              <span className="font-semibold text-[#1d1d1f]">Vekto</span> usa tecnología moderna —
+              la misma de Nike, TikTok y OpenAI. Tu web es tuya, no depende de ninguna plataforma,
               carga en menos de 1 segundo y nadie te cobra suscripción mensual para que siga
               funcionando.
             </p>
