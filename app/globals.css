@@ -87,6 +87,19 @@ body {
 @keyframes loadbar  { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 @keyframes pulsedot { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.25); opacity: 0.6; } }
 
+/* Off-main-thread (compositor) animations — keep TBT low */
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(60px, -50px) scale(1.15); }
+  66%      { transform: translate(-40px, 30px) scale(0.9); }
+}
+@keyframes ctapulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.06); }
+}
+.animate-drift    { animation: drift 20s ease-in-out infinite; will-change: transform; }
+.animate-ctapulse { animation: ctapulse 2.4s ease-in-out infinite; will-change: transform; }
+
 .animate-marquee { animation: marquee var(--marquee-duration, 32s) linear infinite; }
 .animate-floaty  { animation: floaty 5s ease-in-out infinite; }
 .animate-blink   { animation: blink 1s step-end infinite; }

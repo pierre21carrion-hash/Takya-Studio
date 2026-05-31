@@ -1,16 +1,13 @@
-"use client";
-
-import { motion } from "framer-motion";
-
 interface MeshGradientProps {
   className?: string;
-  /** Use the more saturated amber palette for CTA sections. */
+  /** Use the more saturated palette for CTA sections. */
   dark?: boolean;
 }
 
 /**
- * Organic, slowly-drifting blobs — a subtle premium backdrop. Animates only
- * transform/opacity (GPU). Decorative, so hidden from assistive tech.
+ * Organic, slowly-drifting blobs — a subtle premium backdrop. Driven by a CSS
+ * keyframe animation so it runs on the compositor (off the main thread), which
+ * keeps Total Blocking Time low. Decorative, so hidden from assistive tech.
  */
 export function MeshGradient({ className, dark = false }: MeshGradientProps) {
   const blobs = dark
@@ -23,12 +20,16 @@ export function MeshGradient({ className, dark = false }: MeshGradientProps) {
       aria-hidden="true"
     >
       {blobs.map((color, i) => (
-        <motion.div
+        <div
           key={i}
-          className="absolute h-[40rem] w-[40rem] rounded-full blur-[120px]"
-          style={{ background: color, top: `${i * 18 - 10}%`, left: `${i * 26 - 5}%` }}
-          animate={{ x: [0, 60, -40, 0], y: [0, -50, 30, 0], scale: [1, 1.15, 0.9, 1] }}
-          transition={{ duration: 18 + i * 4, repeat: Infinity, ease: "easeInOut" }}
+          className="animate-drift absolute h-[40rem] w-[40rem] rounded-full blur-[120px]"
+          style={{
+            background: color,
+            top: `${i * 18 - 10}%`,
+            left: `${i * 26 - 5}%`,
+            animationDuration: `${18 + i * 4}s`,
+            animationDelay: `${i * -4}s`,
+          }}
         />
       ))}
     </div>

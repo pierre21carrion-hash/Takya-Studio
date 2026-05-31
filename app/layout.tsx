@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { MotionConfig } from "framer-motion";
 import "./globals.css";
 import { SITE_CONFIG } from "@/lib/constants";
 import { Navbar } from "@/components/layout/Navbar";
@@ -64,11 +65,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <GrainOverlay />
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <FloatingCTA />
+        <MotionConfig reducedMotion="user">
+          <GrainOverlay />
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <FloatingCTA />
+        </MotionConfig>
       </body>
     </html>
   );

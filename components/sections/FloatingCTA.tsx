@@ -23,9 +23,9 @@ export function FloatingCTA() {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            initial={{ opacity: 0, x: 12, scale: 0.95 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: 12, scale: 0.95 }}
+            initial={{ opacity: 0, x: 12 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 12 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             className="glass hidden rounded-full px-4 py-2.5 text-sm font-medium text-foreground sm:block"
           >
@@ -34,19 +34,17 @@ export function FloatingCTA() {
         )}
       </AnimatePresence>
 
-      <motion.a
+      {/* Fixed size + CSS pulse (compositor, off main thread) — no entrance
+          animation, so it can't shift layout. Hover handled via color. */}
+      <a
         href={href}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Escríbenos por WhatsApp"
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-accent text-white shadow-[0_10px_30px_var(--shadow-accent)]"
-        whileHover={{ scale: 1.08 }}
-        whileTap={{ scale: 0.94 }}
-        animate={{ scale: [1, 1.06, 1] }}
-        transition={{ repeat: Infinity, duration: 2.4, ease: "easeInOut" }}
+        className="animate-ctapulse flex h-14 w-14 items-center justify-center rounded-full bg-accent text-white shadow-[0_10px_30px_var(--shadow-accent)] transition-colors hover:bg-accent-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       >
         <WhatsappLogo size={26} weight="fill" />
-      </motion.a>
+      </a>
     </div>
   );
 }
