@@ -1,10 +1,7 @@
 "use client";
 
-import { useRef, useEffect } from "react";
 import { motion, type Variants } from "framer-motion";
 import { ChatCircle, PencilSimple, Wrench, Rocket } from "@phosphor-icons/react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { whatsappUrl } from "@/lib/utils";
 
 const steps = [
@@ -26,34 +23,8 @@ const circleVariants: Variants = {
 };
 
 export function Process() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const lineRef = useRef<HTMLDivElement>(null);
-
-  // GSAP draws the connector left → right when the section scrolls in.
-  useEffect(() => {
-    const line = lineRef.current;
-    const section = sectionRef.current;
-    if (!line || !section) return;
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      gsap.set(line, { scaleX: 1 });
-      return;
-    }
-
-    gsap.registerPlugin(ScrollTrigger);
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        line,
-        { scaleX: 0 },
-        { scaleX: 1, duration: 0.6, ease: "power2.out", scrollTrigger: { trigger: section, start: "top 70%" } },
-      );
-    }, section);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section id="proceso" ref={sectionRef} className="bg-white px-4 py-20 md:px-8">
+    <section id="proceso" className="bg-white px-4 py-20 md:px-8">
       <div className="mx-auto max-w-6xl">
         {/* Heading */}
         <div className="mb-16 text-center">
@@ -73,12 +44,14 @@ export function Process() {
           viewport={{ once: true }}
           className="relative"
         >
-          {/* Connector (desktop) — grey track + gradient fill drawn by GSAP */}
+          {/* Connector (desktop) — grey track + gradient fill drawn by Framer */}
           <div className="absolute left-[12.5%] right-[12.5%] top-8 hidden h-0.5 overflow-hidden rounded-full bg-[#e5e5e7] md:block">
-            <div
-              ref={lineRef}
+            <motion.div
               className="h-full w-full origin-left rounded-full bg-gradient-to-r from-[#0071e3] to-[#34c759]"
-              style={{ transform: "scaleX(0)" }}
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, amount: 0.6 }}
+              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             />
           </div>
 
