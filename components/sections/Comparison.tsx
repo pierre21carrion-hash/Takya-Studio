@@ -1,9 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Check } from "@phosphor-icons/react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { fadeUp, staggerContainer, inViewOnce } from "@/lib/animations";
 
 interface Row {
   criterio: string;
@@ -58,11 +58,20 @@ const COMPARACION: Row[] = [
   },
 ];
 
+type ColKey = "wix" | "freelancer" | "agencia" | "vekto";
+
 const COLS = [
   { key: "wix", label: "Tú solo (Wix/WordPress)" },
   { key: "freelancer", label: "Freelancer random" },
   { key: "agencia", label: "Agencia grande" },
 ] as const;
+
+const TABS: { key: ColKey; short: string }[] = [
+  { key: "wix", short: "Wix" },
+  { key: "freelancer", short: "Freelancer" },
+  { key: "agencia", short: "Agencia" },
+  { key: "vekto", short: "Vekto" },
+];
 
 function VektoCell({ text }: { text: string }) {
   return (
@@ -74,6 +83,8 @@ function VektoCell({ text }: { text: string }) {
 }
 
 export function Comparison() {
+  const [active, setActive] = useState<ColKey>("vekto");
+
   return (
     <section className="bg-white px-4 py-24 md:px-8">
       <div className="mx-auto max-w-6xl">
@@ -84,10 +95,9 @@ export function Comparison() {
           subtitle="Compara honestamente tus opciones. Sin marketing inflado."
         />
 
-        {/* Desktop table */}
-        <div className="mt-14 hidden overflow-hidden rounded-3xl border border-[#e5e5e7] lg:block">
+        {/* Desktop (>=768px): classic 5-column table */}
+        <div className="mt-14 hidden overflow-hidden rounded-3xl border border-[#e5e5e7] md:block">
           <div className="grid grid-cols-[1.2fr_1fr_1fr_1fr_1.1fr]">
-            {/* Header */}
             <div className="bg-[#f5f5f7] p-4" />
             {COLS.map((c) => (
               <div key={c.key} className="bg-[#f5f5f7] p-4 text-sm font-semibold text-[#515154]">
@@ -96,7 +106,6 @@ export function Comparison() {
             ))}
             <div className="bg-[#0071e3] p-4 text-sm font-bold text-white">Vekto</div>
 
-            {/* Rows */}
             {COMPARACION.map((row, i) => (
               <div key={row.criterio} className="contents">
                 <div className={`p-4 text-sm font-semibold text-[#1d1d1f] ${i % 2 ? "bg-[#fafafa]" : "bg-white"}`}>
@@ -105,7 +114,7 @@ export function Comparison() {
                 <div className={`p-4 text-sm text-[#6e6e73] ${i % 2 ? "bg-[#fafafa]" : "bg-white"}`}>{row.wix}</div>
                 <div className={`p-4 text-sm text-[#6e6e73] ${i % 2 ? "bg-[#fafafa]" : "bg-white"}`}>{row.freelancer}</div>
                 <div className={`p-4 text-sm text-[#6e6e73] ${i % 2 ? "bg-[#fafafa]" : "bg-white"}`}>{row.agencia}</div>
-                <div className="bg-[#0071e3]/[0.06] p-4">
+                <div className="border-l border-[#0071e3]/20 bg-[#0071e3]/[0.06] p-4">
                   <VektoCell text={row.vekto} />
                 </div>
               </div>
@@ -113,41 +122,64 @@ export function Comparison() {
           </div>
         </div>
 
-        {/* Mobile: one card per criterio */}
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={inViewOnce}
-          className="mt-12 flex flex-col gap-4 lg:hidden"
-        >
-          {COMPARACION.map((row) => (
-            <motion.div
-              key={row.criterio}
-              variants={fadeUp}
-              className="overflow-hidden rounded-2xl border border-[#e5e5e7]"
-            >
-              <p className="bg-[#f5f5f7] px-4 py-3 text-sm font-semibold text-[#1d1d1f]">{row.criterio}</p>
-              <dl className="divide-y divide-[#e5e5e7]">
-                {COLS.map((c) => (
-                  <div key={c.key} className="flex flex-col gap-0.5 px-4 py-2.5">
-                    <dt className="text-xs font-medium text-[#a1a1a6]">{c.label}</dt>
-                    <dd className="text-sm text-[#6e6e73]">{row[c.key]}</dd>
-                  </div>
-                ))}
-                <div className="flex flex-col gap-0.5 bg-[#0071e3]/[0.06] px-4 py-2.5">
-                  <dt className="text-xs font-bold text-[#0071e3]">Vekto</dt>
-                  <dd>
-                    <VektoCell text={row.vekto} />
-                  </dd>
-                </div>
-              </dl>
-            </motion.div>
-          ))}
-        </motion.div>
+        {/* Mobile (<768px): tabs — pick a column, compare it across all rows */}
+        <div className="mt-12 md:hidden">
+          <div className="mb-5 grid grid-cols-4 gap-1.5 rounded-2xl bg-[#f5f5f7] p-1.5">
+            {TABS.map((t) => {
+              const isActive = active === t.key;
+              const isVekto = t.key === "vekto";
+              return (
+                <button
+                  key={t.key}
+                  type="button"
+                  onClick={() => setActive(t.key)}
+                  aria-pressed={isActive}
+                  className={`rounded-xl px-2 py-2 text-xs font-semibold transition-colors ${
+                    isActive
+                      ? isVekto
+                        ? "bg-[#0071e3] text-white shadow-sm"
+                        : "bg-white text-[#1d1d1f] shadow-sm"
+                      : "text-[#6e6e73]"
+                  }`}
+                >
+                  {t.short}
+                </button>
+              );
+            })}
+          </div>
 
-        {/* Why not Wix / WordPress */}
-        <div className="mt-16 rounded-3xl border border-[#e5e5e7] bg-[#f5f5f7] p-8 md:p-10">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={active}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+              className="flex flex-col gap-3"
+            >
+              {COMPARACION.map((row) => (
+                <div
+                  key={row.criterio}
+                  className={`rounded-2xl border p-4 ${
+                    active === "vekto" ? "border-[#0071e3]/30 bg-[#0071e3]/[0.06]" : "border-[#e5e5e7] bg-white"
+                  }`}
+                >
+                  <p className="mb-1.5 text-xs font-medium uppercase tracking-wide text-[#a1a1a6]">
+                    {row.criterio}
+                  </p>
+                  {active === "vekto" ? (
+                    <VektoCell text={row.vekto} />
+                  ) : (
+                    <p className="text-sm text-[#515154]">{row[active]}</p>
+                  )}
+                </div>
+              ))}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Why not Wix / WordPress — centered, max 680px */}
+        <div className="mx-auto mt-16 max-w-[680px] rounded-3xl border border-[#e5e5e7] bg-[#f5f5f7] p-8 md:p-10">
           <h3 className="mb-6 text-2xl font-bold tracking-tight text-[#1d1d1f]">
             Por qué no Wix ni WordPress
           </h3>
