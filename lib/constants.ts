@@ -1,5 +1,5 @@
 export const SITE_CONFIG = {
-  name: "Nixo Studio",
+  name: "Vekto",
   tagline: "Tu web profesional lista en 5 días desde $149",
   description:
     "Diseño web premium y automatización con IA para negocios latinoamericanos. Entrega en 5 días, 100% en español.",
@@ -290,7 +290,7 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     url: "https://meteor-nights-final.vercel.app/",
     status: "En desarrollo activo",
     featured: false,
-    client: "Nixo Agency Project",
+    client: "Vekto Agency Project",
     year: "2026",
     tags: ["Astroturismo", "Experiencias", "Premium", "Naturaleza"],
     stats: [

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="glow" cx="20%" cy="22%" r="80%">
+      <stop offset="0%" stop-color="#eaf3ff"/>
+      <stop offset="55%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f5f5f7"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- Brand mark + wordmark -->
+  <g transform="translate(90,84)">
+    <rect width="64" height="64" rx="14" fill="#0a0a0a"/>
+    <path d="M19 19 L32 45 L45 19" fill="none" stroke="#0071e3" stroke-width="6"
+          stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="84" y="44" font-family="Helvetica, Arial, sans-serif" font-size="30"
+          font-weight="700" fill="#1d1d1f" letter-spacing="0.5">Vekto</text>
+  </g>
+
+  <!-- Headline -->
+  <text x="86" y="318" font-family="Helvetica, Arial, sans-serif" font-weight="800" font-size="86"
+        fill="#1d1d1f">Tu web profesional</text>
+  <text x="86" y="414" font-family="Helvetica, Arial, sans-serif" font-weight="800" font-size="86"
+        fill="#1d1d1f">lista en <tspan fill="#0071e3">5 días</tspan>.</text>
+
+  <!-- Sub -->
+  <text x="90" y="498" font-family="Helvetica, Arial, sans-serif" font-size="30"
+        fill="#515154">Diseño web premium desde $149 · Entrega en 5 días</text>
+  <text x="90" y="543" font-family="Helvetica, Arial, sans-serif" font-size="24"
+        fill="#86868b">Quito, Ecuador — para toda Latinoamérica</text>
+</svg>

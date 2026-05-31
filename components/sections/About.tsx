@@ -53,7 +53,7 @@ export function About() {
             Somos <em className="not-italic text-[#0071e3]">José y Pierre</em>
           </motion.h2>
           <motion.p variants={itemVariants} className="max-w-2xl text-xl text-[#515154]">
-            Fundadores de Nixo Studio
+            Fundadores de Vekto
           </motion.p>
         </motion.div>
 
@@ -69,7 +69,7 @@ export function About() {
           >
             <Image
               src="/founders.jpg"
-              alt="José Chugchilán y Pierre Carrion — fundadores de Nixo Studio"
+              alt="José Chugchilán y Pierre Carrion — fundadores de Vekto"
               width={1280}
               height={720}
               sizes="(max-width: 1024px) 100vw, 600px"
@@ -86,7 +86,7 @@ export function About() {
             className="space-y-8"
           >
             <motion.p variants={itemVariants} className="text-lg leading-relaxed text-[#515154]">
-              José Chugchilán y Pierre Carrion son los fundadores de Nixo Studio, una agencia
+              José Chugchilán y Pierre Carrion son los fundadores de Vekto, una agencia
               digital dedicada a crear soluciones web de alta calidad para negocios en
               Latinoamérica.
             </motion.p>
@@ -154,7 +154,7 @@ export function About() {
             Trabajamos desde Quito, Ecuador para negocios de toda Latinoamérica.
           </p>
           <a
-            href="https://wa.me/593978775471?text=Hola%20Jos%C3%A9%20y%20Pierre,%20vi%20que%20sois%20los%20fundadores%20y%20me%20interesa%20trabajar%20con%20Nixo%20Studio"
+            href="https://wa.me/593978775471?text=Hola%20Jos%C3%A9%20y%20Pierre,%20vi%20que%20sois%20los%20fundadores%20y%20me%20interesa%20trabajar%20con%20Vekto"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-[#0071e3] px-8 py-4 font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-[#0077ed] hover:shadow-lg hover:shadow-[#0071e3]/25"
