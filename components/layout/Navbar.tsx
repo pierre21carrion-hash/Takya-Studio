@@ -26,7 +26,7 @@ export function Navbar() {
     >
       <nav
         className={cn(
-          "glass mx-auto flex max-w-5xl items-center justify-between rounded-full px-4 transition-all duration-500 md:px-6",
+          "glass mx-auto flex max-w-5xl items-center justify-between rounded-full px-4 transition-all duration-300 ease-out md:px-6",
           scrolled ? "py-2" : "py-3",
         )}
       >

@@ -16,7 +16,7 @@ export function Counter({ value, suffix = "", decimals = 0, className }: Counter
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
   const motionValue = useMotionValue(0);
-  const spring = useSpring(motionValue, { stiffness: 90, damping: 25 });
+  const spring = useSpring(motionValue, { stiffness: 130, damping: 30 });
   const [display, setDisplay] = useState("0");
 
   useEffect(() => {

@@ -41,7 +41,7 @@ export function Card({ children, className, spotlight = true }: CardProps) {
     >
       {spotlight && (
         <div
-          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
           style={{
             opacity: active ? 1 : 0,
             background: `radial-gradient(420px circle at ${pos.x}px ${pos.y}px, var(--accent-muted), transparent 60%)`,
