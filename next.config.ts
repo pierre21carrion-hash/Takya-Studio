@@ -8,12 +8,12 @@ const csp = [
   "object-src 'none'",
   // Next needs inline scripts for hydration; 'unsafe-eval' kept for safety with
   // animation libs. (No nonce pipeline on a static export.)
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.tidio.co",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
-  "font-src 'self'",
-  "connect-src 'self'",
-  "frame-src 'self' https://pueblos-magicos-arquitectura.vercel.app https://expo-turismo-sostenible-2026.vercel.app https://llano-grande.vercel.app",
+  "font-src 'self' data:",
+  "connect-src 'self' https://*.tidio.co wss://*.tidio.co",
+  "frame-src 'self' https://*.tidio.co https://pueblos-magicos-arquitectura.vercel.app https://expo-turismo-sostenible-2026.vercel.app https://llano-grande.vercel.app",
   "frame-ancestors 'self'",
 ].join("; ");
 

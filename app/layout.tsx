@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { MotionConfig } from "framer-motion";
+import Script from "next/script";
 import "./globals.css";
 import { SITE_CONFIG } from "@/lib/constants";
 import { Navbar } from "@/components/layout/Navbar";
@@ -72,6 +73,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <Footer />
           <FloatingCTA />
         </MotionConfig>
+        {/* Tidio live chat — lazy so it never blocks initial render / PageSpeed */}
+        <Script
+          src="//code.tidio.co/msov437drlxoxykds6imiilxkd6eegzq.js"
+          strategy="lazyOnload"
+        />
       </body>
     </html>
   );
