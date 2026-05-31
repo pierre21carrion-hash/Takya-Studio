@@ -45,7 +45,7 @@ const COMPARACION: Row[] = [
   },
   {
     criterio: "SEO y velocidad",
-    wix: "Limitado. Wix genera código pesado",
+    wix: "Limitado. Genera código pesado",
     freelancer: "Opcional y extra",
     agencia: "Incluido pero genérico",
     vekto: "SEO técnico + PageSpeed 95+ incluido",
@@ -62,7 +62,7 @@ const COMPARACION: Row[] = [
 type ColKey = "wix" | "freelancer" | "agencia" | "vekto";
 
 const COLS = [
-  { key: "wix", label: "Tú solo (Wix/WordPress)" },
+  { key: "wix", label: "Tú solo" },
   { key: "freelancer", label: "Freelancer random" },
   { key: "agencia", label: "Agencia grande" },
 ] as const;
@@ -187,7 +187,7 @@ export function Comparison() {
           </AnimatePresence>
         </div>
 
-        {/* Why not Wix / WordPress — centered, max 680px */}
+        {/* "Why not do it yourself" — centered, max 680px */}
         <div className="mx-auto mt-16 max-w-[680px] rounded-3xl border border-[#e5e5e7] bg-[#f5f5f7] p-8 md:p-10">
           <h3 className="mb-6 text-2xl font-bold tracking-tight text-[#1d1d1f]">
             ¿Por qué no hacerlo tú mismo?
