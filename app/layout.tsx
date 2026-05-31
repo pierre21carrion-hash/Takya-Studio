@@ -7,7 +7,6 @@ import { SITE_CONFIG } from "@/lib/constants";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { GrainOverlay } from "@/components/ui/GrainOverlay";
-import { FloatingCTA } from "@/components/sections/FloatingCTA";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -71,7 +70,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
-          <FloatingCTA />
         </MotionConfig>
         {/* Tidio live chat — lazy so it never blocks initial render / PageSpeed */}
         <Script
