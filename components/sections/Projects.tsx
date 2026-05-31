@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { ArrowUpRight, ArrowRight, Globe, Code, Star } from "@phosphor-icons/react";
 import { PORTFOLIO_PROJECTS } from "@/lib/constants";
@@ -247,6 +248,16 @@ export function Projects() {
               </motion.div>
             </AnimatePresence>
           </div>
+        </div>
+
+        {/* Link to full case studies */}
+        <div className="mt-8 text-center">
+          <Link
+            href="/casos"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-[#0071e3] hover:underline"
+          >
+            Ver caso de estudio completo <ArrowRight size={15} weight="bold" />
+          </Link>
         </div>
 
         {/* Bottom CTA */}

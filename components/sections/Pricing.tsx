@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Check, X, Star } from "@phosphor-icons/react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -125,6 +126,15 @@ export function Pricing() {
         >
           Agenda una consulta gratuita →
         </a>
+      </p>
+
+      <p className="mt-3 text-center text-sm">
+        <Link
+          href="/calculadora"
+          className="font-medium text-accent underline-offset-4 hover:underline"
+        >
+          ¿No sabes qué plan necesitas? Calcula tu precio estimado →
+        </Link>
       </p>
     </section>
   );

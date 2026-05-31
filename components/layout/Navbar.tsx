@@ -30,7 +30,7 @@ export function Navbar() {
           scrolled ? "py-2" : "py-3",
         )}
       >
-        <a href="#" className="flex items-center gap-2 font-bold tracking-tight">
+        <a href="/" className="flex items-center gap-2 font-bold tracking-tight">
           <Sparkle size={22} weight="fill" className="text-accent" />
           <span>{SITE_CONFIG.name}</span>
         </a>

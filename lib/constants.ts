@@ -215,10 +215,10 @@ export const PILLARS = [
 ] as const;
 
 export const NAV_LINKS = [
-  { label: "Servicios", href: "#servicios" },
-  { label: "Proceso", href: "#proceso" },
-  { label: "Precios", href: "#precios" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Servicios", href: "/#servicios" },
+  { label: "Proceso", href: "/#proceso" },
+  { label: "Precios", href: "/#precios" },
+  { label: "FAQ", href: "/#faq" },
 ] as const;
 
 export interface PortfolioProject {

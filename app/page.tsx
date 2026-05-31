@@ -3,7 +3,9 @@ import { Services } from "@/components/sections/Services";
 import { Process } from "@/components/sections/Process";
 import { Technology } from "@/components/sections/Technology";
 import { Pricing } from "@/components/sections/Pricing";
+import { Comparison } from "@/components/sections/Comparison";
 import { Projects } from "@/components/sections/Projects";
+import { Testimonials } from "@/components/sections/Testimonials";
 import { About } from "@/components/sections/About";
 import { Audit } from "@/components/sections/Audit";
 import { FAQ } from "@/components/sections/FAQ";
@@ -17,7 +19,9 @@ export default function Home() {
       <Process />
       <Technology />
       <Pricing />
+      <Comparison />
       <Projects />
+      <Testimonials />
       <About />
       <Audit />
       <FAQ />
