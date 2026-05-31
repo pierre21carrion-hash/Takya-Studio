@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check } from "@phosphor-icons/react";
+import { Check, Sparkle } from "@phosphor-icons/react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { cn } from "@/lib/utils";
 
 interface Row {
   criterio: string;
@@ -66,11 +67,12 @@ const COLS = [
   { key: "agencia", label: "Agencia grande" },
 ] as const;
 
+// Order places Vekto in the visual center; no competitor brand names.
 const TABS: { key: ColKey; short: string }[] = [
-  { key: "wix", short: "Wix" },
+  { key: "wix", short: "Tú solo" },
   { key: "freelancer", short: "Freelancer" },
-  { key: "agencia", short: "Agencia" },
   { key: "vekto", short: "Vekto" },
+  { key: "agencia", short: "Agencia grande" },
 ];
 
 function VektoCell({ text }: { text: string }) {
@@ -124,7 +126,7 @@ export function Comparison() {
 
         {/* Mobile (<768px): tabs — pick a column, compare it across all rows */}
         <div className="mt-12 md:hidden">
-          <div className="mb-5 grid grid-cols-4 gap-1.5 rounded-2xl bg-[#f5f5f7] p-1.5">
+          <div className="mb-5 grid grid-cols-4 gap-2">
             {TABS.map((t) => {
               const isActive = active === t.key;
               const isVekto = t.key === "vekto";
@@ -134,14 +136,21 @@ export function Comparison() {
                   type="button"
                   onClick={() => setActive(t.key)}
                   aria-pressed={isActive}
-                  className={`rounded-xl px-2 py-2 text-xs font-semibold transition-colors ${
+                  style={
+                    isActive && isVekto
+                      ? { backgroundColor: "#0052CC", boxShadow: "0 2px 8px rgba(0,82,204,0.35)" }
+                      : undefined
+                  }
+                  className={cn(
+                    "flex items-center justify-center gap-1 rounded-xl px-2 py-2 text-xs font-semibold leading-tight transition-colors",
                     isActive
                       ? isVekto
-                        ? "bg-[#0071e3] text-white shadow-sm"
+                        ? "text-white"
                         : "bg-white text-[#1d1d1f] shadow-sm"
-                      : "text-[#6e6e73]"
-                  }`}
+                      : "bg-[#F3F4F6] text-[#6B7280]",
+                  )}
                 >
+                  {isVekto && <Sparkle size={11} weight="fill" className="shrink-0" />}
                   {t.short}
                 </button>
               );
