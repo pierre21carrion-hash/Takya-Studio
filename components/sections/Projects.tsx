@@ -40,7 +40,7 @@ export function Projects() {
           <h2 className="mb-4 text-5xl font-bold leading-none tracking-tighter text-[#1d1d1f] md:text-6xl">
             Proyectos en los que
             <br />
-            <em className="not-italic text-[#0071e3]">estoy trabajando.</em>
+            <em className="not-italic text-[#0071e3]">estamos trabajando.</em>
           </h2>
           <p className="max-w-xl text-lg text-[#515154]">
             Experiencias digitales ambiciosas en desarrollo activo para clientes en Ecuador y
