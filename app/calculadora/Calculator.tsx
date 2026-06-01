@@ -87,7 +87,7 @@ export function Calculator() {
   return (
     <div className="mx-auto max-w-2xl">
       {/* Progress bar */}
-      <div className="mb-8 h-1.5 w-full overflow-hidden rounded-full bg-[#e5e5e7]">
+      <div className="mb-8 h-1.5 w-full overflow-hidden rounded-full bg-[#d6e4f7]">
         <motion.div
           className="h-full rounded-full bg-[#0071e3]"
           animate={{ width: `${(Math.min(step, total) / total) * 100}%` }}
@@ -122,7 +122,7 @@ export function Calculator() {
                     className={`flex items-center justify-between rounded-2xl border p-4 text-left text-[15px] transition-colors ${
                       selected
                         ? "border-[#0071e3] bg-[#0071e3]/[0.06] text-[#1d1d1f]"
-                        : "border-[#e5e5e7] bg-white text-[#515154] hover:border-[#0071e3]/40"
+                        : "border-[#d6e4f7] bg-white text-[#515154] hover:border-[#0071e3]/40"
                     }`}
                   >
                     {op}
@@ -169,7 +169,7 @@ export function Calculator() {
             initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-            className="rounded-3xl border border-[#e5e5e7] bg-white p-8 text-center md:p-12"
+            className="rounded-3xl border border-[#d6e4f7] bg-white p-8 text-center md:p-12"
           >
             <p className="text-sm font-semibold uppercase tracking-widest text-[#0071e3]">Tu estimado</p>
             <div className="my-4 text-6xl font-bold tracking-tighter text-[#1d1d1f] md:text-7xl">
@@ -196,7 +196,7 @@ export function Calculator() {
               </a>
               <Link
                 href="/#precios"
-                className="inline-flex items-center gap-2 rounded-full border border-[#e5e5e7] px-7 py-3.5 font-semibold text-[#1d1d1f] transition-colors hover:border-[#0071e3]/40"
+                className="inline-flex items-center gap-2 rounded-full border border-[#d6e4f7] px-7 py-3.5 font-semibold text-[#1d1d1f] transition-colors hover:border-[#0071e3]/40"
               >
                 Ver planes completos
               </Link>

@@ -61,7 +61,7 @@ const AVATAR_COLORS = ["#0071e3", "#34c759", "#ff9500", "#af52de", "#ff2d55", "#
 
 export function Testimonials() {
   return (
-    <section className="bg-[#f5f5f7] px-4 py-24 md:px-8">
+    <section className="bg-[#f0f4fb] px-4 py-24 md:px-8">
       <div className="mx-auto max-w-6xl">
         <SectionHeading
           eyebrow="Testimonios"
@@ -80,7 +80,7 @@ export function Testimonials() {
             <motion.figure
               key={t.nombre}
               variants={fadeUp}
-              className="flex flex-col rounded-3xl border border-[#e5e5e7] bg-white p-6"
+              className="flex flex-col rounded-3xl border border-[#d6e4f7] bg-white p-6"
             >
               <div className="mb-4 flex items-center gap-3">
                 <div className="flex gap-0.5" aria-label={`${t.rating} de 5 estrellas`}>

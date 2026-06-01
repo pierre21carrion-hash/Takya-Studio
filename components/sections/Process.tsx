@@ -45,7 +45,7 @@ export function Process() {
           className="relative"
         >
           {/* Connector (desktop) — grey track + gradient fill drawn by Framer */}
-          <div className="absolute left-[12.5%] right-[12.5%] top-8 hidden h-0.5 overflow-hidden rounded-full bg-[#e5e5e7] md:block">
+          <div className="absolute left-[12.5%] right-[12.5%] top-8 hidden h-0.5 overflow-hidden rounded-full bg-[#d6e4f7] md:block">
             <motion.div
               className="h-full w-full origin-left rounded-full bg-gradient-to-r from-[#0071e3] to-[#34c759]"
               initial={{ scaleX: 0 }}

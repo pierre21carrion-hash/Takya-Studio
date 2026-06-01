@@ -64,7 +64,7 @@ export default function CasosPage() {
 
         <div className="flex flex-col gap-16">
           {CASOS.map((caso) => (
-            <article key={caso.cliente} className="rounded-3xl border border-[#e5e5e7] p-8 md:p-10">
+            <article key={caso.cliente} className="rounded-3xl border border-[#d6e4f7] p-8 md:p-10">
               <span className="inline-block rounded-full bg-[#0071e3]/10 px-3 py-1 text-xs font-semibold text-[#0071e3]">
                 {caso.categoria}
               </span>
@@ -90,7 +90,7 @@ export default function CasosPage() {
                     {caso.tecnologias.map((t) => (
                       <span
                         key={t}
-                        className="rounded-full border border-[#e5e5e7] bg-[#f5f5f7] px-3 py-1 text-sm text-[#515154]"
+                        className="rounded-full border border-[#d6e4f7] bg-[#f0f4fb] px-3 py-1 text-sm text-[#515154]"
                       >
                         {t}
                       </span>

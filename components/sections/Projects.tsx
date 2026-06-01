@@ -30,7 +30,7 @@ export function Projects() {
   }, [selected.id]);
 
   return (
-    <section className="bg-[#f5f5f7] px-4 py-32 md:px-8">
+    <section className="bg-[#f0f4fb] px-4 py-32 md:px-8">
       <div className="mx-auto max-w-7xl">
         {/* Heading */}
         <div className="mb-16">
@@ -72,7 +72,7 @@ export function Projects() {
                   className={`w-full rounded-2xl border p-6 text-left transition-all duration-300 ${
                     isSelected
                       ? "border-[#0071e3]/30 bg-white shadow-lg shadow-[#0071e3]/10"
-                      : "border-[#e5e5e7] bg-white/60 hover:border-[#0071e3]/20 hover:bg-white"
+                      : "border-[#d6e4f7] bg-white/60 hover:border-[#0071e3]/20 hover:bg-white"
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3">
@@ -110,7 +110,7 @@ export function Projects() {
                     {project.tags.slice(0, 3).map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full border border-[#e5e5e7] bg-[#f5f5f7] px-2 py-0.5 text-xs text-[#515154]"
+                        className="rounded-full border border-[#d6e4f7] bg-[#f0f4fb] px-2 py-0.5 text-xs text-[#515154]"
                       >
                         {tag}
                       </span>
@@ -123,7 +123,7 @@ export function Projects() {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
                       transition={{ duration: 0.3, ease: EASE_OUT_EXPO }}
-                      className="mt-4 grid grid-cols-3 gap-2 border-t border-[#e5e5e7] pt-4"
+                      className="mt-4 grid grid-cols-3 gap-2 border-t border-[#d6e4f7] pt-4"
                     >
                       {project.stats.map((stat) => (
                         <div key={stat.label} className="text-center">
@@ -147,17 +147,17 @@ export function Projects() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.98, y: -10 }}
                 transition={{ duration: 0.4, ease: EASE_OUT_EXPO }}
-                className="overflow-hidden rounded-3xl border border-[#e5e5e7] bg-white shadow-2xl shadow-black/5"
+                className="overflow-hidden rounded-3xl border border-[#d6e4f7] bg-white shadow-2xl shadow-black/5"
               >
                 {/* Browser chrome */}
-                <div className="flex items-center gap-2 border-b border-[#e5e5e7] bg-[#f5f5f7] px-4 py-3">
+                <div className="flex items-center gap-2 border-b border-[#d6e4f7] bg-[#f0f4fb] px-4 py-3">
                   <div className="flex gap-1.5">
                     <div className="h-3 w-3 rounded-full bg-[#ff5f57]" />
                     <div className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
                     <div className="h-3 w-3 rounded-full bg-[#28c840]" />
                   </div>
                   <div className="mx-3 flex-1">
-                    <div className="flex items-center gap-2 rounded-lg border border-[#e5e5e7] bg-white px-3 py-1.5">
+                    <div className="flex items-center gap-2 rounded-lg border border-[#d6e4f7] bg-white px-3 py-1.5">
                       <Globe size={12} className="flex-shrink-0 text-[#6e6e73]" />
                       <span className="truncate font-mono text-xs text-[#515154]">
                         {selected.url.replace("https://", "")}
@@ -169,7 +169,7 @@ export function Projects() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`Abrir ${selected.shortTitle} en una pestaña nueva`}
-                    className="rounded-lg p-1.5 transition-colors hover:bg-[#e5e5e7]"
+                    className="rounded-lg p-1.5 transition-colors hover:bg-[#d6e4f7]"
                   >
                     <ArrowUpRight size={14} className="text-[#515154]" />
                   </a>
@@ -178,11 +178,11 @@ export function Projects() {
                 {/* iframe */}
                 <div className="relative w-full" style={{ height: "480px" }}>
                   {!iframeLoaded && (
-                    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-[#f5f5f7]">
+                    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-[#f0f4fb]">
                       <motion.div
                         animate={{ rotate: 360 }}
                         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        className="h-8 w-8 rounded-full border-2 border-[#e5e5e7] border-t-[#0071e3]"
+                        className="h-8 w-8 rounded-full border-2 border-[#d6e4f7] border-t-[#0071e3]"
                       />
                       <p className="text-sm text-[#6e6e73]">Cargando {selected.shortTitle}…</p>
                     </div>
@@ -208,7 +208,7 @@ export function Projects() {
                 </div>
 
                 {/* Info bar */}
-                <div className="border-t border-[#e5e5e7] bg-[#f5f5f7] px-6 py-5">
+                <div className="border-t border-[#d6e4f7] bg-[#f0f4fb] px-6 py-5">
                   <div className="flex items-center justify-between gap-4">
                     <div className="min-w-0">
                       <h3 className="truncate text-base font-bold text-[#1d1d1f]">{selected.title}</h3>
@@ -238,7 +238,7 @@ export function Projects() {
                     {selected.tech.map((t) => (
                       <span
                         key={t}
-                        className="rounded border border-[#e5e5e7] bg-white px-2 py-0.5 text-xs text-[#515154]"
+                        className="rounded border border-[#d6e4f7] bg-white px-2 py-0.5 text-xs text-[#515154]"
                       >
                         {t}
                       </span>
@@ -266,7 +266,7 @@ export function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3, duration: 0.6 }}
-          className="mt-20 flex flex-col items-center justify-between gap-6 rounded-3xl border border-[#e5e5e7] bg-white p-8 sm:flex-row"
+          className="mt-20 flex flex-col items-center justify-between gap-6 rounded-3xl border border-[#d6e4f7] bg-white p-8 sm:flex-row"
         >
           <div>
             <h3 className="mb-1 text-xl font-bold text-[#1d1d1f]">¿Quieres un proyecto así?</h3>

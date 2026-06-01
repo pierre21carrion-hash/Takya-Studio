@@ -98,11 +98,11 @@ export function Comparison() {
         />
 
         {/* Desktop (>=768px): classic 5-column table */}
-        <div className="mt-14 hidden overflow-hidden rounded-3xl border border-[#e5e5e7] md:block">
+        <div className="mt-14 hidden overflow-hidden rounded-3xl border border-[#d6e4f7] md:block">
           <div className="grid grid-cols-[1.2fr_1fr_1fr_1fr_1.1fr]">
-            <div className="bg-[#f5f5f7] p-4" />
+            <div className="bg-[#f0f4fb] p-4" />
             {COLS.map((c) => (
-              <div key={c.key} className="bg-[#f5f5f7] p-4 text-sm font-semibold text-[#515154]">
+              <div key={c.key} className="bg-[#f0f4fb] p-4 text-sm font-semibold text-[#515154]">
                 {c.label}
               </div>
             ))}
@@ -147,7 +147,7 @@ export function Comparison() {
                       ? isVekto
                         ? "text-white"
                         : "bg-white text-[#1d1d1f] shadow-sm"
-                      : "bg-[#F3F4F6] text-[#6B7280]",
+                      : "bg-[#eaf0f9] text-[#6B7280]",
                   )}
                 >
                   {isVekto && <Sparkle size={11} weight="fill" className="shrink-0" />}
@@ -170,7 +170,7 @@ export function Comparison() {
                 <div
                   key={row.criterio}
                   className={`rounded-2xl border p-4 ${
-                    active === "vekto" ? "border-[#0071e3]/30 bg-[#0071e3]/[0.06]" : "border-[#e5e5e7] bg-white"
+                    active === "vekto" ? "border-[#0071e3]/30 bg-[#0071e3]/[0.06]" : "border-[#d6e4f7] bg-white"
                   }`}
                 >
                   <p className="mb-1.5 text-xs font-medium uppercase tracking-wide text-[#a1a1a6]">
@@ -188,7 +188,7 @@ export function Comparison() {
         </div>
 
         {/* "Why not do it yourself" — centered, max 680px */}
-        <div className="mx-auto mt-16 max-w-[680px] rounded-3xl border border-[#e5e5e7] bg-[#f5f5f7] p-8 md:p-10">
+        <div className="mx-auto mt-16 max-w-[680px] rounded-3xl border border-[#d6e4f7] bg-[#f0f4fb] p-8 md:p-10">
           <h3 className="mb-6 text-2xl font-bold tracking-tight text-[#1d1d1f]">
             ¿Por qué no hacerlo tú mismo?
           </h3>

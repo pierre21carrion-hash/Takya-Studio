@@ -65,7 +65,7 @@ export function About() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden rounded-3xl border border-[#e5e5e7] shadow-2xl shadow-black/5"
+            className="overflow-hidden rounded-3xl border border-[#d6e4f7] shadow-2xl shadow-black/5"
           >
             <Image
               src="/founders.jpg"
@@ -109,7 +109,7 @@ export function About() {
             {/* Stats */}
             <motion.div variants={itemVariants} className="grid grid-cols-2 gap-4 pt-4">
               {stats.map((stat) => (
-                <div key={stat.label} className="rounded-xl border border-[#e5e5e7] bg-[#f5f5f7] p-4">
+                <div key={stat.label} className="rounded-xl border border-[#d6e4f7] bg-[#f0f4fb] p-4">
                   <p className="text-2xl font-bold text-[#0071e3]">{stat.value}</p>
                   <p className="mt-1 text-xs text-[#6e6e73]">{stat.label}</p>
                 </div>
@@ -132,7 +132,7 @@ export function About() {
               <motion.div
                 key={pillar.title}
                 variants={itemVariants}
-                className="rounded-2xl border border-[#e5e5e7] bg-[#f5f5f7] p-6 text-center"
+                className="rounded-2xl border border-[#d6e4f7] bg-[#f0f4fb] p-6 text-center"
               >
                 <Icon size={32} weight="duotone" className="mx-auto mb-4 text-[#0071e3]" />
                 <h3 className="mb-2 text-lg font-bold text-[#1d1d1f]">{pillar.title}</h3>
@@ -148,7 +148,7 @@ export function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4 }}
-          className="border-t border-[#e5e5e7] pt-16 text-center"
+          className="border-t border-[#d6e4f7] pt-16 text-center"
         >
           <p className="mb-8 text-lg text-[#515154]">
             Trabajamos desde Quito, Ecuador para negocios de toda Latinoamérica.
