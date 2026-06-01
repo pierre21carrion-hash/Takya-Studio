@@ -72,8 +72,8 @@ export function Hero() {
           </motion.ul>
         </motion.div>
 
-        {/* Right — responsive device showcase (desktop + mobile) */}
-        <div className="relative px-4 lg:px-0">
+        {/* Right — responsive device showcase (laptop + mobile) */}
+        <div className="relative px-4 pb-8 pt-6 lg:px-0">
           <HeroDeviceShowcase />
         </div>
       </div>
