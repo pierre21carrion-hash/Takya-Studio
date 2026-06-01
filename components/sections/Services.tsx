@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Browsers, Robot, Wrench, Check } from "@phosphor-icons/react";
 import { Card } from "@/components/ui/Card";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -11,18 +12,87 @@ const ICONS = { Browsers, Robot, Wrench };
 
 /* ── Perpetual micro-visuals, one per service ── */
 
-function BrowserVisual() {
+/**
+ * "Visual builder" that cycles Estructura → Diseño → Publicado every 2.5s,
+ * so it reads as a finished site being assembled — not a loading skeleton.
+ */
+function BuilderVisual() {
+  const [phase, setPhase] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setPhase((p) => (p + 1) % 3), 2500);
+    return () => clearInterval(id);
+  }, []);
+
   return (
-    <div className="rounded-xl border border-border bg-background p-3">
-      <div className="mb-3 flex gap-1.5">
-        <span className="h-2 w-2 rounded-full bg-foreground/15" />
-        <span className="h-2 w-2 rounded-full bg-foreground/15" />
-        <span className="h-2 w-2 rounded-full bg-foreground/15" />
+    <div className="rounded-xl border border-border bg-white p-3">
+      <div className="relative h-[104px]">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={phase}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.05 }}
+            transition={{ duration: 0.3 }}
+            className="absolute inset-0"
+          >
+            {phase === 0 && (
+              <div>
+                <p className="mb-2 text-[9px] font-semibold uppercase text-gray-400">Estructura</p>
+                <div className="flex flex-col gap-1">
+                  <div className="h-3 w-3/4 rounded border border-dashed border-gray-300 bg-gray-200" />
+                  <div className="h-8 w-full rounded border border-dashed border-gray-300 bg-gray-100" />
+                  <div className="h-4 w-full rounded border border-dashed border-gray-300 bg-gray-100" />
+                  <div className="h-4 w-full rounded border border-dashed border-gray-300 bg-gray-100" />
+                </div>
+              </div>
+            )}
+
+            {phase === 1 && (
+              <div>
+                <p className="mb-2 text-[9px] font-semibold uppercase text-accent">Diseño</p>
+                <div className="flex flex-col gap-1">
+                  <div className="relative h-3 w-3/4 rounded bg-accent">
+                    <span className="absolute -right-0.5 -top-0.5 h-2 w-2 animate-ping rounded-full bg-accent-light" />
+                  </div>
+                  <div className="h-8 w-full rounded border border-blue-100 bg-gradient-to-br from-blue-50 to-white" />
+                  <div className="h-4 w-full rounded border border-gray-200 bg-white shadow-sm" />
+                  <div className="h-4 w-full rounded border border-gray-200 bg-white shadow-sm" />
+                </div>
+              </div>
+            )}
+
+            {phase === 2 && (
+              <div className="relative">
+                <p className="mb-2 text-[9px] font-semibold uppercase text-green-600">Publicado</p>
+                <div className="flex flex-col gap-1">
+                  <div className="h-3 w-3/4 rounded bg-accent" />
+                  <div className="h-8 w-full rounded border border-blue-100 bg-gradient-to-br from-blue-50 to-white" />
+                  <div className="h-4 w-full rounded border border-gray-200 bg-white shadow-sm" />
+                  <div className="h-4 w-full rounded border border-gray-200 bg-white shadow-sm" />
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center rounded bg-green-500/10">
+                  <Check size={32} weight="bold" className="text-green-600" />
+                </div>
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 rounded bg-gray-100 px-1 text-[7px] text-gray-500">
+                  nixo-studio-next.vercel.app
+                </span>
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
       </div>
-      <div className="mb-2 h-2 w-2/3 rounded-full bg-accent/30" />
-      <div className="mb-3 h-2 w-1/2 rounded-full bg-foreground/10" />
-      <div className="h-1 w-full overflow-hidden rounded-full bg-foreground/5">
-        <div className="animate-loadbar h-full w-1/3 rounded-full bg-accent" />
+
+      {/* phase indicator */}
+      <div className="mt-3 flex items-center justify-center gap-1.5">
+        {[0, 1, 2].map((i) => (
+          <motion.span
+            key={i}
+            className={`h-1.5 rounded-full ${i === phase ? "bg-accent" : "bg-gray-200"}`}
+            animate={{ width: i === phase ? 16 : 8 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+          />
+        ))}
       </div>
     </div>
   );
@@ -58,7 +128,7 @@ function StatusVisual() {
   );
 }
 
-const VISUALS = [BrowserVisual, ChatVisual, StatusVisual];
+const VISUALS = [BuilderVisual, ChatVisual, StatusVisual];
 const SPANS = ["lg:col-span-2", "lg:col-span-1", "lg:col-span-3"];
 
 export function Services() {
