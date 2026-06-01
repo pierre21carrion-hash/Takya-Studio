@@ -73,7 +73,7 @@ export function Hero() {
         </motion.div>
 
         {/* Right — responsive device showcase (laptop + mobile) */}
-        <div className="relative px-4 pb-8 pt-6 lg:px-0">
+        <div className="relative flex items-center justify-center" style={{ overflow: "visible" }}>
           <HeroDeviceShowcase />
         </div>
       </div>
