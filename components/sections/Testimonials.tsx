@@ -11,7 +11,7 @@ const TESTIMONIOS = [
     ciudad: "Quito",
     negocio: "Pastelería artesanal",
     texto:
-      "En 5 días tenía mi web lista y mis clientes ya me encontraban en Google. Antes dependía solo del Instagram y perdía muchas ventas. Vekto cambió eso completamente.",
+      "En 5 días tenía mi web lista y mis clientes ya me encontraban en Google. Antes dependía solo del Instagram y perdía muchas ventas. Takya cambió eso completamente.",
     rating: 5,
   },
   {
@@ -19,7 +19,7 @@ const TESTIMONIOS = [
     ciudad: "Guayaquil",
     negocio: "Consultoría financiera",
     texto:
-      "Pensé que una web profesional costaría miles de dólares. Con Vekto pagué $299 y el resultado supera lo que vi en agencias que me cotizaban $2,000. La comunicación fue directa y sin rodeos.",
+      "Pensé que una web profesional costaría miles de dólares. Con Takya pagué $299 y el resultado supera lo que vi en agencias que me cotizaban $2,000. La comunicación fue directa y sin rodeos.",
     rating: 5,
   },
   {
@@ -66,7 +66,7 @@ export function Testimonials() {
         <SectionHeading
           eyebrow="Testimonios"
           title="Lo que dicen nuestros clientes"
-          subtitle="Negocios reales de toda Latinoamérica que ya tienen su web con Vekto."
+          subtitle="Negocios reales de toda Latinoamérica que ya tienen su web con Takya."
         />
 
         <motion.div

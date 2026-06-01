@@ -4,9 +4,9 @@ import { ArrowUpRight, ArrowLeft, Target, Lightbulb, Code, ChartLineUp } from "@
 import { whatsappUrl } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Casos de estudio — Vekto",
+  title: "Casos de estudio — Takya",
   description:
-    "Cómo Vekto construyó plataformas reales para turismo y cultura en Ecuador: desafío, solución, tecnología y resultados.",
+    "Cómo Takya construyó plataformas reales para turismo y cultura en Ecuador: desafío, solución, tecnología y resultados.",
 };
 
 const CASOS = [
@@ -49,7 +49,7 @@ export default function CasosPage() {
           href="/"
           className="mb-10 inline-flex items-center gap-1.5 text-sm font-medium text-[#0071e3] hover:underline"
         >
-          <ArrowLeft size={16} weight="bold" /> Volver a Vekto
+          <ArrowLeft size={16} weight="bold" /> Volver a Takya
         </Link>
 
         <span className="mb-3 block text-sm font-semibold uppercase tracking-widest text-[#0071e3]">
@@ -113,9 +113,9 @@ export default function CasosPage() {
 
         {/* Final CTA */}
         <div className="mt-16 rounded-3xl bg-[#0071e3] p-10 text-center">
-          <h2 className="text-2xl font-bold text-white md:text-3xl">¿Quieres un resultado así?</h2>
+          <h2 className="text-2xl font-bold text-white md:text-3xl">¿Busca un resultado así?</h2>
           <p className="mx-auto mt-2 max-w-md text-white/80">
-            Cuéntanos tu proyecto — la primera conversación es gratis.
+            Cuéntenos su proyecto — la primera conversación es gratis.
           </p>
           <a
             href={whatsappUrl("Hola, vi sus casos de estudio y quiero un resultado así")}

@@ -10,25 +10,25 @@ import { whatsappUrl } from "@/lib/utils";
 const PREGUNTAS = [
   {
     id: "tipo",
-    pregunta: "¿Qué tipo de negocio tienes?",
+    pregunta: "¿Qué tipo de negocio tiene?",
     opciones: ["Emprendimiento personal", "Empresa / Startup", "E-commerce", "Profesional independiente"],
     multiple: false,
   },
   {
     id: "secciones",
-    pregunta: "¿Cuántas secciones necesitas?",
+    pregunta: "¿Cuántas secciones necesita?",
     opciones: ["1-5 secciones (básico)", "6-10 secciones (intermedio)", "10+ secciones o blog"],
     multiple: false,
   },
   {
     id: "extras",
-    pregunta: "¿Qué extras necesitas?",
+    pregunta: "¿Qué extras necesita?",
     opciones: ["Chatbot con IA", "Tienda online", "Automatizaciones WhatsApp", "Blog", "Ninguno"],
     multiple: true,
   },
   {
     id: "urgencia",
-    pregunta: "¿Cuándo necesitas tu web?",
+    pregunta: "¿Cuándo necesita la web?",
     opciones: ["Esta semana", "Este mes", "Sin prisa"],
     multiple: false,
   },
@@ -171,7 +171,7 @@ export function Calculator() {
             transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
             className="rounded-3xl border border-[#d6e4f7] bg-white p-8 text-center md:p-12"
           >
-            <p className="text-sm font-semibold uppercase tracking-widest text-[#0071e3]">Tu estimado</p>
+            <p className="text-sm font-semibold uppercase tracking-widest text-[#0071e3]">El estimado</p>
             <div className="my-4 text-6xl font-bold tracking-tighter text-[#1d1d1f] md:text-7xl">
               $<Counter value={precio} />
             </div>
@@ -186,7 +186,7 @@ export function Calculator() {
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
                 href={whatsappUrl(
-                  `Hola, usé la calculadora de Vekto. Mi estimado es $${precio} (plan ${plan}). Quiero empezar.`,
+                  `Hola, usé la calculadora de Takya. Mi estimado es $${precio} (plan ${plan}). Quiero empezar.`,
                 )}
                 target="_blank"
                 rel="noopener noreferrer"

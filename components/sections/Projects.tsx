@@ -269,9 +269,9 @@ export function Projects() {
           className="mt-20 flex flex-col items-center justify-between gap-6 rounded-3xl border border-[#d6e4f7] bg-white p-8 sm:flex-row"
         >
           <div>
-            <h3 className="mb-1 text-xl font-bold text-[#1d1d1f]">¿Quieres un proyecto así?</h3>
+            <h3 className="mb-1 text-xl font-bold text-[#1d1d1f]">¿Busca un proyecto así?</h3>
             <p className="text-sm text-[#515154]">
-              Cuéntame tu idea — la primera conversación es gratis.
+              Cuéntenos su idea — la primera conversación es gratis.
             </p>
           </div>
           <a

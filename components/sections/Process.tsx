@@ -32,7 +32,7 @@ export function Process() {
             El Proceso
           </span>
           <h2 className="text-4xl font-bold leading-none tracking-tighter text-[#1d1d1f] md:text-5xl">
-            Tu web lista en <em className="not-italic text-[#0071e3]">5 días</em>
+            Una web lista en <em className="not-italic text-[#0071e3]">5 días</em>
           </h2>
         </div>
 

@@ -49,7 +49,7 @@ export function FAQ() {
       <SectionHeading
         align="center"
         eyebrow="Preguntas frecuentes"
-        title="Todo lo que necesitas saber"
+        title="Todo lo que hay que saber"
       />
       <div className="mt-12">
         {FAQ_ITEMS.map((item) => (

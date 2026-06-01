@@ -1,6 +1,6 @@
 export const SITE_CONFIG = {
-  name: "Vekto",
-  tagline: "Tu web profesional lista en 5 días desde $149",
+  name: "Takya",
+  tagline: "Web profesional lista en 5 días desde $149",
   description:
     "Diseño web premium y automatización con IA para negocios latinoamericanos. Entrega en 5 días, 100% en español.",
   founder: "Pierre Carrion",
@@ -29,7 +29,7 @@ export const PLANS: Plan[] = [
   {
     name: "Inicio",
     price: 149,
-    description: "Perfecta para comenzar tu presencia digital y generar confianza.",
+    description: "Perfecta para iniciar la presencia digital de un negocio y generar confianza.",
     popular: false,
     features: [
       { text: "Web de hasta 5 secciones", included: true },
@@ -84,9 +84,9 @@ export const SERVICES = [
     icon: "Browsers",
     title: "Páginas web profesionales",
     description:
-      "Diseño moderno, responsivo y optimizado para SEO. Tu negocio luce premium desde el primer día.",
+      "Diseño moderno, responsivo y optimizado para SEO. El negocio luce premium desde el primer día.",
     features: [
-      "Diseño personalizado a tu marca",
+      "Diseño personalizado a la marca",
       "Optimización SEO técnica",
       "Carga ultra-rápida (+95 PageSpeed)",
       "Formulario de contacto incluido",
@@ -110,7 +110,7 @@ export const SERVICES = [
     icon: "Wrench",
     title: "Mantenimiento mensual",
     description:
-      "Tu web siempre actualizada, segura y en perfecto estado. Nos encargamos de todo.",
+      "La web siempre actualizada, segura y en perfecto estado. Nos encargamos de todo.",
     features: [
       "Actualizaciones de seguridad",
       "Backups semanales automáticos",
@@ -125,14 +125,14 @@ export const PROCESS_STEPS = [
   {
     number: 1,
     title: "Hablamos",
-    description: "Agenda una llamada gratuita. Entendemos tu negocio, tus metas y qué necesitas.",
+    description: "Se agenda una llamada gratuita. Entendemos el negocio, sus metas y lo que necesita.",
     duration: "30 min",
     icon: "ChatCircle",
   },
   {
     number: 2,
     title: "Diseñamos",
-    description: "Creamos el diseño personalizado. Tú apruebas antes de continuar.",
+    description: "Creamos el diseño personalizado. El cliente aprueba antes de continuar.",
     duration: "Días 1–2",
     icon: "PencilSimple",
   },
@@ -168,17 +168,17 @@ export const FAQ_ITEMS = [
   {
     question: "¿Cuánto tiempo tarda tener mi web lista?",
     answer:
-      "Entregamos tu web en 5 días hábiles desde que apruebas el diseño inicial. Si necesitas cambios, los hacemos sin costo extra y sin límite de revisiones.",
+      "Entregamos la web en 5 días hábiles desde que el cliente aprueba el diseño inicial. Si necesita cambios, los hacemos sin costo extra y sin límite de revisiones.",
   },
   {
     question: "¿Qué pasa si no me gusta el diseño?",
     answer:
-      "Nada avanza sin tu aprobación. Hacemos las revisiones que necesites hasta que estés completamente satisfecho.",
+      "Nada avanza sin la aprobación del cliente. Hacemos las revisiones necesarias hasta que quede completamente satisfecho.",
   },
   {
     question: "¿Necesito saber de tecnología?",
     answer:
-      "Para nada. Nos encargamos de todo lo técnico: dominio, hosting, configuración y seguridad. Tú solo nos dices qué necesita tu negocio.",
+      "Para nada. Nos encargamos de todo lo técnico: dominio, hosting, configuración y seguridad. El cliente solo nos dice qué necesita su negocio.",
   },
   {
     question: "¿Qué incluye el mantenimiento mensual?",
@@ -188,7 +188,7 @@ export const FAQ_ITEMS = [
   {
     question: "¿Trabajan solo con negocios en Ecuador?",
     answer:
-      "No, trabajamos con negocios de toda Latinoamérica. La comunicación es 100% en español y nos adaptamos a tu zona horaria.",
+      "No, trabajamos con negocios de toda Latinoamérica. La comunicación es 100% en español y nos adaptamos a su zona horaria.",
   },
 ] as const;
 

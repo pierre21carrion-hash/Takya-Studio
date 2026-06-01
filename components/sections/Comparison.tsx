@@ -16,7 +16,7 @@ interface Row {
 
 const COMPARACION: Row[] = [
   {
-    criterio: "Tiempo hasta tener tu web",
+    criterio: "Tiempo hasta tener la web",
     wix: "Semanas aprendiendo",
     freelancer: "2-6 semanas (sin garantía)",
     agencia: "2-4 meses",
@@ -51,7 +51,7 @@ const COMPARACION: Row[] = [
     vekto: "SEO técnico + PageSpeed 95+ incluido",
   },
   {
-    criterio: "¿Hablan tu idioma?",
+    criterio: "¿Hablan su idioma?",
     wix: "Soporte en inglés",
     freelancer: "Depende",
     agencia: "Formal y con intermediarios",
@@ -62,20 +62,20 @@ const COMPARACION: Row[] = [
 type ColKey = "wix" | "freelancer" | "agencia" | "vekto";
 
 const COLS = [
-  { key: "wix", label: "Tú solo" },
+  { key: "wix", label: "Por su cuenta" },
   { key: "freelancer", label: "Freelancer random" },
   { key: "agencia", label: "Agencia grande" },
 ] as const;
 
-// Order places Vekto in the visual center; no competitor brand names.
+// Order places Takya in the visual center; no competitor brand names.
 const TABS: { key: ColKey; short: string }[] = [
-  { key: "wix", short: "Tú solo" },
+  { key: "wix", short: "Por su cuenta" },
   { key: "freelancer", short: "Freelancer" },
-  { key: "vekto", short: "Vekto" },
+  { key: "vekto", short: "Takya" },
   { key: "agencia", short: "Agencia grande" },
 ];
 
-function VektoCell({ text }: { text: string }) {
+function TakyaCell({ text }: { text: string }) {
   return (
     <div className="flex items-start gap-2 text-sm font-medium text-[#1d1d1f]">
       <Check size={16} weight="bold" className="mt-0.5 shrink-0 text-[#0071e3]" />
@@ -93,8 +93,8 @@ export function Comparison() {
         <SectionHeading
           align="center"
           eyebrow="La decisión inteligente"
-          title="¿Por qué Vekto?"
-          subtitle="Compara honestamente tus opciones. Sin marketing inflado."
+          title="¿Por qué Takya?"
+          subtitle="Una comparación honesta de las opciones. Sin marketing inflado."
         />
 
         {/* Desktop (>=768px): classic 5-column table */}
@@ -106,7 +106,7 @@ export function Comparison() {
                 {c.label}
               </div>
             ))}
-            <div className="bg-[#0071e3] p-4 text-sm font-bold text-white">Vekto</div>
+            <div className="bg-[#0071e3] p-4 text-sm font-bold text-white">Takya</div>
 
             {COMPARACION.map((row, i) => (
               <div key={row.criterio} className="contents">
@@ -117,7 +117,7 @@ export function Comparison() {
                 <div className={`p-4 text-sm text-[#6e6e73] ${i % 2 ? "bg-[#fafafa]" : "bg-white"}`}>{row.freelancer}</div>
                 <div className={`p-4 text-sm text-[#6e6e73] ${i % 2 ? "bg-[#fafafa]" : "bg-white"}`}>{row.agencia}</div>
                 <div className="border-l border-[#0071e3]/20 bg-[#0071e3]/[0.06] p-4">
-                  <VektoCell text={row.vekto} />
+                  <TakyaCell text={row.vekto} />
                 </div>
               </div>
             ))}
@@ -129,7 +129,7 @@ export function Comparison() {
           <div className="mb-5 grid grid-cols-4 gap-2">
             {TABS.map((t) => {
               const isActive = active === t.key;
-              const isVekto = t.key === "vekto";
+              const isTakya = t.key === "vekto";
               return (
                 <button
                   key={t.key}
@@ -137,20 +137,20 @@ export function Comparison() {
                   onClick={() => setActive(t.key)}
                   aria-pressed={isActive}
                   style={
-                    isActive && isVekto
+                    isActive && isTakya
                       ? { backgroundColor: "#0052CC", boxShadow: "0 2px 8px rgba(0,82,204,0.35)" }
                       : undefined
                   }
                   className={cn(
                     "flex items-center justify-center gap-1 rounded-xl px-2 py-2 text-xs font-semibold leading-tight transition-colors",
                     isActive
-                      ? isVekto
+                      ? isTakya
                         ? "text-white"
                         : "bg-white text-[#1d1d1f] shadow-sm"
                       : "bg-[#eaf0f9] text-[#6B7280]",
                   )}
                 >
-                  {isVekto && <Sparkle size={11} weight="fill" className="shrink-0" />}
+                  {isTakya && <Sparkle size={11} weight="fill" className="shrink-0" />}
                   {t.short}
                 </button>
               );
@@ -177,7 +177,7 @@ export function Comparison() {
                     {row.criterio}
                   </p>
                   {active === "vekto" ? (
-                    <VektoCell text={row.vekto} />
+                    <TakyaCell text={row.vekto} />
                   ) : (
                     <p className="text-sm text-[#515154]">{row[active]}</p>
                   )}
@@ -190,7 +190,7 @@ export function Comparison() {
         {/* "Why not do it yourself" — centered, max 680px */}
         <div className="mx-auto mt-16 max-w-[680px] rounded-3xl border border-[#d6e4f7] bg-[#f0f4fb] p-8 md:p-10">
           <h3 className="mb-6 text-2xl font-bold tracking-tight text-[#1d1d1f]">
-            ¿Por qué no hacerlo tú mismo?
+            ¿Por qué no hacerlo por su cuenta?
           </h3>
           <div className="flex flex-col gap-5 text-[15px] leading-relaxed text-[#515154]">
             <p>
@@ -204,9 +204,9 @@ export function Comparison() {
               técnico que los gestione. Son la causa del 40% de los sitios hackeados en internet.
             </p>
             <p>
-              <span className="font-semibold text-[#1d1d1f]">Vekto</span> usa tecnología moderna —
-              la misma de Nike, TikTok y OpenAI. Tu web es tuya, no depende de ninguna plataforma,
-              carga en menos de 1 segundo y nadie te cobra suscripción mensual para que siga
+              <span className="font-semibold text-[#1d1d1f]">Takya</span> usa tecnología moderna —
+              la misma de Nike, TikTok y OpenAI. La web es del cliente, no depende de ninguna plataforma,
+              carga en menos de 1 segundo y nadie cobra suscripción mensual para que siga
               funcionando.
             </p>
           </div>

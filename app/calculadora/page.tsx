@@ -4,9 +4,9 @@ import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
 import { Calculator } from "./Calculator";
 
 export const metadata: Metadata = {
-  title: "Calculadora de precio — Vekto",
+  title: "Calculadora de precio — Takya",
   description:
-    "Responde 4 preguntas y obtén un estimado del precio de tu web con Vekto. Sin compromiso.",
+    "Responde 4 preguntas y obtén un estimado del precio de una web con Takya. Sin compromiso.",
 };
 
 export default function CalculadoraPage() {
@@ -17,17 +17,17 @@ export default function CalculadoraPage() {
           href="/"
           className="mb-10 inline-flex items-center gap-1.5 text-sm font-medium text-[#0071e3] hover:underline"
         >
-          <ArrowLeft size={16} weight="bold" /> Volver a Vekto
+          <ArrowLeft size={16} weight="bold" /> Volver a Takya
         </Link>
 
         <span className="mb-3 block text-sm font-semibold uppercase tracking-widest text-[#0071e3]">
           Calculadora
         </span>
         <h1 className="mb-4 text-4xl font-bold leading-none tracking-tighter text-[#1d1d1f] md:text-5xl">
-          ¿Cuánto cuesta tu web?
+          ¿Cuánto cuesta una web?
         </h1>
         <p className="mb-12 text-lg text-[#515154]">
-          Responde 4 preguntas rápidas y te damos un estimado al instante.
+          Responde 4 preguntas rápidas y le damos un estimado al instante.
         </p>
 
         <Calculator />

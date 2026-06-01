@@ -100,8 +100,8 @@ export function Pricing() {
       <SectionHeading
         align="center"
         eyebrow="Precios transparentes"
-        title="Planes a la medida de tu negocio"
-        subtitle="Sin costos ocultos, sin contratos largos. Elige el plan que se ajuste a tu etapa y escala cuando quieras."
+        title="Planes a la medida de cada negocio"
+        subtitle="Sin costos ocultos, sin contratos largos. El plan se ajusta a la etapa de cada negocio y escala cuando haga falta."
       />
 
       <motion.div
@@ -117,14 +117,14 @@ export function Pricing() {
       </motion.div>
 
       <p className="mt-10 text-center text-sm text-muted">
-        ¿No estás seguro cuál elegir?{" "}
+        ¿No está seguro cuál elegir?{" "}
         <a
           href={whatsappUrl("Hola Pierre, necesito ayuda para elegir un plan")}
           target="_blank"
           rel="noopener noreferrer"
           className="font-medium text-accent-dark underline-offset-4 hover:underline"
         >
-          Agenda una consulta gratuita →
+          Agende una consulta gratuita →
         </a>
       </p>
 
@@ -133,7 +133,7 @@ export function Pricing() {
           href="/calculadora"
           className="font-medium text-accent underline-offset-4 hover:underline"
         >
-          ¿No sabes qué plan necesitas? Calcula tu precio estimado →
+          ¿No sabe qué plan necesita? Calcule su precio estimado →
         </Link>
       </p>
     </section>

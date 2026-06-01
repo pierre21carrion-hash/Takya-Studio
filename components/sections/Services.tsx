@@ -136,8 +136,8 @@ export function Services() {
     <section id="servicios" className="mx-auto max-w-[1400px] px-6 py-24 md:py-32 lg:px-10">
       <SectionHeading
         eyebrow="Qué hacemos"
-        title="Todo lo que tu negocio necesita para vender online"
-        subtitle="Desde tu primera página hasta automatizar tus ventas con IA. Nos encargamos de lo técnico para que tú te enfoques en crecer."
+        title="Todo lo que un negocio necesita para vender online"
+        subtitle="Desde la primera página hasta automatizar las ventas con IA. Nos encargamos de lo técnico para que el negocio se enfoque en crecer."
       />
 
       <motion.div

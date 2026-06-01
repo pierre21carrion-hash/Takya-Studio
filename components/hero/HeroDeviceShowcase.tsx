@@ -47,7 +47,7 @@ export function HeroDeviceShowcase() {
                   fontFamily: "-apple-system, sans-serif",
                 }}
               >
-                vekto.co
+                takya.co
               </span>
             </div>
 
@@ -63,7 +63,7 @@ export function HeroDeviceShowcase() {
                 className="text-[11px] font-bold text-[#1d1d1f]"
                 style={{ fontFamily: "-apple-system, sans-serif", letterSpacing: "-0.02em" }}
               >
-                Vekto
+                Takya
               </span>
               <div className="flex gap-3">
                 {["Servicios", "Portafolio", "Precios", "Contacto"].map((l) => (
@@ -93,7 +93,7 @@ export function HeroDeviceShowcase() {
                 className="text-[22px] font-bold text-white leading-[1.1] mb-[6px] relative z-10"
                 style={{ fontFamily: "-apple-system, sans-serif", letterSpacing: "-0.03em" }}
               >
-                Tu negocio,<br />online en 5 días
+                El negocio<br />online en 5 días
               </h2>
               <p
                 className="text-[9px] text-white/[0.38] mb-[14px] relative z-10"
@@ -237,7 +237,7 @@ export function HeroDeviceShowcase() {
                 className="text-[15px] font-bold text-white leading-[1.15] mb-[10px]"
                 style={{ fontFamily: "-apple-system, sans-serif", letterSpacing: "-0.02em" }}
               >
-                Tu negocio<br />en 5 días
+                El negocio<br />en 5 días
               </h3>
               <span
                 className="inline-block text-[8px] font-semibold text-white px-[14px] py-[5px] rounded-full bg-[#0071e3]"

@@ -30,10 +30,10 @@ export function Audit() {
             variants={fadeUp}
             className="mt-4 text-4xl font-bold leading-[1.05] tracking-tighter text-white md:text-5xl"
           >
-            Auditoría gratuita de tu web actual
+            Auditoría gratuita de la web actual
           </motion.h2>
           <motion.p variants={fadeUp} className="mt-4 text-lg leading-relaxed text-zinc-400">
-            Revisamos tu sitio y te decimos exactamente qué mejorar para vender más. Sin tecnicismos.
+            Revisamos el sitio e indicamos exactamente qué mejorar para vender más. Sin tecnicismos.
           </motion.p>
 
           <motion.ul

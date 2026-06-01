@@ -29,7 +29,7 @@ export function Hero() {
             variants={fadeUp}
             className="mt-6 text-5xl font-bold leading-[0.98] tracking-tighter text-foreground md:text-7xl"
           >
-            Tu web profesional lista en{" "}
+            Web profesional lista en{" "}
             <span className="text-accent">
               <TextScramble text="5 días" />
             </span>{" "}

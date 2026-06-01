@@ -31,10 +31,10 @@ const BUSINESS_TYPES = [
 
 function validate(f: Fields): Errors {
   const e: Errors = {};
-  if (!f.nombre.trim()) e.nombre = "Escribe tu nombre.";
+  if (!f.nombre.trim()) e.nombre = "Escriba su nombre.";
   if (!EMAIL_RE.test(f.email.trim())) e.email = "Email no válido.";
   if (f.whatsapp.replace(/\D/g, "").length < 7) e.whatsapp = "WhatsApp no válido.";
-  if (!f.negocio) e.negocio = "Elige una opción.";
+  if (!f.negocio) e.negocio = "Elija una opción.";
   return e;
 }
 
@@ -74,8 +74,8 @@ export function Contact() {
         <div>
           <SectionHeading
             eyebrow="Hablemos"
-            title="Cuéntanos tu idea"
-            subtitle="Te respondemos por WhatsApp en menos de 2 horas. Sin compromiso."
+            title="Cuéntenos su idea"
+            subtitle="Respondemos por WhatsApp en menos de 2 horas. Sin compromiso."
           />
 
           <div className="mt-8">
@@ -90,7 +90,7 @@ export function Contact() {
                   <CheckCircle size={48} weight="fill" className="text-accent" />
                   <h3 className="mt-4 text-2xl font-semibold tracking-tight">¡Idea recibida!</h3>
                   <p className="mt-2 max-w-sm text-muted">
-                    Abrimos WhatsApp para que envíes tu mensaje. Te respondemos en menos de 2 horas.
+                    Abrimos WhatsApp para enviar su mensaje. Respondemos en menos de 2 horas.
                   </p>
                 </motion.div>
               ) : (
