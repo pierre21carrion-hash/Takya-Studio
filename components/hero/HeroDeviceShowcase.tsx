@@ -178,7 +178,7 @@ export function HeroDeviceShowcase() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className="relative mb-4 flex-shrink-0"
-        style={{ width: "120px" }}
+        style={{ width: "150px" }}
       >
         {/* Cuerpo */}
         <div
