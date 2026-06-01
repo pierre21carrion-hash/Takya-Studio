@@ -11,10 +11,7 @@ export function HeroDeviceShowcase() {
     >
 
       {/* ── LAPTOP ── */}
-      <div className="flex flex-col items-center flex-1">
-
-        {/* Cámara */}
-        <div className="w-[5px] h-[5px] rounded-full bg-[#2c2c2e] mb-[3px]" />
+      <div className="flex flex-col items-center flex-1 max-w-none w-full">
 
         {/* Tapa */}
         <div
