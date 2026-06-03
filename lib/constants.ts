@@ -218,6 +218,7 @@ export const NAV_LINKS = [
   { label: "Servicios", href: "/#servicios" },
   { label: "Proceso", href: "/#proceso" },
   { label: "Precios", href: "/#precios" },
+  { label: "Presupuesto", href: "/calculadora" },
   { label: "FAQ", href: "/#faq" },
 ] as const;
 

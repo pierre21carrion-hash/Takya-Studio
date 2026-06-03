@@ -23,7 +23,7 @@ const PREGUNTAS = [
   {
     id: "extras",
     pregunta: "¿Qué extras necesita?",
-    opciones: ["Chatbot con IA", "Tienda online", "Automatizaciones WhatsApp", "Blog", "Ninguno"],
+    opciones: ["Tienda online", "Automatizaciones WhatsApp", "Blog", "Ninguno"],
     multiple: true,
   },
   {
@@ -46,7 +46,6 @@ function computePrice(a: Answers): { precio: number; plan: string } {
   if (a.secciones === "6-10 secciones (intermedio)") precio = 299;
   if (a.secciones === "10+ secciones o blog") precio = 499;
   if (a.extras.includes("Tienda online")) precio += 150;
-  if (a.extras.includes("Chatbot con IA")) precio += 100;
   if (a.extras.includes("Automatizaciones WhatsApp")) precio += 100;
   if (a.extras.includes("Blog")) precio += 50;
   if (a.urgencia === "Esta semana") precio += 50;
@@ -107,9 +106,15 @@ export function Calculator() {
             <p className="mb-1 text-sm text-[#6e6e73]">
               Paso {step + 1} de {total}
             </p>
-            <h2 className="mb-6 text-2xl font-bold tracking-tight text-[#1d1d1f] md:text-3xl">
+            <h2 className="mb-2 text-2xl font-bold tracking-tight text-[#1d1d1f] md:text-3xl">
               {q.pregunta}
             </h2>
+            {q.id === "extras" && (
+              <p className="mb-6 text-sm font-medium text-[#0071e3]">
+                El chatbot con IA ya viene incluido en todos los planes.
+              </p>
+            )}
+            {q.id !== "extras" && <div className="mb-6" />}
 
             <div className="flex flex-col gap-3">
               {q.opciones.map((op) => {
