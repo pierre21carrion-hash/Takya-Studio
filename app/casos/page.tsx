@@ -12,9 +12,9 @@ export const metadata: Metadata = {
 const CASOS = [
   {
     cliente: "Pueblos Mágicos del Ecuador",
-    categoria: "Turismo / Gobierno",
+    categoria: "Turismo / Cultura",
     desafio:
-      "El Ministerio de Turismo necesitaba una plataforma que mostrara los 21 destinos más emblemáticos del Ecuador de forma visual, rápida y accesible para turistas internacionales.",
+      "Es un proyecto propio que desarrollamos junto a un profesor universitario. El reto: mostrar los 21 destinos más emblemáticos del Ecuador de forma visual, rápida y accesible para turistas internacionales.",
     solucion:
       "Desarrollamos una plataforma con mapa interactivo, explorador de destinos por región y sistema de filtros. Optimizada para SEO internacional con metadatos en español e inglés.",
     tecnologias: ["Next.js 14", "Mapbox", "TypeScript", "Vercel"],

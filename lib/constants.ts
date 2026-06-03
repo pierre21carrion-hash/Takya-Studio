@@ -249,7 +249,7 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     url: "https://pueblos-magicos-arquitectura.vercel.app/",
     status: "En desarrollo activo",
     featured: true,
-    client: "Ministerio de Turismo del Ecuador",
+    client: "Proyecto propio · académico",
     year: "2026",
     tags: ["Turismo", "Cultura", "Ecuador", "Patrimonio", "Editorial"],
     stats: [
