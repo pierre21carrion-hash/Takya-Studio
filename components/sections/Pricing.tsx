@@ -116,7 +116,12 @@ export function Pricing() {
         ))}
       </motion.div>
 
-      <p className="mt-10 text-center text-sm text-muted">
+      <p className="mx-auto mt-8 max-w-xl text-center text-xs text-muted-foreground">
+        El dominio no está incluido en ningún plan: se cotiza aparte según el negocio. El chatbot con
+        IA viene incluido desde el plan base.
+      </p>
+
+      <p className="mt-4 text-center text-sm text-muted">
         ¿No está seguro cuál elegir?{" "}
         <a
           href={whatsappUrl("Hola Pierre, necesito ayuda para elegir un plan")}
