@@ -154,7 +154,7 @@ export function About() {
             Trabajamos desde Quito, Ecuador para negocios de toda Latinoamérica.
           </p>
           <a
-            href="https://wa.me/593978775471?text=Hola%20Jos%C3%A9%20y%20Pierre,%20vi%20que%20sois%20los%20fundadores%20y%20me%20interesa%20trabajar%20con%20Takya"
+            href="https://wa.me/593963608530?text=Hola%20Jos%C3%A9%20y%20Pierre,%20vi%20que%20sois%20los%20fundadores%20y%20me%20interesa%20trabajar%20con%20Takya"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-[#0071e3] px-8 py-4 font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-[#0077ed] hover:shadow-lg hover:shadow-[#0071e3]/25"

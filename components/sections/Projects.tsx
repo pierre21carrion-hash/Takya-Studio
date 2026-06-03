@@ -275,7 +275,7 @@ export function Projects() {
             </p>
           </div>
           <a
-            href="https://wa.me/593978775471?text=Hola%20Pierre,%20vi%20tus%20proyectos%20y%20me%20interesa%20trabajar%20contigo"
+            href="https://wa.me/593963608530?text=Hola%20Pierre,%20vi%20tus%20proyectos%20y%20me%20interesa%20trabajar%20contigo"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-[#0071e3] px-8 py-4 font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-[#0077ed] hover:shadow-lg hover:shadow-[#0071e3]/25"
