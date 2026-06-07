@@ -8,7 +8,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SITE_CONFIG } from "@/lib/constants";
 import { whatsappUrl } from "@/lib/utils";
 
-type State = "idle" | "loading" | "success";
+type State = "idle" | "loading" | "success" | "error";
 
 interface Fields {
   nombre: string;
@@ -19,6 +19,11 @@ interface Fields {
 type Errors = Partial<Record<keyof Fields, string>>;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Web3Forms access key — entrega cada envío a takya.studio@gmail.com.
+// Es seguro exponerla en el cliente: solo permite enviar correos a la dirección
+// configurada en Web3Forms (no da acceso a nada). Reemplazar por la key real.
+const WEB3FORMS_KEY = "REEMPLAZAR_CON_ACCESS_KEY";
 
 const BUSINESS_TYPES = [
   { value: "emprendimiento", label: "Emprendimiento personal" },
@@ -58,13 +63,40 @@ export function Contact() {
     }
     setState("loading");
     const label = BUSINESS_TYPES.find((b) => b.value === fields.negocio)?.label ?? fields.negocio;
-    const msg =
-      `Hola Pierre, soy ${fields.nombre.trim()}. ` +
-      `Quiero una web para mi ${label.toLowerCase()}. ` +
-      `Mi correo es ${fields.email.trim()} y mi WhatsApp ${fields.whatsapp.trim()}.`;
-    await new Promise((r) => setTimeout(r, 900));
-    window.open(whatsappUrl(msg), "_blank", "noopener,noreferrer");
-    setState("success");
+
+    // Sin la access key configurada: no rompemos el formulario, abrimos WhatsApp.
+    if (!WEB3FORMS_KEY || WEB3FORMS_KEY === "REEMPLAZAR_CON_ACCESS_KEY") {
+      const msg =
+        `Hola Pierre, soy ${fields.nombre.trim()}. ` +
+        `Quiero una web para mi ${label.toLowerCase()}. ` +
+        `Mi correo es ${fields.email.trim()} y mi WhatsApp ${fields.whatsapp.trim()}.`;
+      await new Promise((r) => setTimeout(r, 700));
+      window.open(whatsappUrl(msg), "_blank", "noopener,noreferrer");
+      setState("success");
+      return;
+    }
+
+    // Envío del registro al correo (Web3Forms → takya.studio@gmail.com).
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: `Nuevo cliente desde Takya — ${fields.nombre.trim()}`,
+          from_name: "Takya · Formulario web",
+          Nombre: fields.nombre.trim(),
+          Email: fields.email.trim(),
+          WhatsApp: fields.whatsapp.trim(),
+          "Tipo de negocio": label,
+          botcheck: "",
+        }),
+      });
+      const data: { success?: boolean } = await res.json();
+      setState(data.success ? "success" : "error");
+    } catch {
+      setState("error");
+    }
   };
 
   return (
@@ -88,9 +120,9 @@ export function Contact() {
                   className="flex flex-col items-center rounded-[2rem] border border-accent/20 bg-accent-muted p-12 text-center"
                 >
                   <CheckCircle size={48} weight="fill" className="text-accent" />
-                  <h3 className="mt-4 text-2xl font-semibold tracking-tight">¡Idea recibida!</h3>
+                  <h3 className="mt-4 text-2xl font-semibold tracking-tight">¡Mensaje recibido!</h3>
                   <p className="mt-2 max-w-sm text-muted">
-                    Abrimos WhatsApp para enviar su mensaje. Respondemos en menos de 2 horas.
+                    Gracias. Revisamos la solicitud y le respondemos en menos de 2 horas.
                   </p>
                 </motion.div>
               ) : (
@@ -100,6 +132,11 @@ export function Contact() {
                   exit={{ opacity: 0, y: -8 }}
                   className="flex flex-col gap-4"
                 >
+                  {state === "error" && (
+                    <p role="alert" className="rounded-2xl border border-red-200 bg-red-50 p-3 text-sm text-red-600">
+                      No se pudo enviar la solicitud. Inténtelo de nuevo o escríbanos por WhatsApp.
+                    </p>
+                  )}
                   <FloatingInput id="nombre" name="nombre" label="Nombre completo" value={fields.nombre} onChange={onChange} error={errors.nombre} disabled={state === "loading"} />
                   <FloatingInput id="email" name="email" type="email" label="Email" value={fields.email} onChange={onChange} error={errors.email} disabled={state === "loading"} />
                   <FloatingInput id="whatsapp" name="whatsapp" type="tel" label="WhatsApp de contacto" value={fields.whatsapp} onChange={onChange} error={errors.whatsapp} disabled={state === "loading"} />
