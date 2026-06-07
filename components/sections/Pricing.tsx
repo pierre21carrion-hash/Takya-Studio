@@ -117,8 +117,9 @@ export function Pricing() {
       </motion.div>
 
       <p className="mx-auto mt-8 max-w-xl text-center text-xs text-muted-foreground">
-        El dominio no está incluido en ningún plan: se cotiza aparte según el negocio. El chatbot con
-        IA viene incluido desde el plan base.
+        El dominio no está incluido en ningún plan: se cotiza aparte.
+        <br />
+        Mantenimiento mensual disponible por $49/mes en cualquier plan.
       </p>
 
       <p className="mt-4 text-center text-sm text-muted">

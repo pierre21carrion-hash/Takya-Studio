@@ -6,7 +6,7 @@ import { Calculator } from "./Calculator";
 export const metadata: Metadata = {
   title: "Calculadora de precio — Takya",
   description:
-    "Responde 4 preguntas y obtén un estimado del precio de una web con Takya. Sin compromiso.",
+    "Responda 7 preguntas y obtenga un estimado del precio de una web con Takya. Sin compromiso.",
 };
 
 export default function CalculadoraPage() {
@@ -27,7 +27,7 @@ export default function CalculadoraPage() {
           ¿Cuánto cuesta una web?
         </h1>
         <p className="mb-12 text-lg text-[#515154]">
-          Responde 4 preguntas rápidas y le damos un estimado al instante.
+          Responda 7 preguntas rápidas y le damos un estimado al instante.
         </p>
 
         <Calculator />

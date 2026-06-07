@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Browsers, Robot, Wrench, Check } from "@phosphor-icons/react";
+import { Browsers, Globe, Wrench, Check } from "@phosphor-icons/react";
 import { Card } from "@/components/ui/Card";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SERVICES } from "@/lib/constants";
 import { staggerContainer, fadeUp, inViewOnce } from "@/lib/animations";
 
-const ICONS = { Browsers, Robot, Wrench };
+const ICONS = { Browsers, Globe, Wrench };
 
 /* ── Perpetual micro-visuals, one per service ── */
 
