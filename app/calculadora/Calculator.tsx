@@ -117,7 +117,7 @@ const STEPS: Step[] = [
     type: "radio",
     title: "¿Para cuándo necesita la web?",
     options: [
-      { value: "semana", label: "Esta semana", subtext: "Prioridad máxima, entrega urgente", badge: "+$50 urgencia" },
+      { value: "semana", label: "Esta semana", subtext: "Prioridad máxima dentro de los 5 días hábiles" },
       { value: "mes", label: "Este mes", subtext: "Entrega estándar en 5 días hábiles" },
       { value: "sinprisa", label: "Sin prisa", subtext: "Podemos coordinar el mejor momento" },
     ],
@@ -159,7 +159,6 @@ function calcularPrecio(s: State): Resultado {
   if (s.extras.includes("landing")) extras.push({ label: "Landing page para anuncios", valor: 99 });
   if (s.extras.includes("analytics")) extras.push({ label: "Reportes mensuales de visitas", valor: 39 });
   if (s.extras.includes("auditoria") && plan !== "Dominio") extras.push({ label: "Auditoría de web existente", valor: 49 });
-  if (s.urgencia === "semana") extras.push({ label: 'Prioridad urgente "esta semana"', valor: 50 });
 
   // 3. Total
   const total = base + extras.reduce((acc, e) => acc + e.valor, 0);
