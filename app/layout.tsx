@@ -47,7 +47,7 @@ const jsonLd = {
   image: `${SITE_CONFIG.url}/og-image.png`,
   telephone: SITE_CONFIG.phone,
   email: SITE_CONFIG.email,
-  priceRange: "$149 - $499",
+  priceRange: "$149 - $349",
   founder: [
     { "@type": "Person", name: "José Chugchilán" },
     { "@type": "Person", name: "Pierre Carrion" },
