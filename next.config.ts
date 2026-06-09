@@ -12,7 +12,7 @@ const csp = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
-  "connect-src 'self' https://*.tidio.co wss://*.tidio.co https://api.web3forms.com",
+  "connect-src 'self' https://*.tidio.co wss://*.tidio.co https://api.web3forms.com https://*.supabase.co wss://*.supabase.co",
   "frame-src 'self' https://*.tidio.co https://pueblos-magicos-arquitectura.vercel.app https://expo-turismo-sostenible-2026.vercel.app https://llano-grande.vercel.app",
   "frame-ancestors 'self'",
 ].join("; ");
