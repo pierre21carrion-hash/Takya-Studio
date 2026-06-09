@@ -67,28 +67,39 @@ function Sheet({ open, onClose, title, icon, iconColor, children }: {
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
       <div
-        className="relative w-full md:max-w-[480px] md:mx-4 rounded-t-2xl md:rounded-2xl md:shadow-2xl"
-        style={{ background: 'var(--card)', maxHeight: '90vh', overflowY: 'auto', padding: 24 }}
+        className="relative w-full md:max-w-[480px] md:mx-4 rounded-t-2xl md:rounded-2xl md:shadow-2xl flex flex-col"
+        style={{ background: 'var(--card)', maxHeight: '90vh' }}
       >
-        {/* Header */}
-        <div className="flex items-center gap-3 mb-5">
-          {icon && (
-            <div
-              className="w-9 h-9 rounded-xl flex items-center justify-center text-base flex-shrink-0"
-              style={{ background: iconColor ? `${iconColor}18` : 'var(--card2)', color: iconColor ?? 'var(--text)' }}
-            >
-              {icon}
-            </div>
-          )}
-          <div className="flex-1 text-lg font-semibold" style={{ color: 'var(--text)', fontFamily: 'var(--font-ui)' }}>{title}</div>
+        {/* Header — flex-shrink-0, never scrolls away */}
+        <div
+          className="flex items-center justify-between px-6 py-5 flex-shrink-0 border-b"
+          style={{ borderColor: 'var(--border)' }}
+        >
+          <div className="flex items-center gap-2">
+            {icon && (
+              <div
+                className="w-9 h-9 rounded-xl flex items-center justify-center text-base flex-shrink-0"
+                style={{ background: iconColor ? `${iconColor}20` : 'var(--card2)', color: iconColor ?? 'var(--text)' }}
+              >
+                {icon}
+              </div>
+            )}
+            <h2 className="text-lg font-semibold" style={{ color: 'var(--text)', fontFamily: 'var(--font-ui)' }}>{title}</h2>
+          </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-xl border text-sm cursor-pointer transition-colors flex-shrink-0"
-            style={{ background: 'var(--card2)', borderColor: 'var(--border)', color: 'var(--text3)' }}
             aria-label="Cerrar"
-          >✕</button>
+            className="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer border-none transition-colors text-xl leading-none"
+            style={{ background: 'transparent', color: 'var(--text3)' }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'var(--card2)'; e.currentTarget.style.color = 'var(--text)' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text3)' }}
+          >×</button>
         </div>
-        {children}
+
+        {/* Body — only this part scrolls */}
+        <div className="overflow-y-auto flex-1 px-6 py-5">
+          {children}
+        </div>
       </div>
     </div>
   )
