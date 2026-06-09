@@ -71,7 +71,7 @@ function Sheet({ open, onClose, title, icon, iconColor, children }: {
         style={{ background: 'var(--card)', maxHeight: '92vh', overflowY: 'auto' }}
       >
         {/* Header */}
-        <div className="flex items-center gap-3 px-5 pt-6 pb-4">
+        <div className="flex items-center gap-3 px-5 pt-8 pb-4">
           {icon && (
             <div
               className="w-9 h-9 rounded-xl flex items-center justify-center text-base flex-shrink-0"
@@ -569,7 +569,7 @@ export function RegistroRapido({ registrosHoy, resumenSemana, alertas, ultimoGas
                       fontFamily: 'var(--font-ui)',
                     }}
                   >
-                    {s.label} <span style={{ opacity: 0.6 }}>${s.monto}</span>
+                    {s.label} · ${s.monto}
                   </button>
                 )
               })}
@@ -589,7 +589,7 @@ export function RegistroRapido({ registrosHoy, resumenSemana, alertas, ultimoGas
                 onBlur={() => { if (!vMonto || parseFloat(vMonto) <= 0) setVMontoErr(true) }}
                 onKeyDown={e => { if (e.key === 'Enter') e.currentTarget.form?.requestSubmit() }}
                 type="number" inputMode="decimal" min="0" step="0.01"
-                placeholder="0"
+                placeholder="0.00"
                 tabIndex={3}
                 className="w-full bg-[var(--card)] border rounded-xl outline-none transition-all focus:shadow-[0_0_0_3px_var(--g-dim)] placeholder:text-[var(--text4)]"
                 style={{
