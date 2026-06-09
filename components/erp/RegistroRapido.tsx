@@ -67,11 +67,11 @@ function Sheet({ open, onClose, title, icon, iconColor, children }: {
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
       <div
-        className="w-full md:max-w-[480px] rounded-t-2xl md:rounded-2xl overflow-hidden"
-        style={{ background: 'var(--card)', maxHeight: '92vh', overflowY: 'auto' }}
+        className="relative w-full md:max-w-[480px] md:mx-4 rounded-t-2xl md:rounded-2xl md:shadow-2xl"
+        style={{ background: 'var(--card)', maxHeight: '90vh', overflowY: 'auto', padding: 24 }}
       >
         {/* Header */}
-        <div className="flex items-center gap-3 px-5 pt-8 pb-4">
+        <div className="flex items-center gap-3 mb-5">
           {icon && (
             <div
               className="w-9 h-9 rounded-xl flex items-center justify-center text-base flex-shrink-0"
@@ -88,7 +88,7 @@ function Sheet({ open, onClose, title, icon, iconColor, children }: {
             aria-label="Cerrar"
           >✕</button>
         </div>
-        <div className="px-5 pb-6">{children}</div>
+        {children}
       </div>
     </div>
   )
