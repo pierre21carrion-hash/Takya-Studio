@@ -46,10 +46,10 @@ function headerHoy() {
 
 // ─── Sheet (bottom sheet on mobile, centered modal on desktop) ───────────────
 
-function Sheet({ open, onClose, title, icon, iconColor, children }: {
+function Sheet({ open, onClose, title, icon, iconColor, children, footer }: {
   open: boolean; onClose: () => void; title: string
   icon?: string; iconColor?: string
-  children: React.ReactNode
+  children: React.ReactNode; footer?: React.ReactNode
 }) {
   useEffect(() => {
     const h = (e: KeyboardEvent) => { if (e.key === 'Escape' && open) onClose() }
@@ -68,18 +68,18 @@ function Sheet({ open, onClose, title, icon, iconColor, children }: {
     >
       <div
         className="relative w-full md:max-w-[480px] md:mx-4 rounded-t-2xl md:rounded-2xl md:shadow-2xl flex flex-col"
-        style={{ background: 'var(--card)', maxHeight: '90vh' }}
+        style={{ background: 'var(--card)', maxHeight: '90dvh' }}
       >
-        {/* Header — flex-shrink-0, never scrolls away */}
+        {/* Header — fixed, never scrolls */}
         <div
-          className="flex items-center justify-between px-6 py-5 flex-shrink-0 border-b"
+          className="flex-shrink-0 flex items-center justify-between px-6 py-4 border-b"
           style={{ borderColor: 'var(--border)' }}
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             {icon && (
               <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center text-base flex-shrink-0"
-                style={{ background: iconColor ? `${iconColor}20` : 'var(--card2)', color: iconColor ?? 'var(--text)' }}
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0"
+                style={{ background: iconColor ? `${iconColor}18` : 'var(--card2)', color: iconColor ?? 'var(--text)' }}
               >
                 {icon}
               </div>
@@ -89,17 +89,22 @@ function Sheet({ open, onClose, title, icon, iconColor, children }: {
           <button
             onClick={onClose}
             aria-label="Cerrar"
-            className="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer border-none transition-colors text-xl leading-none"
-            style={{ background: 'transparent', color: 'var(--text3)' }}
-            onMouseEnter={e => { e.currentTarget.style.background = 'var(--card2)'; e.currentTarget.style.color = 'var(--text)' }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text3)' }}
-          >×</button>
+            className="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer border-none transition-colors text-lg leading-none"
+            style={{ background: 'var(--card2)', color: 'var(--text3)' }}
+          >✕</button>
         </div>
 
-        {/* Body — only this part scrolls */}
+        {/* Body — only this scrolls */}
         <div className="overflow-y-auto flex-1 px-6 py-5">
           {children}
         </div>
+
+        {/* Footer — fixed, never scrolls (only rendered if provided) */}
+        {footer && (
+          <div className="flex-shrink-0 px-6 py-4 border-t" style={{ borderColor: 'var(--border)' }}>
+            {footer}
+          </div>
+        )}
       </div>
     </div>
   )
@@ -541,8 +546,24 @@ export function RegistroRapido({ registrosHoy, resumenSemana, alertas, ultimoGas
         title="Nueva Venta"
         icon="↑"
         iconColor="#16a34a"
+        footer={
+          <button
+            type="submit"
+            form="form-venta"
+            disabled={vLoadng || vDone}
+            className="w-full flex items-center justify-center gap-2 rounded-xl font-bold cursor-pointer border-none transition-all"
+            style={{
+              minHeight: 48, background: vDone ? '#16a34a' : 'var(--g)', color: '#fff',
+              fontSize: 15, fontFamily: 'var(--font-ui)',
+              boxShadow: '0 4px 14px rgba(0,194,122,.35)',
+              opacity: vLoadng && !vDone ? 0.7 : 1,
+            }}
+          >
+            {vDone ? '✓ Registrado' : vLoadng ? '...' : 'Registrar venta →'}
+          </button>
+        }
       >
-        <form onSubmit={handleVenta} className="flex flex-col gap-3">
+        <form id="form-venta" onSubmit={handleVenta} className="flex flex-col gap-3">
 
           {/* Cliente */}
           <Field label="Cliente *">
@@ -674,24 +695,6 @@ export function RegistroRapido({ registrosHoy, resumenSemana, alertas, ultimoGas
             </Field>
           )}
 
-          {/* Submit */}
-          <button
-            type="submit"
-            disabled={vLoadng || vDone}
-            className="w-full flex items-center justify-center gap-2 rounded-xl font-bold cursor-pointer border-none transition-all mt-1"
-            style={{
-              minHeight: 48,
-              background: vDone ? '#16a34a' : 'var(--g)',
-              color: '#fff',
-              fontSize: 15,
-              fontFamily: 'var(--font-ui)',
-              boxShadow: '0 4px 14px rgba(0,194,122,.35)',
-              transform: vDone ? 'none' : undefined,
-              opacity: vLoadng && !vDone ? 0.7 : 1,
-            }}
-          >
-            {vDone ? '✓ Registrado' : vLoadng ? '...' : 'Registrar venta →'}
-          </button>
         </form>
       </Sheet>
 
