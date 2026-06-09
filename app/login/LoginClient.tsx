@@ -25,7 +25,7 @@ export function LoginClient() {
     setLoading(false)
 
     if (authError) {
-      setError('Error: ' + (authError.message || authError.status || JSON.stringify(authError)))
+      setError('Credenciales incorrectas. Verifica tu email y contraseña.')
       return
     }
 
