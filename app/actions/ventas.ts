@@ -49,12 +49,14 @@ export async function getVentas() {
 }
 
 export async function getVentasMes() {
-  const mes = new Date().toISOString().slice(0, 7)
+  const now = new Date()
+  const start = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-01`
+  const end = new Date(now.getFullYear(), now.getMonth() + 1, 1).toISOString().slice(0, 10)
   const supabase = await createClient()
   const { data } = await supabase
     .from('ventas')
     .select('*')
-    .gte('fecha', `${mes}-01`)
-    .lt('fecha', `${mes}-32`)
+    .gte('fecha', start)
+    .lt('fecha', end)
   return data ?? []
 }

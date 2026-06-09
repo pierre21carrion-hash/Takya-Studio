@@ -91,4 +91,143 @@ export const PAGE_LABELS: Record<string, string> = {
   marketing: 'Marketing', proyectos: 'Proyectos', chat: 'Chat', cotizaciones: 'Cotizaciones',
   contratos: 'Contratos', calendario: 'Calendario', reportes: 'Reportes IA',
   notificaciones: 'Notificaciones', perfil: 'Mi Perfil', dashboard: 'Dashboard',
+  facturacion: 'Facturación', crm: 'CRM', activos: 'Activos Digitales',
+  estimador: 'Estimador IA', rentabilidad: 'Rentabilidad',
+}
+
+// ─── Ecuador fiscal constants ──────────────────────────────────────────────────
+export const IVA_ECUADOR = 0.15
+
+// ─── New module types ──────────────────────────────────────────────────────────
+
+export interface DetalleFactura {
+  descripcion: string
+  cantidad: number
+  precio_unitario: number
+  subtotal: number
+}
+
+export type EstadoFactura = 'borrador' | 'emitida' | 'pagada' | 'anulada'
+export type MetodoPago = 'transferencia' | 'efectivo' | 'tarjeta' | 'stripe'
+
+export interface Factura {
+  id: string
+  numero_secuencial: string
+  fecha_emision: string
+  ruc_cliente: string
+  razon_social: string
+  direccion_cliente: string
+  detalle: DetalleFactura[]
+  subtotal: number
+  iva: number
+  total: number
+  retencion_iva: number
+  retencion_ir: number
+  estado: EstadoFactura
+  metodo_pago: MetodoPago
+  created_by: string | null
+  created_at: string
+}
+
+export type EtapaLead = 'prospecto' | 'propuesta_enviada' | 'negociando' | 'ganado' | 'perdido'
+
+export interface Lead {
+  id: string
+  nombre: string
+  empresa: string
+  whatsapp: string
+  email: string
+  plan_interes: string
+  valor_estimado: number
+  etapa: EtapaLead
+  responsable_id: string | null
+  responsable?: { nombre: string; color: string }
+  fecha_ultimo_contacto: string
+  notas: string
+  created_at: string
+}
+
+export type TipoActivo = 'dominio' | 'hosting' | 'repo' | 'acceso' | 'otro'
+export type EstadoActivo = 'activo' | 'por_renovar' | 'vencido'
+
+export interface ActivoDigital {
+  id: string
+  cliente: string
+  proyecto: string
+  tipo: TipoActivo
+  nombre: string
+  url: string
+  registrador: string
+  fecha_vencimiento: string | null
+  costo_anual: number
+  estado: EstadoActivo
+  notas_referencia: string
+  created_by: string | null
+  created_at: string
+}
+
+export type EtapaProyecto = 'descubrimiento' | 'diseño' | 'desarrollo' | 'revision' | 'publicado'
+
+export interface ProyectoExtendido {
+  id: string
+  cliente: string
+  plan: string
+  estado: 'activo' | 'pausado' | 'completado' | 'cancelado'
+  fecha_inicio: string
+  fecha_entrega: string
+  fecha_entrega_prometida: string | null
+  fecha_entrega_real: string | null
+  etapa_actual: EtapaProyecto
+  porcentaje: number
+  token_cliente: string
+  notas_cliente: string
+  valor: number
+  responsable_id: string | null
+  responsable?: { nombre: string; color: string }
+  created_at: string
+}
+
+export interface Estimado {
+  id: string
+  cliente: string
+  tipo_negocio: string
+  respuestas: Record<string, unknown>
+  resultado: Record<string, unknown> | null
+  plan_recomendado: string
+  precio_base: number
+  tiempo_estimado: string
+  created_by: string | null
+  created_at: string
+}
+
+export const ETAPAS_PROYECTO: EtapaProyecto[] = [
+  'descubrimiento', 'diseño', 'desarrollo', 'revision', 'publicado',
+]
+
+export const ETAPA_LABELS: Record<EtapaProyecto, string> = {
+  descubrimiento: 'Descubrimiento',
+  diseño: 'Diseño',
+  desarrollo: 'Desarrollo',
+  revision: 'Revisión',
+  publicado: 'Publicado',
+}
+
+export const ETAPA_COLORES: Record<EtapaProyecto, string> = {
+  descubrimiento: '#7C3AED',
+  diseño: '#D97706',
+  desarrollo: '#2563EB',
+  revision: '#D4820A',
+  publicado: '#059669',
+}
+
+export const ETAPAS_CRM: EtapaLead[] = [
+  'prospecto', 'propuesta_enviada', 'negociando', 'ganado', 'perdido',
+]
+
+export const ETAPA_CRM_LABELS: Record<EtapaLead, string> = {
+  prospecto: 'Prospecto',
+  propuesta_enviada: 'Propuesta Enviada',
+  negociando: 'Negociando',
+  ganado: 'Ganado',
+  perdido: 'Perdido',
 }

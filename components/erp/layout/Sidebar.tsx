@@ -6,6 +6,11 @@ import { SIDEBAR_NAV, initials, type UserProfile } from '@/lib/erp/types'
 import { logout } from '@/app/dashboard/actions'
 
 const ICONS: Record<string, React.ReactNode> = {
+  registrar: (
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 1L4 9h5l-2 6 7-8H9l2-6z"/>
+    </svg>
+  ),
   dashboard: (
     <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
       <rect x="1" y="1" width="6" height="6" rx="1.3"/><rect x="9" y="1" width="6" height="6" rx="1.3"/>
@@ -78,6 +83,35 @@ const ICONS: Record<string, React.ReactNode> = {
   perfil: (
     <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
       <circle cx="8" cy="5" r="3.5"/><path d="M1 15c0-3.5 3-6 7-6s7 2.5 7 6"/>
+    </svg>
+  ),
+  facturacion: (
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+      <rect x="2" y="1" width="12" height="14" rx="1.5"/>
+      <path d="M5 5h6M5 7.5h4M8.5 10.5h2.5M5 10.5h2"/>
+    </svg>
+  ),
+  crm: (
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+      <rect x="1" y="3" width="3" height="10" rx="1"/><rect x="6.5" y="3" width="3" height="7" rx="1"/>
+      <rect x="12" y="3" width="3" height="5" rx="1"/>
+      <path d="M4 8h2.5M9.5 6.5H12"/>
+    </svg>
+  ),
+  activos: (
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+      <circle cx="8" cy="8" r="6.5"/><path d="M8 4v4l2.5 2.5"/>
+    </svg>
+  ),
+  estimador: (
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+      <path d="M10 2l2 6h2L10 14l-6-6h2z"/>
+    </svg>
+  ),
+  rentabilidad: (
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="1,13 5,8 9,10 14,3"/><path d="M11 3h3v3"/>
+      <path d="M1 15h14" strokeWidth="1"/>
     </svg>
   ),
 }

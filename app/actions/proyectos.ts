@@ -105,3 +105,47 @@ export async function getMisTareas(userId: string) {
     .order('fecha_vencimiento', { ascending: true })
   return data ?? []
 }
+
+export async function getProyectosExtendidos() {
+  const supabase = await createClient()
+  const { data } = await supabase
+    .from('proyectos')
+    .select('*, responsable:users(nombre, color)')
+    .order('created_at', { ascending: false })
+  return (data ?? []) as import('@/lib/types').ProyectoExtendido[]
+}
+
+export async function actualizarEtapaProyecto(
+  id: string,
+  etapa_actual: import('@/lib/types').EtapaProyecto,
+  porcentaje: number,
+) {
+  const supabase = await createClient()
+  const updates: Record<string, unknown> = { etapa_actual, porcentaje }
+  if (etapa_actual === 'publicado') {
+    updates.fecha_entrega_real = new Date().toISOString().slice(0, 10)
+    updates.estado = 'completado'
+  }
+  const { error } = await supabase.from('proyectos').update(updates).eq('id', id)
+  if (error) return { error: error.message }
+  revalidatePath('/dashboard/proyectos')
+  return { success: true }
+}
+
+export async function actualizarNotasCliente(id: string, notas_cliente: string) {
+  const supabase = await createClient()
+  const { error } = await supabase.from('proyectos').update({ notas_cliente }).eq('id', id)
+  if (error) return { error: error.message }
+  revalidatePath('/dashboard/proyectos')
+  return { success: true }
+}
+
+export async function getProyectoPorToken(token: string) {
+  const supabase = await createClient()
+  const { data } = await supabase
+    .from('proyectos')
+    .select('cliente, plan, etapa_actual, porcentaje, notas_cliente, fecha_entrega_prometida, fecha_entrega_real, estado')
+    .eq('token_cliente', token)
+    .single()
+  return data
+}
