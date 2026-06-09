@@ -5,75 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Check, Sparkle } from "@phosphor-icons/react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { cn } from "@/lib/utils";
-
-interface Row {
-  criterio: string;
-  wix: string;
-  freelancer: string;
-  agencia: string;
-  vekto: string;
-}
-
-const COMPARACION: Row[] = [
-  {
-    criterio: "Tiempo hasta tener la web",
-    wix: "Semanas aprendiendo",
-    freelancer: "2-6 semanas (sin garantía)",
-    agencia: "2-4 meses",
-    vekto: "5 días garantizados",
-  },
-  {
-    criterio: "Precio real",
-    wix: "$200-800/año (plantillas + plugins + dominio + SSL)",
-    freelancer: "$300-2,000 (varía sin contrato)",
-    agencia: "$2,000-15,000",
-    vekto: "Desde $149. Sin sorpresas.",
-  },
-  {
-    criterio: "Calidad del resultado",
-    wix: "Plantilla genérica, lenta, difícil de posicionar",
-    freelancer: "Depende del freelancer (lotería)",
-    agencia: "Premium pero impersonal",
-    vekto: "Código limpio, PageSpeed 95+, diseño a medida",
-  },
-  {
-    criterio: "Soporte después",
-    wix: "Tutoriales de YouTube",
-    freelancer: "Desaparece tras entregar",
-    agencia: "Ticket de soporte con SLA de días",
-    vekto: "WhatsApp directo. Respuesta en 1h.",
-  },
-  {
-    criterio: "SEO y velocidad",
-    wix: "Limitado. Genera código pesado",
-    freelancer: "Opcional y extra",
-    agencia: "Incluido pero genérico",
-    vekto: "SEO técnico + PageSpeed 95+ incluido",
-  },
-  {
-    criterio: "¿Hablan su idioma?",
-    wix: "Soporte en inglés",
-    freelancer: "Depende",
-    agencia: "Formal y con intermediarios",
-    vekto: "100% español. José y Pierre directamente.",
-  },
-];
+import { useLang } from "@/lib/LanguageContext";
 
 type ColKey = "wix" | "freelancer" | "agencia" | "vekto";
-
-const COLS = [
-  { key: "wix", label: "Por su cuenta" },
-  { key: "freelancer", label: "Freelancer random" },
-  { key: "agencia", label: "Agencia grande" },
-] as const;
-
-// Order places Takya in the visual center; no competitor brand names.
-const TABS: { key: ColKey; short: string }[] = [
-  { key: "wix", short: "Por su cuenta" },
-  { key: "freelancer", short: "Freelancer" },
-  { key: "vekto", short: "Takya" },
-  { key: "agencia", short: "Agencia grande" },
-];
 
 function TakyaCell({ text }: { text: string }) {
   return (
@@ -86,29 +20,31 @@ function TakyaCell({ text }: { text: string }) {
 
 export function Comparison() {
   const [active, setActive] = useState<ColKey>("vekto");
+  const { t } = useLang();
+  const cmp = t.comparison;
 
   return (
     <section className="bg-white px-4 py-24 md:px-8">
       <div className="mx-auto max-w-6xl">
         <SectionHeading
           align="center"
-          eyebrow="La decisión inteligente"
-          title="¿Por qué Takya?"
-          subtitle="Una comparación honesta de las opciones. Sin marketing inflado."
+          eyebrow={cmp.eyebrow}
+          title={cmp.title}
+          subtitle={cmp.subtitle}
         />
 
         {/* Desktop (>=768px): classic 5-column table */}
         <div className="mt-14 hidden overflow-hidden rounded-3xl border border-[#d6e4f7] md:block">
           <div className="grid grid-cols-[1.2fr_1fr_1fr_1fr_1.1fr]">
             <div className="bg-[#f0f4fb] p-4" />
-            {COLS.map((c) => (
+            {cmp.cols.map((c) => (
               <div key={c.key} className="bg-[#f0f4fb] p-4 text-sm font-semibold text-[#515154]">
                 {c.label}
               </div>
             ))}
             <div className="bg-[#0071e3] p-4 text-sm font-bold text-white">Takya</div>
 
-            {COMPARACION.map((row, i) => (
+            {cmp.rows.map((row, i) => (
               <div key={row.criterio} className="contents">
                 <div className={`p-4 text-sm font-semibold text-[#1d1d1f] ${i % 2 ? "bg-[#fafafa]" : "bg-white"}`}>
                   {row.criterio}
@@ -124,17 +60,17 @@ export function Comparison() {
           </div>
         </div>
 
-        {/* Mobile (<768px): tabs — pick a column, compare it across all rows */}
+        {/* Mobile (<768px): tabs */}
         <div className="mt-12 md:hidden">
           <div className="mb-5 grid grid-cols-4 gap-2">
-            {TABS.map((t) => {
-              const isActive = active === t.key;
-              const isTakya = t.key === "vekto";
+            {cmp.tabs.map((tab) => {
+              const isActive = active === tab.key;
+              const isTakya = tab.key === "vekto";
               return (
                 <button
-                  key={t.key}
+                  key={tab.key}
                   type="button"
-                  onClick={() => setActive(t.key)}
+                  onClick={() => setActive(tab.key)}
                   aria-pressed={isActive}
                   style={
                     isActive && isTakya
@@ -151,7 +87,7 @@ export function Comparison() {
                   )}
                 >
                   {isTakya && <Sparkle size={11} weight="fill" className="shrink-0" />}
-                  {t.short}
+                  {tab.short}
                 </button>
               );
             })}
@@ -166,7 +102,7 @@ export function Comparison() {
               transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
               className="flex flex-col gap-3"
             >
-              {COMPARACION.map((row) => (
+              {cmp.rows.map((row) => (
                 <div
                   key={row.criterio}
                   className={`rounded-2xl border p-4 ${
@@ -187,28 +123,18 @@ export function Comparison() {
           </AnimatePresence>
         </div>
 
-        {/* "Why not do it yourself" — centered, max 680px */}
+        {/* "Why not do it yourself" */}
         <div className="mx-auto mt-16 max-w-[680px] rounded-3xl border border-[#d6e4f7] bg-[#f0f4fb] p-8 md:p-10">
           <h3 className="mb-6 text-2xl font-bold tracking-tight text-[#1d1d1f]">
-            ¿Por qué no hacerlo por su cuenta?
+            {cmp.whyNotTitle}
           </h3>
           <div className="flex flex-col gap-5 text-[15px] leading-relaxed text-[#515154]">
-            <p>
-              <span className="font-semibold text-[#1d1d1f]">Plataformas de arrastrar y soltar:</span>{" "}
-              pagas suscripción mensual para siempre. El código que generan es pesado, Google las
-              penaliza en velocidad y cuando cancelas, pierdes todo lo que construiste.
-            </p>
-            <p>
-              <span className="font-semibold text-[#1d1d1f]">Gestores de contenido tradicionales:</span>{" "}
-              necesitan mantenimiento constante, actualizaciones, plugins de seguridad y alguien
-              técnico que los gestione. Son la causa del 40% de los sitios hackeados en internet.
-            </p>
-            <p>
-              <span className="font-semibold text-[#1d1d1f]">Takya</span> usa tecnología moderna —
-              la misma de Nike, TikTok y OpenAI. La web es del cliente, no depende de ninguna plataforma,
-              carga en menos de 1 segundo y nadie cobra suscripción mensual para que siga
-              funcionando.
-            </p>
+            {cmp.whyNotBody.map((item) => (
+              <p key={item.lead}>
+                <span className="font-semibold text-[#1d1d1f]">{item.lead}</span>{" "}
+                {item.text}
+              </p>
+            ))}
           </div>
         </div>
       </div>

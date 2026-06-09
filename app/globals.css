@@ -127,3 +127,147 @@ body {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ============================================
+   TAKYA OS — ERP Design Tokens
+   Solo afectan a elementos dentro de .erp-root
+   No modifica estilos existentes de la web pública
+   ============================================ */
+.erp-root {
+  --color-bg: #E8E4DA;
+  --color-bg-warm: #F0EDE5;
+  --color-bg-card: #EBE7DD;
+  --color-surface: #FFFFFF;
+  --color-takya: #00C27A;
+  --color-takya-dark: #009960;
+  --color-navy: #1B2A4A;
+  --color-navy-mid: #2D4270;
+  --color-ink: #1C1714;
+  --color-ink-2: #3D3530;
+  --color-ink-3: #7A6F68;
+  --color-ink-4: #B0A89F;
+  --color-border: #D8D2C8;
+  --color-border-2: #C8C0B4;
+  --color-amber: #D4820A;
+  --color-red: #C5302A;
+  --color-blue: #2C6EDB;
+  --shadow-sm: 0 1px 3px rgba(28,23,20,0.06);
+  --shadow-md: 0 4px 12px rgba(28,23,20,0.08);
+  --shadow-lg: 0 12px 32px rgba(28,23,20,0.10);
+
+  /* Font aliases — map to available loaded fonts */
+  --font-head: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-ui:   var(--font-geist-sans);
+
+  /* Takya-OS shorthand vars used by ERP components */
+  --g:       #00C27A;
+  --g-glow:  rgba(0,194,122,.25);
+  --g-dim:   rgba(0,194,122,.10);
+  --r:       #C5302A;
+  --r-dim:   rgba(197,48,42,.10);
+  --b:       #2563EB;
+  --b-dim:   rgba(37,99,235,.10);
+  --a:       #D97706;
+  --a-dim:   rgba(217,119,6,.10);
+  --v:       #7C3AED;
+  --v-dim:   rgba(124,58,237,.10);
+  --navy:    #1B2A4A;
+  --card:    #FFFFFF;
+  --card2:   #F0EDE5;
+  --card3:   #EBE7DD;
+  --border:  rgba(28,23,20,.10);
+  --border2: rgba(28,23,20,.20);
+  --text:    #1C1714;
+  --text2:   #3D3530;
+  --text3:   #7A6F68;
+  --text4:   #B0A89F;
+  --sh-card: 0 2px 8px rgba(28,23,20,.06);
+  --panel:   #F0EDE5;
+
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+@keyframes erp-fadeup {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.erp-root main > * {
+  animation: erp-fadeup .22s ease both;
+}
+
+/* ─── ERP extra vars ─── */
+.erp-root {
+  --sh:    0 1px 4px rgba(28,23,20,.06);
+  --sh-lg: 0 8px 24px rgba(28,23,20,.12);
+  --nav-bg:        var(--navy);
+  --nav-border:    rgba(255,255,255,.09);
+  --nav-text:      rgba(255,255,255,.55);
+  --nav-active:    #ffffff;
+  --nav-active-bg: rgba(0,194,122,.14);
+}
+
+/* ─── Progress bar ─── */
+.pbar  { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.pfill { height: 100%; border-radius: 3px; background: var(--g); transition: width .4s; }
+
+/* ─── Animations ─── */
+@keyframes fadeUp    { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes pulseDot  { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .3; transform: scale(.6); } }
+@keyframes modalScale{ from { opacity: 0; transform: scale(.96) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+@keyframes spin      { to { transform: rotate(360deg); } }
+.animate-fadeup { animation: fadeUp .2s ease both; }
+.animate-modal  { animation: modalScale .18s ease both; }
+
+/* ─── Modal ─── */
+.modal-bg {
+  position: fixed; inset: 0;
+  background: rgba(28,23,20,.55);
+  backdrop-filter: blur(6px);
+  z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  opacity: 0; pointer-events: none;
+  transition: opacity .2s;
+}
+.modal-bg.open { opacity: 1; pointer-events: all; }
+.modal-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  max-width: 560px; width: 100%;
+  max-height: 90vh; overflow-y: auto;
+  box-shadow: var(--sh-lg);
+  transform: scale(.95) translateY(8px);
+  transition: transform .2s;
+  position: relative;
+}
+.modal-bg.open .modal-box { transform: scale(1) translateY(0); }
+
+/* ─── Chat ─── */
+.chat-bubble { max-width: 70%; padding: 10px 14px; border-radius: 12px; font-size: 13.5px; line-height: 1.5; }
+.chat-bubble.mine  { background: var(--g); color: #fff; border-bottom-right-radius: 4px; }
+.chat-bubble.other { background: var(--card); border: 1px solid var(--border); color: var(--text); border-bottom-left-radius: 4px; }
+
+/* ─── Calendar ─── */
+.cal-day { min-height: 80px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 6px; transition: border-color .15s; }
+.cal-day:hover { border-color: var(--border2); }
+.cal-day.today { border-color: var(--g); background: var(--g-dim); }
+.cal-day.other-month { opacity: .4; }
+
+/* ─── Kanban ─── */
+.kanban-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; cursor: grab; transition: box-shadow .15s, transform .15s, border-color .15s; box-shadow: var(--sh); }
+.kanban-card:hover  { border-color: var(--border2); box-shadow: var(--sh-lg); transform: translateY(-2px); }
+.kanban-card:active { cursor: grabbing; }
+
+/* ─── Dashboard action buttons ─── */
+.action-btn { transition: all .15s ease; }
+.action-btn-green:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0,194,122,.40); }
+.action-btn-navy:hover  { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(27,42,74,.40); }
+.action-btn-ghost:hover { background: var(--card2) !important; }
+
+@media (max-width: 768px) {
+  .modal-box { padding: 20px 18px; border-radius: 16px 16px 0 0; max-height: 92vh; position: fixed; bottom: 0; left: 0; right: 0; max-width: 100% !important; }
+  .modal-bg  { align-items: flex-end; padding: 0; }
+}

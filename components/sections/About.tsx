@@ -3,20 +3,9 @@
 import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
 import { Lightning, Heart, Users, Globe } from "@phosphor-icons/react";
+import { useLang } from "@/lib/LanguageContext";
 
-const pillars = [
-  { icon: Lightning, title: "Velocidad", description: "Entregamos en días, no meses" },
-  { icon: Heart, title: "Calidad", description: "Código limpio, diseño premium" },
-  { icon: Users, title: "Transparencia", description: "Sin costos ocultos, jamás" },
-  { icon: Globe, title: "En español", description: "Comunicación directa y clara" },
-];
-
-const stats = [
-  { value: "50+", label: "Proyectos completados" },
-  { value: "98+", label: "PageSpeed promedio" },
-  { value: "5", label: "Días entrega estándar" },
-  { value: "99.9%", label: "Uptime garantizado" },
-];
+const PILLAR_ICONS = [Lightning, Heart, Users, Globe];
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -29,6 +18,9 @@ const itemVariants: Variants = {
 };
 
 export function About() {
+  const { t } = useLang();
+  const a = t.about;
+
   return (
     <section className="bg-white px-4 py-32 md:px-8">
       <div className="mx-auto max-w-6xl">
@@ -44,16 +36,16 @@ export function About() {
             variants={itemVariants}
             className="mb-4 block text-sm font-semibold uppercase tracking-widest text-[#0071e3]"
           >
-            Quiénes Somos
+            {a.eyebrow}
           </motion.span>
           <motion.h2
             variants={itemVariants}
             className="mb-4 text-5xl font-bold leading-none tracking-tighter text-[#1d1d1f] md:text-6xl"
           >
-            Somos <em className="not-italic text-[#0071e3]">José y Pierre</em>
+            {a.h2Pre} <em className="not-italic text-[#0071e3]">{a.h2Accent}</em>
           </motion.h2>
           <motion.p variants={itemVariants} className="max-w-2xl text-xl text-[#515154]">
-            Fundadores de Takya
+            {a.tagline}
           </motion.p>
         </motion.div>
 
@@ -86,29 +78,23 @@ export function About() {
             className="space-y-8"
           >
             <motion.p variants={itemVariants} className="text-lg leading-relaxed text-[#515154]">
-              José Chugchilán y Pierre Carrion son los fundadores de Takya, una agencia
-              digital dedicada a crear soluciones web de alta calidad para negocios en
-              Latinoamérica.
+              {a.p1}
             </motion.p>
 
             <motion.p variants={itemVariants} className="text-lg leading-relaxed text-[#515154]">
-              Con experiencia en diseño, desarrollo y automatización con IA, creemos que cada
-              negocio merece una presencia digital profesional, rápida y accesible. Nuestra misión
-              es democratizar el acceso a webs premium sin sacrificar calidad.
+              {a.p2}
             </motion.p>
 
-            {/* Quote */}
             <motion.blockquote
               variants={itemVariants}
               className="border-l-4 border-[#0071e3] py-4 pl-6 text-xl italic text-[#1d1d1f]"
             >
-              “No creemos en contratos eternos ni en precios injustos. Creemos en transparencia,
-              velocidad y resultados.”
+              &ldquo;{a.quote}&rdquo;
             </motion.blockquote>
 
             {/* Stats */}
             <motion.div variants={itemVariants} className="grid grid-cols-2 gap-4 pt-4">
-              {stats.map((stat) => (
+              {a.stats.map((stat) => (
                 <div key={stat.label} className="rounded-xl border border-[#d6e4f7] bg-[#f0f4fb] p-4">
                   <p className="text-2xl font-bold text-[#0071e3]">{stat.value}</p>
                   <p className="mt-1 text-xs text-[#6e6e73]">{stat.label}</p>
@@ -126,8 +112,8 @@ export function About() {
           viewport={{ once: true }}
           className="mb-20 grid grid-cols-1 gap-6 md:grid-cols-4"
         >
-          {pillars.map((pillar) => {
-            const Icon = pillar.icon;
+          {a.pillars.map((pillar, i) => {
+            const Icon = PILLAR_ICONS[i % PILLAR_ICONS.length];
             return (
               <motion.div
                 key={pillar.title}
@@ -150,16 +136,14 @@ export function About() {
           transition={{ delay: 0.4 }}
           className="border-t border-[#d6e4f7] pt-16 text-center"
         >
-          <p className="mb-8 text-lg text-[#515154]">
-            Trabajamos desde Quito, Ecuador para negocios de toda Latinoamérica.
-          </p>
+          <p className="mb-8 text-lg text-[#515154]">{a.bottomText}</p>
           <a
             href="https://wa.me/593963608530?text=Hola%20Jos%C3%A9%20y%20Pierre,%20vi%20que%20sois%20los%20fundadores%20y%20me%20interesa%20trabajar%20con%20Takya"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-[#0071e3] px-8 py-4 font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-[#0077ed] hover:shadow-lg hover:shadow-[#0071e3]/25"
           >
-            Empezar un proyecto →
+            {a.cta}
           </a>
         </motion.div>
       </div>

@@ -1,8 +1,14 @@
-import { Sparkle, WhatsappLogo, EnvelopeSimple } from "@phosphor-icons/react/dist/ssr";
-import { SITE_CONFIG, NAV_LINKS } from "@/lib/constants";
+"use client";
+
+import Link from "next/link";
+import { Sparkle, WhatsappLogo, EnvelopeSimple } from "@phosphor-icons/react";
+import { SITE_CONFIG } from "@/lib/constants";
 import { whatsappUrl } from "@/lib/utils";
+import { useLang } from "@/lib/LanguageContext";
 
 export function Footer() {
+  const { t } = useLang();
+
   return (
     <footer className="border-t border-border">
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-10 px-6 py-16 md:grid-cols-[1.5fr_1fr_1fr] lg:px-10">
@@ -18,10 +24,10 @@ export function Footer() {
 
         <div>
           <p className="mb-4 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-            Navegación
+            {t.footer.navLabel}
           </p>
           <ul className="flex flex-col gap-2.5">
-            {NAV_LINKS.map((link) => (
+            {t.nav.links.map((link) => (
               <li key={link.href}>
                 <a href={link.href} className="text-sm text-muted transition-colors hover:text-accent-dark">
                   {link.label}
@@ -33,7 +39,7 @@ export function Footer() {
 
         <div>
           <p className="mb-4 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-            Contacto
+            {t.footer.contactLabel}
           </p>
           <ul className="flex flex-col gap-2.5 text-sm text-muted">
             <li>
@@ -52,9 +58,17 @@ export function Footer() {
       </div>
 
       <div className="border-t border-border">
-        <p className="mx-auto max-w-[1400px] px-6 py-6 text-xs text-muted-foreground lg:px-10">
-          © {SITE_CONFIG.year} {SITE_CONFIG.name}. Hecho en {SITE_CONFIG.location}.
-        </p>
+        <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-6 lg:px-10">
+          <p className="text-xs text-muted-foreground">
+            © {SITE_CONFIG.year} {SITE_CONFIG.name}. {t.footer.madeIn} {SITE_CONFIG.location}.
+          </p>
+          <Link
+            href="/login"
+            className="text-xs text-muted-foreground transition-colors hover:text-muted"
+          >
+            Acceso equipo →
+          </Link>
+        </div>
       </div>
     </footer>
   );

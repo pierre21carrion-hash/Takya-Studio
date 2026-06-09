@@ -1,87 +1,116 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle, Lightning } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/Button";
-import { MeshGradient } from "@/components/animations/MeshGradient";
-import { HeroDeviceShowcase } from "@/components/hero/HeroDeviceShowcase";
 import { TextScramble } from "@/components/animations/TextScramble";
-import { MarqueeText } from "@/components/ui/MarqueeText";
 import { staggerContainer, fadeUp } from "@/lib/animations";
-import { TRUST_BADGES } from "@/lib/constants";
 import { whatsappUrl } from "@/lib/utils";
+import { useLang } from "@/lib/LanguageContext";
 
 export function Hero() {
+  const { t } = useLang();
+  const h = t.hero;
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (v) v.play().catch(() => {});
+  }, []);
+
   return (
-    <section className="relative overflow-hidden pt-32 md:pt-40">
-      <MeshGradient />
+    <section className="relative overflow-hidden bg-[#0f172a]">
+      {/* Layer 1 — video de fondo */}
+      <video
+        ref={videoRef}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        className="absolute inset-0 h-full w-full object-cover hidden md:block"
+        style={{ zIndex: 0 }}
+      >
+        <source src="/takya-video-fondo.mp4" type="video/mp4" />
+      </video>
 
-      <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-12 px-6 pb-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8 lg:px-10">
-        {/* Left — copy */}
-        <motion.div variants={staggerContainer} initial="hidden" animate="visible">
-          <motion.div variants={fadeUp}>
-            <span className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent-muted px-3 py-1 text-xs font-medium text-accent-dark">
-              <Lightning size={14} weight="fill" /> Webs premium en 5 días · LATAM
-            </span>
-          </motion.div>
+      {/* Layer 2 — overlay degradado: opaco a la izquierda, transparente a la derecha */}
+      <div
+        className="absolute inset-0"
+        style={{
+          zIndex: 1,
+          background:
+            "linear-gradient(to right, rgba(15,23,42,0.88) 0%, rgba(15,23,42,0.88) 40%, rgba(15,23,42,0.2) 65%, rgba(15,23,42,0.0) 100%)",
+        }}
+      />
 
-          <motion.h1
-            variants={fadeUp}
-            className="mt-6 text-5xl font-bold leading-[0.98] tracking-tighter text-foreground md:text-7xl"
-          >
-            Web profesional lista en{" "}
-            <span className="text-accent">
-              <TextScramble text="5 días" />
-            </span>{" "}
-            desde $149
-          </motion.h1>
-
-          <motion.p
-            variants={fadeUp}
-            className="mt-6 max-w-[55ch] text-lg leading-relaxed text-muted"
-          >
-            Diseño web premium y automatización con IA para negocios de Latinoamérica.
-            Sin contratos eternos, sin complicaciones técnicas — 100% en español.
-          </motion.p>
-
-          <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center gap-3">
-            <Button
-              href={whatsappUrl("Hola Pierre, quiero mi web")}
-              external
-              size="lg"
-              ariaLabel="Empezar por WhatsApp"
+      {/* Layer 3 — contenido */}
+      <div className="relative" style={{ zIndex: 2 }}>
+        {/* Hero content — min-h-screen para que el video sea visible */}
+        <div className="flex min-h-screen items-center">
+          <div className="mx-auto w-full max-w-[1400px] px-6 pb-16 pt-32 md:pt-40 lg:px-10">
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              animate="visible"
+              className="max-w-[680px]"
             >
-              Empezar mi proyecto <ArrowRight size={18} weight="bold" />
-            </Button>
-            <Button href="#precios" variant="secondary" size="lg">
-              Ver planes y precios
-            </Button>
-          </motion.div>
+              <motion.div variants={fadeUp}>
+                <span className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-300">
+                  <Lightning size={14} weight="fill" /> {h.badge}
+                </span>
+              </motion.div>
 
-          <motion.ul variants={staggerContainer} className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
-            {TRUST_BADGES.map((badge) => (
-              <motion.li
-                key={badge}
+              <motion.h1
                 variants={fadeUp}
-                className="flex items-center gap-2 text-sm text-muted"
+                className="mt-6 text-5xl font-bold leading-[0.98] tracking-tighter text-white md:text-7xl"
               >
-                <CheckCircle size={18} weight="fill" className="text-accent" />
-                {badge}
-              </motion.li>
-            ))}
-          </motion.ul>
-        </motion.div>
+                {h.h1Pre}{" "}
+                <span className="text-accent">
+                  <TextScramble text={h.h1Scramble} />
+                </span>{" "}
+                {h.h1Post}
+              </motion.h1>
 
-        {/* Right — responsive device showcase (desktop only; hidden on mobile + tablet) */}
-        <div
-          className="relative hidden items-center justify-center lg:flex"
-          style={{ overflow: "visible" }}
-        >
-          <HeroDeviceShowcase />
+              <motion.p
+                variants={fadeUp}
+                className="mt-6 max-w-[55ch] text-lg leading-relaxed text-slate-300"
+              >
+                {h.p}
+              </motion.p>
+
+              <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center gap-3">
+                <Button
+                  href={whatsappUrl("Hola Pierre, quiero mi web")}
+                  external
+                  size="lg"
+                  ariaLabel={h.cta}
+                >
+                  {h.cta} <ArrowRight size={18} weight="bold" />
+                </Button>
+                <Button href="#precios" variant="ghost" size="lg">
+                  {h.ctaSecondary}
+                </Button>
+              </motion.div>
+
+              <motion.ul variants={staggerContainer} className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
+                {h.badges.map((badge) => (
+                  <motion.li
+                    key={badge}
+                    variants={fadeUp}
+                    className="flex items-center gap-2 text-sm text-slate-300"
+                  >
+                    <CheckCircle size={18} weight="fill" className="text-accent" />
+                    {badge}
+                  </motion.li>
+                ))}
+              </motion.ul>
+            </motion.div>
+          </div>
         </div>
-      </div>
 
-      <MarqueeText />
+      </div>
     </section>
   );
 }

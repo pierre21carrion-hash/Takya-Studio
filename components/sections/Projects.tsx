@@ -6,6 +6,7 @@ import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { ArrowUpRight, ArrowRight, Globe, Code, Star } from "@phosphor-icons/react";
 import { PORTFOLIO_PROJECTS } from "@/lib/constants";
 import { EASE_OUT_EXPO } from "@/lib/animations";
+import { useLang } from "@/lib/LanguageContext";
 
 const stagger: Variants = {
   hidden: { opacity: 0 },
@@ -22,8 +23,9 @@ export function Projects() {
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const [iframeKey, setIframeKey] = useState(0);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const { t } = useLang();
+  const pr = t.projects;
 
-  // Reset the preview whenever the selected project changes.
   useEffect(() => {
     setIframeLoaded(false);
     setIframeKey((k) => k + 1);
@@ -35,17 +37,14 @@ export function Projects() {
         {/* Heading */}
         <div className="mb-16">
           <span className="mb-4 block text-sm font-semibold uppercase tracking-widest text-[#0071e3]">
-            Portafolio
+            {pr.eyebrow}
           </span>
           <h2 className="mb-4 text-5xl font-bold leading-none tracking-tighter text-[#1d1d1f] md:text-6xl">
-            Proyectos en los que
+            {pr.h2Pre}
             <br />
-            <em className="not-italic text-[#0071e3]">estamos trabajando.</em>
+            <em className="not-italic text-[#0071e3]">{pr.h2Accent}</em>
           </h2>
-          <p className="max-w-xl text-lg text-[#515154]">
-            Experiencias digitales ambiciosas en desarrollo activo para clientes en Ecuador y
-            Latinoamérica.
-          </p>
+          <p className="max-w-xl text-lg text-[#515154]">{pr.subtitle}</p>
         </div>
 
         {/* Main grid */}
@@ -81,7 +80,7 @@ export function Projects() {
                         <div className="mb-2 flex items-center gap-1.5">
                           <Star size={12} weight="fill" className="text-[#0071e3]" />
                           <span className="text-xs font-bold uppercase tracking-wide text-[#0071e3]">
-                            Proyecto Principal
+                            {pr.featuredBadge}
                           </span>
                         </div>
                       )}
@@ -168,7 +167,7 @@ export function Projects() {
                     href={selected.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`Abrir ${selected.shortTitle} en una pestaña nueva`}
+                    aria-label={`${pr.openBtn} ${selected.shortTitle}`}
                     className="rounded-lg p-1.5 transition-colors hover:bg-[#d6e4f7]"
                   >
                     <ArrowUpRight size={14} className="text-[#515154]" />
@@ -184,7 +183,7 @@ export function Projects() {
                         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                         className="h-8 w-8 rounded-full border-2 border-[#d6e4f7] border-t-[#0071e3]"
                       />
-                      <p className="text-sm text-[#6e6e73]">Cargando {selected.shortTitle}…</p>
+                      <p className="text-sm text-[#6e6e73]">{pr.loading(selected.shortTitle)}</p>
                     </div>
                   )}
                   <iframe
@@ -227,7 +226,7 @@ export function Projects() {
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 rounded-full bg-[#0071e3] px-4 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-[#0077ed]"
                       >
-                        Abrir <ArrowUpRight size={12} weight="bold" />
+                        {pr.openBtn} <ArrowUpRight size={12} weight="bold" />
                       </a>
                     </div>
                   </div>
@@ -235,12 +234,12 @@ export function Projects() {
                   {/* Tech stack */}
                   <div className="mt-4 flex items-center gap-2">
                     <Code size={12} className="text-[#6e6e73]" />
-                    {selected.tech.map((t) => (
+                    {selected.tech.map((tech) => (
                       <span
-                        key={t}
+                        key={tech}
                         className="rounded border border-[#d6e4f7] bg-white px-2 py-0.5 text-xs text-[#515154]"
                       >
-                        {t}
+                        {tech}
                       </span>
                     ))}
                   </div>
@@ -256,7 +255,7 @@ export function Projects() {
             href="/casos"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-[#0071e3] hover:underline"
           >
-            Ver caso de estudio completo <ArrowRight size={15} weight="bold" />
+            {pr.caseStudyLink} <ArrowRight size={15} weight="bold" />
           </Link>
         </div>
 
@@ -269,10 +268,8 @@ export function Projects() {
           className="mt-20 flex flex-col items-center justify-between gap-6 rounded-3xl border border-[#d6e4f7] bg-white p-8 sm:flex-row"
         >
           <div>
-            <h3 className="mb-1 text-xl font-bold text-[#1d1d1f]">¿Busca un proyecto así?</h3>
-            <p className="text-sm text-[#515154]">
-              Cuéntenos su idea — la primera conversación es gratis.
-            </p>
+            <h3 className="mb-1 text-xl font-bold text-[#1d1d1f]">{pr.ctaTitle}</h3>
+            <p className="text-sm text-[#515154]">{pr.ctaSubtitle}</p>
           </div>
           <a
             href="https://wa.me/593963608530?text=Hola%20Pierre,%20vi%20tus%20proyectos%20y%20me%20interesa%20trabajar%20contigo"
@@ -280,7 +277,7 @@ export function Projects() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-[#0071e3] px-8 py-4 font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-[#0077ed] hover:shadow-lg hover:shadow-[#0071e3]/25"
           >
-            Empezar un proyecto →
+            {pr.ctaBtn}
           </a>
         </motion.div>
       </div>

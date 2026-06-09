@@ -13,15 +13,12 @@ import {
   UsersThree,
 } from "@phosphor-icons/react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { SERVICES } from "@/lib/constants";
 import { staggerContainer, fadeUp, inViewOnce } from "@/lib/animations";
+import { useLang } from "@/lib/LanguageContext";
 
 const HEADER_ICONS = { Browsers, Globe, Wrench };
-
-// One icon per channel in service 2 (matches the order of its features).
 const CHANNEL_ICONS = [MapPin, WhatsappLogo, Calendar, ChatCircle, UsersThree];
 
-/* Decorative corner glow — radial gradient (no blur filter → cheap on mobile). */
 function Glow({ color = "var(--accent-muted)", className = "" }: { color?: string; className?: string }) {
   return (
     <div
@@ -32,11 +29,9 @@ function Glow({ color = "var(--accent-muted)", className = "" }: { color?: strin
   );
 }
 
-/* Featured-service visual: a polished mini website, pure JSX (no images). */
 function WebPreview() {
   return (
     <div className="w-full overflow-hidden rounded-2xl border border-border bg-white shadow-xl">
-      {/* browser chrome */}
       <div className="flex items-center gap-1.5 border-b border-border bg-card px-3 py-2.5">
         <span className="h-2.5 w-2.5 rounded-full bg-accent/40" />
         <span className="h-2.5 w-2.5 rounded-full bg-accent-success/50" />
@@ -45,8 +40,6 @@ function WebPreview() {
           tu-marca.com
         </span>
       </div>
-
-      {/* mini site */}
       <div className="p-4">
         <div className="mb-4 flex items-center justify-between">
           <span className="text-[11px] font-bold tracking-tight text-foreground">Marca</span>
@@ -56,7 +49,6 @@ function WebPreview() {
             ))}
           </div>
         </div>
-
         <div className="rounded-xl bg-gradient-to-br from-accent/10 via-card to-card p-4">
           <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-accent">Premium</span>
           <div className="mt-2 h-2.5 w-3/4 rounded-full bg-foreground/80" />
@@ -66,7 +58,6 @@ function WebPreview() {
             <span className="h-5 w-14 rounded-full border border-border" />
           </div>
         </div>
-
         <div className="mt-3 grid grid-cols-3 gap-2">
           {[0, 1, 2].map((i) => (
             <div key={i} className="rounded-lg border border-border bg-background p-2">
@@ -82,7 +73,8 @@ function WebPreview() {
 }
 
 export function Services() {
-  const [s1, s2, s3] = SERVICES;
+  const { t } = useLang();
+  const [s1, s2, s3] = t.services.items;
   const Icon1 = HEADER_ICONS[s1.icon as keyof typeof HEADER_ICONS];
   const Icon2 = HEADER_ICONS[s2.icon as keyof typeof HEADER_ICONS];
   const Icon3 = HEADER_ICONS[s3.icon as keyof typeof HEADER_ICONS];
@@ -90,9 +82,9 @@ export function Services() {
   return (
     <section id="servicios" className="mx-auto max-w-[1400px] px-6 py-24 md:py-32 lg:px-10">
       <SectionHeading
-        eyebrow="Qué hacemos"
-        title="Todo lo que un negocio necesita para vender online"
-        subtitle="Desde la web hasta la presencia digital completa. Nos encargamos de lo técnico para que el negocio se enfoque en crecer."
+        eyebrow={t.services.eyebrow}
+        title={t.services.title}
+        subtitle={t.services.subtitle}
       />
 
       <motion.div
@@ -114,7 +106,7 @@ export function Services() {
                 <Icon1 size={24} weight="duotone" />
               </span>
               <span className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                01 · Servicio
+                {t.services.serviceBadge(1)}
               </span>
             </div>
             <h3 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl">{s1.title}</h3>
@@ -135,7 +127,7 @@ export function Services() {
 
         {/* ── Services 02 & 03 ── */}
         <motion.div variants={staggerContainer} className="grid gap-5 md:grid-cols-2">
-          {/* Service 02 — presencia digital */}
+          {/* Service 02 */}
           <motion.article
             variants={fadeUp}
             className="group relative overflow-hidden rounded-[2rem] border border-border bg-card p-7 transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/[0.04] md:p-8"
@@ -147,7 +139,7 @@ export function Services() {
                   <Icon2 size={24} weight="duotone" />
                 </span>
                 <span className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                  02 · Servicio
+                  {t.services.serviceBadge(2)}
                 </span>
               </div>
               <h3 className="text-xl font-bold tracking-tight text-foreground">{s2.title}</h3>
@@ -168,7 +160,7 @@ export function Services() {
             </div>
           </motion.article>
 
-          {/* Service 03 — mantenimiento (acento verde + precio) */}
+          {/* Service 03 */}
           <motion.article
             variants={fadeUp}
             className="group relative overflow-hidden rounded-[2rem] border border-border bg-card p-7 transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/[0.04] md:p-8"
@@ -184,7 +176,7 @@ export function Services() {
                     <Icon3 size={24} weight="duotone" />
                   </span>
                   <span className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                    03 · Servicio
+                    {t.services.serviceBadge(3)}
                   </span>
                 </div>
                 <span className="rounded-full bg-accent-success px-3 py-1 text-sm font-bold text-white">

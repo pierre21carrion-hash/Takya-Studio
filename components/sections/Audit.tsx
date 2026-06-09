@@ -3,11 +3,14 @@
 import { motion } from "framer-motion";
 import { Check, ArrowRight } from "@phosphor-icons/react";
 import { MeshGradient } from "@/components/animations/MeshGradient";
-import { AUDIT_ITEMS } from "@/lib/constants";
 import { fadeUp, staggerContainer, inViewOnce } from "@/lib/animations";
 import { whatsappUrl } from "@/lib/utils";
+import { useLang } from "@/lib/LanguageContext";
 
 export function Audit() {
+  const { t } = useLang();
+  const a = t.audit;
+
   return (
     <section className="mx-auto max-w-[1400px] px-6 py-12 lg:px-10">
       <div className="relative overflow-hidden rounded-[2.5rem] bg-zinc-950 px-8 py-16 md:px-16 md:py-20">
@@ -24,23 +27,23 @@ export function Audit() {
             variants={fadeUp}
             className="text-xs font-medium uppercase tracking-[0.2em] text-accent-light"
           >
-            Gratis · Sin compromiso
+            {a.badge}
           </motion.span>
           <motion.h2
             variants={fadeUp}
             className="mt-4 text-4xl font-bold leading-[1.05] tracking-tighter text-white md:text-5xl"
           >
-            Auditoría gratuita de la web actual
+            {a.title}
           </motion.h2>
           <motion.p variants={fadeUp} className="mt-4 text-lg leading-relaxed text-zinc-400">
-            Revisamos el sitio e indicamos exactamente qué mejorar para vender más. Sin tecnicismos.
+            {a.description}
           </motion.p>
 
           <motion.ul
             variants={staggerContainer}
             className="mx-auto mt-10 grid max-w-xl grid-cols-1 gap-3 text-left sm:grid-cols-2"
           >
-            {AUDIT_ITEMS.map((item) => (
+            {a.items.map((item) => (
               <motion.li
                 key={item}
                 variants={fadeUp}
@@ -61,11 +64,9 @@ export function Audit() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-medium text-white transition-colors hover:bg-accent-dark"
             >
-              Solicitar mi auditoría gratis <ArrowRight size={18} weight="bold" />
+              {a.cta} <ArrowRight size={18} weight="bold" />
             </a>
-            <p className="mt-4 text-sm text-zinc-500">
-              Respuesta en menos de 24h · Gratis · Sin presión
-            </p>
+            <p className="mt-4 text-sm text-zinc-500">{a.disclaimer}</p>
           </motion.div>
         </motion.div>
       </div>

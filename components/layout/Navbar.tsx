@@ -3,13 +3,32 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { List, X, Sparkle } from "@phosphor-icons/react";
-import { NAV_LINKS, SITE_CONFIG } from "@/lib/constants";
+import Link from "next/link";
+import { SITE_CONFIG } from "@/lib/constants";
 import { whatsappUrl } from "@/lib/utils";
 import { cn } from "@/lib/utils";
+import { useLang } from "@/lib/LanguageContext";
+
+function LangToggle() {
+  const { lang, toggleLang } = useLang();
+  return (
+    <button
+      type="button"
+      onClick={toggleLang}
+      aria-label="Switch language / Cambiar idioma"
+      className="flex items-center gap-1 rounded-full border border-border px-2.5 py-1.5 text-xs font-medium transition-colors hover:border-foreground/30"
+    >
+      <span className={lang === "es" ? "text-foreground" : "text-muted"}>ES</span>
+      <span className="text-border">·</span>
+      <span className={lang === "en" ? "text-foreground" : "text-muted"}>EN</span>
+    </button>
+  );
+}
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { t } = useLang();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -36,7 +55,7 @@ export function Navbar() {
         </a>
 
         <ul className="hidden items-center gap-8 md:flex">
-          {NAV_LINKS.map(({ label, href }) => (
+          {t.nav.links.map(({ label, href }) => (
             <li key={href}>
               <a
                 href={href}
@@ -49,18 +68,26 @@ export function Navbar() {
         </ul>
 
         <div className="flex items-center gap-2">
+          <LangToggle />
+          <Link
+            href="/login"
+            className="hidden items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm font-medium text-muted transition-colors hover:border-foreground/30 hover:text-foreground sm:inline-flex"
+          >
+            <span className="text-xs opacity-60">⬡</span>
+            Iniciar sesión
+          </Link>
           <a
             href={whatsappUrl("Hola Pierre, quiero mi web")}
             target="_blank"
             rel="noopener noreferrer"
             className="hidden rounded-full bg-accent px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-dark sm:inline-block"
           >
-            Empezar
+            {t.nav.cta}
           </a>
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            aria-label={open ? "Cerrar menú" : "Abrir menú"}
+            aria-label={open ? t.nav.close : t.nav.open}
             className="rounded-full border border-border p-2 text-foreground md:hidden"
           >
             {open ? <X size={18} /> : <List size={18} />}
@@ -77,7 +104,7 @@ export function Navbar() {
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="glass mx-auto mt-2 flex max-w-5xl flex-col gap-1 rounded-3xl p-4 md:hidden"
           >
-            {NAV_LINKS.map(({ label, href }) => (
+            {t.nav.links.map(({ label, href }) => (
               <a
                 key={href}
                 href={href}
@@ -94,8 +121,18 @@ export function Navbar() {
               onClick={() => setOpen(false)}
               className="mt-1 rounded-full bg-accent px-5 py-3 text-center text-sm font-medium text-white"
             >
-              Empezar proyecto
+              {t.nav.ctaMobile}
             </a>
+            <div className="border-t border-border/40 mt-2 pt-2">
+              <Link
+                href="/login"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2 rounded-2xl px-4 py-3 text-sm font-medium text-muted transition-colors hover:bg-accent-muted"
+              >
+                <span className="text-xs opacity-60">⬡</span>
+                Iniciar sesión
+              </Link>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

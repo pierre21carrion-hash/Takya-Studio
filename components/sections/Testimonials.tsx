@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Star } from "@phosphor-icons/react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { staggerContainer, fadeUp, inViewOnce } from "@/lib/animations";
+import { useLang } from "@/lib/LanguageContext";
 
 const TESTIMONIOS = [
   {
@@ -56,17 +57,19 @@ const TESTIMONIOS = [
   },
 ];
 
-// Solid avatar colors keyed by index (no images → no broken assets / Unsplash).
 const AVATAR_COLORS = ["#0071e3", "#34c759", "#ff9500", "#af52de", "#ff2d55", "#5856d6"];
 
 export function Testimonials() {
+  const { t } = useLang();
+  const tm = t.testimonials;
+
   return (
     <section className="bg-[#f0f4fb] px-4 py-24 md:px-8">
       <div className="mx-auto max-w-6xl">
         <SectionHeading
-          eyebrow="Testimonios"
-          title="Lo que dicen nuestros clientes"
-          subtitle="Negocios reales de toda Latinoamérica que ya tienen su web con Takya."
+          eyebrow={tm.eyebrow}
+          title={tm.title}
+          subtitle={tm.subtitle}
         />
 
         <motion.div
@@ -76,25 +79,25 @@ export function Testimonials() {
           viewport={inViewOnce}
           className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {TESTIMONIOS.map((t, i) => (
+          {TESTIMONIOS.map((item, i) => (
             <motion.figure
-              key={t.nombre}
+              key={item.nombre}
               variants={fadeUp}
               className="flex flex-col rounded-3xl border border-[#d6e4f7] bg-white p-6"
             >
               <div className="mb-4 flex items-center gap-3">
-                <div className="flex gap-0.5" aria-label={`${t.rating} de 5 estrellas`}>
-                  {Array.from({ length: t.rating }).map((_, s) => (
+                <div className="flex gap-0.5" aria-label={tm.starsLabel(item.rating)}>
+                  {Array.from({ length: item.rating }).map((_, s) => (
                     <Star key={s} size={15} weight="fill" className="text-[#ff9500]" />
                   ))}
                 </div>
                 <span className="rounded-full bg-[#0071e3]/10 px-2.5 py-0.5 text-xs font-medium text-[#0071e3]">
-                  {t.negocio}
+                  {item.negocio}
                 </span>
               </div>
 
               <blockquote className="flex-1 text-[15px] leading-relaxed text-[#1d1d1f]">
-                “{t.texto}”
+                &ldquo;{item.texto}&rdquo;
               </blockquote>
 
               <figcaption className="mt-6 flex items-center gap-3">
@@ -103,11 +106,11 @@ export function Testimonials() {
                   style={{ backgroundColor: AVATAR_COLORS[i % AVATAR_COLORS.length] }}
                   aria-hidden="true"
                 >
-                  {t.nombre.charAt(0)}
+                  {item.nombre.charAt(0)}
                 </span>
                 <div>
-                  <p className="text-sm font-semibold text-[#1d1d1f]">{t.nombre}</p>
-                  <p className="text-xs text-[#6e6e73]">{t.ciudad}</p>
+                  <p className="text-sm font-semibold text-[#1d1d1f]">{item.nombre}</p>
+                  <p className="text-xs text-[#6e6e73]">{item.ciudad}</p>
                 </div>
               </figcaption>
             </motion.figure>

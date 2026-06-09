@@ -9,7 +9,7 @@ interface ButtonProps {
   children: React.ReactNode;
   href?: string;
   onClick?: () => void;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "ghost";
   size?: "md" | "lg";
   className?: string;
   /** Opens an external link in a new tab (used for WhatsApp). */
@@ -55,6 +55,8 @@ export function Button({
     size === "lg" ? "px-8 py-4 text-base" : "px-6 py-3 text-sm",
     variant === "primary"
       ? "bg-accent text-white shadow-[0_8px_24px_var(--shadow-accent)] hover:bg-accent-dark"
+      : variant === "ghost"
+      ? "border border-white/30 bg-transparent text-white hover:bg-white/10 hover:border-white/50"
       : "border border-border bg-card text-foreground hover:border-accent/40 hover:text-accent-dark",
     className,
   );

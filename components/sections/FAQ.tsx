@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus } from "@phosphor-icons/react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { FAQ_ITEMS } from "@/lib/constants";
+import { useLang } from "@/lib/LanguageContext";
 
 function FaqRow({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
@@ -44,15 +44,16 @@ function FaqRow({ question, answer }: { question: string; answer: string }) {
 }
 
 export function FAQ() {
+  const { t } = useLang();
   return (
     <section id="faq" className="mx-auto max-w-3xl px-6 py-24 md:py-32">
       <SectionHeading
         align="center"
-        eyebrow="Preguntas frecuentes"
-        title="Todo lo que hay que saber"
+        eyebrow={t.faq.eyebrow}
+        title={t.faq.title}
       />
       <div className="mt-12">
-        {FAQ_ITEMS.map((item) => (
+        {t.faq.items.map((item) => (
           <FaqRow key={item.question} {...item} />
         ))}
       </div>

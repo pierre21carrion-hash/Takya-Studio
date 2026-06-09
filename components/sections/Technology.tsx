@@ -2,10 +2,13 @@
 
 import { motion } from "framer-motion";
 import { Counter } from "@/components/ui/Counter";
-import { STATS, TECH_STACK } from "@/lib/constants";
+import { TECH_STACK } from "@/lib/constants";
 import { fadeUp, staggerContainer, inViewOnce } from "@/lib/animations";
+import { useLang } from "@/lib/LanguageContext";
 
 export function Technology() {
+  const { t } = useLang();
+
   return (
     <section className="relative overflow-hidden border-y border-border bg-card py-24 md:py-32">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
@@ -17,7 +20,7 @@ export function Technology() {
           viewport={inViewOnce}
           className="grid grid-cols-2 gap-8 md:grid-cols-4"
         >
-          {STATS.map((stat) => (
+          {t.technology.stats.map((stat) => (
             <motion.div key={stat.label} variants={fadeUp} className="flex flex-col gap-2">
               <span className="text-4xl font-bold tracking-tighter text-foreground md:text-5xl">
                 <Counter
@@ -34,7 +37,7 @@ export function Technology() {
         {/* Tech stack */}
         <div className="mt-20 text-center">
           <p className="mb-8 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
-            Construido con tecnología de punta
+            {t.technology.label}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             {TECH_STACK.map((tech, i) => (

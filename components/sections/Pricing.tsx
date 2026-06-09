@@ -6,11 +6,23 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Check, X, Star } from "@phosphor-icons/react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Badge } from "@/components/ui/Badge";
-import { PLANS, type Plan } from "@/lib/constants";
+import { PLANS } from "@/lib/constants";
 import { fadeUp, staggerContainer, inViewOnce } from "@/lib/animations";
 import { cn, whatsappUrl, formatPrice } from "@/lib/utils";
+import { useLang } from "@/lib/LanguageContext";
 
-function PriceCard({ plan }: { plan: Plan }) {
+interface TranslatedPlan {
+  name: string;
+  description: string;
+  features: { text: string; included: boolean }[];
+  cta: string;
+}
+
+function PriceCard({ plan, tPlan, popularBadge }: {
+  plan: typeof PLANS[number];
+  tPlan: TranslatedPlan;
+  popularBadge: string;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
@@ -23,10 +35,7 @@ function PriceCard({ plan }: { plan: Plan }) {
     mx.set((e.clientX - rect.left) / rect.width - 0.5);
     my.set((e.clientY - rect.top) / rect.height - 0.5);
   };
-  const reset = () => {
-    mx.set(0);
-    my.set(0);
-  };
+  const reset = () => { mx.set(0); my.set(0); };
 
   return (
     <motion.div
@@ -45,13 +54,13 @@ function PriceCard({ plan }: { plan: Plan }) {
       {plan.popular && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
           <Badge pulse className="border-accent/30 bg-accent text-white">
-            <Star size={12} weight="fill" /> Más popular
+            <Star size={12} weight="fill" /> {popularBadge}
           </Badge>
         </div>
       )}
 
-      <h3 className="text-lg font-semibold tracking-tight">{plan.name}</h3>
-      <p className="mt-1 text-sm text-muted">{plan.description}</p>
+      <h3 className="text-lg font-semibold tracking-tight">{tPlan.name}</h3>
+      <p className="mt-1 text-sm text-muted">{tPlan.description}</p>
 
       <div className="mt-6 flex items-end gap-1">
         <span className="text-5xl font-bold tracking-tighter">{formatPrice(plan.price)}</span>
@@ -69,11 +78,11 @@ function PriceCard({ plan }: { plan: Plan }) {
             : "border border-border text-foreground hover:border-accent/40 hover:text-accent-dark",
         )}
       >
-        {plan.cta}
+        {tPlan.cta}
       </a>
 
       <ul className="mt-8 flex flex-col gap-3">
-        {plan.features.map((feat) => (
+        {tPlan.features.map((feat) => (
           <li
             key={feat.text}
             className={cn(
@@ -95,13 +104,16 @@ function PriceCard({ plan }: { plan: Plan }) {
 }
 
 export function Pricing() {
+  const { t } = useLang();
+  const pr = t.pricing;
+
   return (
     <section id="precios" className="mx-auto max-w-[1400px] px-6 py-24 md:py-32 lg:px-10">
       <SectionHeading
         align="center"
-        eyebrow="Precios transparentes"
-        title="Planes a la medida de cada negocio"
-        subtitle="Sin costos ocultos, sin contratos largos. El plan se ajusta a la etapa de cada negocio y escala cuando haga falta."
+        eyebrow={pr.eyebrow}
+        title={pr.title}
+        subtitle={pr.subtitle}
       />
 
       <motion.div
@@ -111,26 +123,31 @@ export function Pricing() {
         viewport={inViewOnce}
         className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8"
       >
-        {PLANS.map((plan) => (
-          <PriceCard key={plan.name} plan={plan} />
+        {PLANS.map((plan, i) => (
+          <PriceCard
+            key={plan.name}
+            plan={plan}
+            tPlan={pr.plans[i]}
+            popularBadge={pr.popularBadge}
+          />
         ))}
       </motion.div>
 
       <p className="mx-auto mt-8 max-w-xl text-center text-xs text-muted-foreground">
-        El dominio no está incluido en ningún plan: se cotiza aparte.
+        {pr.disclaimer1}
         <br />
-        Mantenimiento mensual disponible por $49/mes en cualquier plan.
+        {pr.disclaimer2}
       </p>
 
       <p className="mt-4 text-center text-sm text-muted">
-        ¿No está seguro cuál elegir?{" "}
+        {pr.notSure}{" "}
         <a
           href={whatsappUrl("Hola Pierre, necesito ayuda para elegir un plan")}
           target="_blank"
           rel="noopener noreferrer"
           className="font-medium text-accent-dark underline-offset-4 hover:underline"
         >
-          Agende una consulta gratuita →
+          {pr.consultLink}
         </a>
       </p>
 
@@ -139,7 +156,7 @@ export function Pricing() {
           href="/calculadora"
           className="font-medium text-accent underline-offset-4 hover:underline"
         >
-          ¿No sabe qué plan necesita? Calcule su precio estimado →
+          {pr.calcLink}
         </Link>
       </p>
     </section>

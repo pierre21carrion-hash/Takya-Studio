@@ -7,6 +7,7 @@ import { FloatingInput, FloatingSelect } from "@/components/ui/Input";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SITE_CONFIG } from "@/lib/constants";
 import { whatsappUrl } from "@/lib/utils";
+import { useLang } from "@/lib/LanguageContext";
 
 type State = "idle" | "loading" | "success" | "error";
 
@@ -20,33 +21,22 @@ type Errors = Partial<Record<keyof Fields, string>>;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// Web3Forms access key — entrega cada envío a takya.studio@gmail.com.
-// Es seguro exponerla en el cliente: solo permite enviar correos a la dirección
-// configurada en Web3Forms (no da acceso a nada). Reemplazar por la key real.
-const WEB3FORMS_KEY = "REEMPLAZAR_CON_ACCESS_KEY";
-
-const BUSINESS_TYPES = [
-  { value: "emprendimiento", label: "Emprendimiento personal" },
-  { value: "empresa", label: "Empresa / Startup" },
-  { value: "freelance", label: "Freelance / Consultor" },
-  { value: "ecommerce", label: "E-commerce / Tienda" },
-  { value: "infoproducto", label: "Infoproducto / Curso" },
-  { value: "otro", label: "Otro" },
-];
-
-function validate(f: Fields): Errors {
-  const e: Errors = {};
-  if (!f.nombre.trim()) e.nombre = "Escriba su nombre.";
-  if (!EMAIL_RE.test(f.email.trim())) e.email = "Email no válido.";
-  if (f.whatsapp.replace(/\D/g, "").length < 7) e.whatsapp = "WhatsApp no válido.";
-  if (!f.negocio) e.negocio = "Elija una opción.";
-  return e;
-}
-
 export function Contact() {
+  const { t } = useLang();
+  const c = t.contact;
+
   const [state, setState] = useState<State>("idle");
   const [errors, setErrors] = useState<Errors>({});
   const [fields, setFields] = useState<Fields>({ nombre: "", email: "", whatsapp: "", negocio: "" });
+
+  function validate(f: Fields): Errors {
+    const e: Errors = {};
+    if (!f.nombre.trim()) e.nombre = c.errors.nombre;
+    if (!EMAIL_RE.test(f.email.trim())) e.email = c.errors.email;
+    if (f.whatsapp.replace(/\D/g, "").length < 7) e.whatsapp = c.errors.whatsapp;
+    if (!f.negocio) e.negocio = c.errors.negocio;
+    return e;
+  }
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -62,34 +52,17 @@ export function Contact() {
       return;
     }
     setState("loading");
-    const label = BUSINESS_TYPES.find((b) => b.value === fields.negocio)?.label ?? fields.negocio;
+    const label = c.businessTypes.find((b) => b.value === fields.negocio)?.label ?? fields.negocio;
 
-    // Sin la access key configurada: no rompemos el formulario, abrimos WhatsApp.
-    if (!WEB3FORMS_KEY || WEB3FORMS_KEY === "REEMPLAZAR_CON_ACCESS_KEY") {
-      const msg =
-        `Hola Pierre, soy ${fields.nombre.trim()}. ` +
-        `Quiero una web para mi ${label.toLowerCase()}. ` +
-        `Mi correo es ${fields.email.trim()} y mi WhatsApp ${fields.whatsapp.trim()}.`;
-      await new Promise((r) => setTimeout(r, 700));
-      window.open(whatsappUrl(msg), "_blank", "noopener,noreferrer");
-      setState("success");
-      return;
-    }
-
-    // Envío del registro al correo (Web3Forms → takya.studio@gmail.com).
     try {
-      const res = await fetch("https://api.web3forms.com/submit", {
+      const res = await fetch("/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          access_key: WEB3FORMS_KEY,
-          subject: `Nuevo cliente desde Takya — ${fields.nombre.trim()}`,
-          from_name: "Takya · Formulario web",
-          Nombre: fields.nombre.trim(),
-          Email: fields.email.trim(),
-          WhatsApp: fields.whatsapp.trim(),
-          "Tipo de negocio": label,
-          botcheck: "",
+          nombre: fields.nombre.trim(),
+          email: fields.email.trim(),
+          whatsapp: fields.whatsapp.trim(),
+          negocio: label,
         }),
       });
       const data: { success?: boolean } = await res.json();
@@ -105,9 +78,9 @@ export function Contact() {
         {/* Left — form */}
         <div>
           <SectionHeading
-            eyebrow="Hablemos"
-            title="Cuéntenos su idea"
-            subtitle="Respondemos por WhatsApp en menos de 2 horas. Sin compromiso."
+            eyebrow={c.eyebrow}
+            title={c.title}
+            subtitle={c.subtitle}
           />
 
           <div className="mt-8">
@@ -120,10 +93,8 @@ export function Contact() {
                   className="flex flex-col items-center rounded-[2rem] border border-accent/20 bg-accent-muted p-12 text-center"
                 >
                   <CheckCircle size={48} weight="fill" className="text-accent" />
-                  <h3 className="mt-4 text-2xl font-semibold tracking-tight">¡Mensaje recibido!</h3>
-                  <p className="mt-2 max-w-sm text-muted">
-                    Gracias. Revisamos la solicitud y le respondemos en menos de 2 horas.
-                  </p>
+                  <h3 className="mt-4 text-2xl font-semibold tracking-tight">{c.successTitle}</h3>
+                  <p className="mt-2 max-w-sm text-muted">{c.successMsg}</p>
                 </motion.div>
               ) : (
                 <motion.form
@@ -134,15 +105,15 @@ export function Contact() {
                 >
                   {state === "error" && (
                     <p role="alert" className="rounded-2xl border border-red-200 bg-red-50 p-3 text-sm text-red-600">
-                      No se pudo enviar la solicitud. Inténtelo de nuevo o escríbanos por WhatsApp.
+                      {c.errorMsg}
                     </p>
                   )}
-                  <FloatingInput id="nombre" name="nombre" label="Nombre completo" value={fields.nombre} onChange={onChange} error={errors.nombre} disabled={state === "loading"} />
-                  <FloatingInput id="email" name="email" type="email" label="Email" value={fields.email} onChange={onChange} error={errors.email} disabled={state === "loading"} />
-                  <FloatingInput id="whatsapp" name="whatsapp" type="tel" label="WhatsApp de contacto" value={fields.whatsapp} onChange={onChange} error={errors.whatsapp} disabled={state === "loading"} />
-                  <FloatingSelect id="negocio" name="negocio" label="Tipo de negocio" value={fields.negocio} onChange={onChange} error={errors.negocio} disabled={state === "loading"}>
+                  <FloatingInput id="nombre" name="nombre" label={c.fields.nombre} value={fields.nombre} onChange={onChange} error={errors.nombre} disabled={state === "loading"} />
+                  <FloatingInput id="email" name="email" type="email" label={c.fields.email} value={fields.email} onChange={onChange} error={errors.email} disabled={state === "loading"} />
+                  <FloatingInput id="whatsapp" name="whatsapp" type="tel" label={c.fields.whatsapp} value={fields.whatsapp} onChange={onChange} error={errors.whatsapp} disabled={state === "loading"} />
+                  <FloatingSelect id="negocio" name="negocio" label={c.fields.negocio} value={fields.negocio} onChange={onChange} error={errors.negocio} disabled={state === "loading"}>
                     <option value="" disabled />
-                    {BUSINESS_TYPES.map((b) => (
+                    {c.businessTypes.map((b) => (
                       <option key={b.value} value={b.value}>
                         {b.label}
                       </option>
@@ -157,11 +128,11 @@ export function Contact() {
                   >
                     {state === "loading" ? (
                       <>
-                        <CircleNotch size={18} className="animate-spin" weight="bold" /> Enviando…
+                        <CircleNotch size={18} className="animate-spin" weight="bold" /> {c.submitLoading}
                       </>
                     ) : (
                       <>
-                        <WhatsappLogo size={18} weight="fill" /> Enviar por WhatsApp
+                        <WhatsappLogo size={18} weight="fill" /> {c.submitIdle}
                       </>
                     )}
                   </motion.button>
@@ -173,11 +144,11 @@ export function Contact() {
 
         {/* Right — contact info */}
         <div className="flex flex-col justify-center gap-5 rounded-[2rem] border border-border bg-card p-8 md:p-10">
-          <h3 className="text-xl font-semibold tracking-tight">Contacto directo</h3>
+          <h3 className="text-xl font-semibold tracking-tight">{c.directContact}</h3>
           {[
             { Icon: WhatsappLogo, label: "WhatsApp", value: SITE_CONFIG.phone, href: whatsappUrl("Hola Pierre, quiero más información") },
             { Icon: EnvelopeSimple, label: "Email", value: SITE_CONFIG.email, href: `mailto:${SITE_CONFIG.email}` },
-            { Icon: Clock, label: "Horario", value: SITE_CONFIG.hours },
+            { Icon: Clock, label: c.hoursLabel, value: SITE_CONFIG.hours },
           ].map(({ Icon, label, value, href }) => (
             <div key={label} className="flex items-center gap-4">
               <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-muted text-accent">
