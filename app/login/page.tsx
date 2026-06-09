@@ -3,7 +3,7 @@ import { Suspense } from 'react'
 import { LoginClient } from './LoginClient'
 
 export const metadata: Metadata = {
-  title: 'Acceso equipo — Takya Studio',
+  title: 'Acceso equipo — Nixo Studio',
   robots: { index: false, follow: false },
 }
 
