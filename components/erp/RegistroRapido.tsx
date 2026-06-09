@@ -25,6 +25,15 @@ const CATEGORIAS_GASTO = [
   { value: 'otro',               label: '📦  Otro' },
 ]
 const METODOS_PAGO = ['Transferencia', 'Efectivo', 'Tarjeta', 'Stripe', 'MercadoPago']
+const METODOS_PAGO_ICONS: Record<string, string> = {
+  Transferencia: '🏦', Efectivo: '💵', Tarjeta: '💳', Stripe: '🌐', MercadoPago: '📱',
+}
+const SUGERENCIAS_VENTA = [
+  { label: 'Plan Inicio',   descripcion: 'Plan Inicio · Web 5 secciones',         monto: 149 },
+  { label: 'Plan Escala',   descripcion: 'Plan Escala · Web 10 secciones + blog',  monto: 299 },
+  { label: 'Plan Dominio',  descripcion: 'Plan Dominio · Web completa + CRM',      monto: 349 },
+  { label: 'Mantenimiento', descripcion: 'Mantenimiento mensual',                   monto: 49  },
+]
 const DIAS_ES = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado']
 const MESES_ES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
 
@@ -37,8 +46,10 @@ function headerHoy() {
 
 // ─── Sheet (bottom sheet on mobile, centered modal on desktop) ───────────────
 
-function Sheet({ open, onClose, title, children }: {
-  open: boolean; onClose: () => void; title: string; children: React.ReactNode
+function Sheet({ open, onClose, title, icon, iconColor, children }: {
+  open: boolean; onClose: () => void; title: string
+  icon?: string; iconColor?: string
+  children: React.ReactNode
 }) {
   useEffect(() => {
     const h = (e: KeyboardEvent) => { if (e.key === 'Escape' && open) onClose() }
@@ -56,15 +67,25 @@ function Sheet({ open, onClose, title, children }: {
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
       <div
-        className="w-full md:max-w-[520px] rounded-t-2xl md:rounded-2xl overflow-hidden"
+        className="w-full md:max-w-[480px] rounded-t-2xl md:rounded-2xl overflow-hidden"
         style={{ background: 'var(--card)', maxHeight: '92vh', overflowY: 'auto' }}
       >
-        <div className="flex items-center justify-between px-5 pt-5 pb-3">
-          <div className="text-lg font-black" style={{ color: 'var(--text)', fontFamily: 'var(--font-ui)' }}>{title}</div>
+        {/* Header */}
+        <div className="flex items-center gap-3 px-5 pt-6 pb-4">
+          {icon && (
+            <div
+              className="w-9 h-9 rounded-xl flex items-center justify-center text-base flex-shrink-0"
+              style={{ background: iconColor ? `${iconColor}18` : 'var(--card2)', color: iconColor ?? 'var(--text)' }}
+            >
+              {icon}
+            </div>
+          )}
+          <div className="flex-1 text-lg font-semibold" style={{ color: 'var(--text)', fontFamily: 'var(--font-ui)' }}>{title}</div>
           <button
             onClick={onClose}
-            className="w-7 h-7 flex items-center justify-center rounded-lg border text-sm font-mono cursor-pointer"
+            className="w-8 h-8 flex items-center justify-center rounded-xl border text-sm cursor-pointer transition-colors flex-shrink-0"
             style={{ background: 'var(--card2)', borderColor: 'var(--border)', color: 'var(--text3)' }}
+            aria-label="Cerrar"
           >✕</button>
         </div>
         <div className="px-5 pb-6">{children}</div>
@@ -218,17 +239,23 @@ export function RegistroRapido({ registrosHoy, resumenSemana, alertas, ultimoGas
   const [vMetodo, setVMetodo] = useState('Transferencia')
   const [vNotasOpen, setVNotasOpen] = useState(false)
   const [vLoadng, setVLoading] = useState(false)
+  const [vDone, setVDone] = useState(false)
+  const [vChip, setVChip] = useState<string | null>(null)
 
   function resetVenta() {
     setVCliente(''); setVDesc(''); setVMonto(''); setVMontoErr(false)
     setVFecha(today()); setVEstado('pagado'); setVMetodo('Transferencia')
-    setVNotasOpen(false)
+    setVNotasOpen(false); setVChip(null); setVDone(false)
   }
 
   async function handleVenta(e: React.FormEvent) {
     e.preventDefault()
     const monto = parseFloat(vMonto)
     if (!monto || monto <= 0) { setVMontoErr(true); return }
+    // Flash "✓ Registrado" before closing
+    setVDone(true)
+    await new Promise(r => setTimeout(r, 500))
+    setVDone(false)
     setVLoading(true)
     const tempId = `tmp_${Date.now()}`
     const hora = new Date().toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' })
@@ -497,8 +524,16 @@ export function RegistroRapido({ registrosHoy, resumenSemana, alertas, ultimoGas
       </div>
 
       {/* ── MODAL: NUEVA VENTA ─────────────────────────────────────────────── */}
-      <Sheet open={modal === 'venta'} onClose={() => { setModal(null); resetVenta() }} title="Nueva Venta">
+      <Sheet
+        open={modal === 'venta'}
+        onClose={() => { setModal(null); resetVenta() }}
+        title="Nueva Venta"
+        icon="↑"
+        iconColor="#16a34a"
+      >
         <form onSubmit={handleVenta} className="flex flex-col gap-3">
+
+          {/* Cliente */}
           <Field label="Cliente *">
             <ClienteInput
               value={vCliente}
@@ -507,31 +542,71 @@ export function RegistroRapido({ registrosHoy, resumenSemana, alertas, ultimoGas
             />
           </Field>
 
-          <Field label="Descripción del servicio *">
-            <Input
-              value={vDesc} onChange={e => setVDesc(e.target.value)}
-              placeholder="Plan Escala · Web 10 secciones + blog"
-              tabIndex={2} required
-            />
-          </Field>
+          {/* Descripción + chips */}
+          <div className="flex flex-col gap-2">
+            <Field label="Descripción del servicio *">
+              <Input
+                value={vDesc}
+                onChange={e => { setVDesc(e.target.value); setVChip(null) }}
+                placeholder="Plan Escala · Web 10 secciones + blog"
+                tabIndex={2}
+                required
+              />
+            </Field>
+            <div className="flex flex-wrap gap-1.5">
+              {SUGERENCIAS_VENTA.map(s => {
+                const sel = vChip === s.label
+                return (
+                  <button
+                    key={s.label}
+                    type="button"
+                    onClick={() => { setVDesc(s.descripcion); setVMonto(String(s.monto)); setVChip(s.label); setVMontoErr(false) }}
+                    className="px-2.5 py-1 rounded-full text-xs font-medium cursor-pointer border transition-all"
+                    style={{
+                      background: sel ? 'rgba(37,99,235,.1)' : 'var(--card2)',
+                      borderColor: sel ? '#2563EB' : 'var(--border)',
+                      color: sel ? '#2563EB' : 'var(--text3)',
+                      fontFamily: 'var(--font-ui)',
+                    }}
+                  >
+                    {s.label} <span style={{ opacity: 0.6 }}>${s.monto}</span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
 
+          {/* Monto */}
           <Field label="Monto *">
             <div className="relative">
-              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-mono" style={{ color: 'var(--text3)' }}>$</span>
-              <Input
+              <span
+                className="absolute left-4 top-1/2 -translate-y-1/2 font-mono font-semibold"
+                style={{ color: 'var(--text3)', fontSize: 16 }}
+              >$</span>
+              <input
                 value={vMonto}
-                onChange={e => { setVMonto(e.target.value); setVMontoErr(false) }}
+                onChange={e => { setVMonto(e.target.value); setVMontoErr(false); setVChip(null) }}
                 onBlur={() => { if (!vMonto || parseFloat(vMonto) <= 0) setVMontoErr(true) }}
                 onKeyDown={e => { if (e.key === 'Enter') e.currentTarget.form?.requestSubmit() }}
                 type="number" inputMode="decimal" min="0" step="0.01"
-                placeholder="299" className="pl-8"
-                style={{ borderColor: vMontoErr ? '#DC2626' : undefined }}
+                placeholder="0"
                 tabIndex={3}
+                className="w-full bg-[var(--card)] border rounded-xl outline-none transition-all focus:shadow-[0_0_0_3px_var(--g-dim)] placeholder:text-[var(--text4)]"
+                style={{
+                  paddingLeft: 28, paddingRight: 16, paddingTop: 10, paddingBottom: 10,
+                  fontSize: 22, fontFamily: 'var(--font-mono)', fontWeight: 700,
+                  borderColor: vMontoErr ? '#DC2626' : vMonto && parseFloat(vMonto) > 0 ? '#16a34a' : 'var(--border2)',
+                  color: 'var(--text)',
+                }}
               />
             </div>
-            {vMontoErr && <p className="text-xs" style={{ color: '#DC2626' }}>Ingresa un monto mayor a $0</p>}
+            {vMontoErr && <p className="text-xs mt-0.5" style={{ color: '#DC2626' }}>Ingresa un monto mayor a $0</p>}
           </Field>
 
+          {/* Separador */}
+          <div style={{ borderTop: '1px solid var(--border)', margin: '2px 0' }} />
+
+          {/* Fecha + Estado */}
           <div className="grid grid-cols-2 gap-3">
             <Field label="Fecha">
               <Input type="date" value={vFecha} onChange={e => setVFecha(e.target.value)} max={today()} tabIndex={4} />
@@ -541,29 +616,37 @@ export function RegistroRapido({ registrosHoy, resumenSemana, alertas, ultimoGas
                 {(['pagado', 'pendiente'] as const).map(s => (
                   <button
                     key={s} type="button"
-                    className="flex-1 py-2.5 text-sm font-semibold cursor-pointer border-none transition-all"
+                    className="flex-1 py-2.5 text-xs font-bold cursor-pointer border-none transition-all"
                     style={{
-                      background: vEstado === s ? (s === 'pagado' ? 'rgba(0,194,122,.15)' : 'rgba(234,179,8,.12)') : 'var(--card)',
-                      color: vEstado === s ? (s === 'pagado' ? '#00C27A' : '#CA8A04') : 'var(--text3)',
+                      background: vEstado === s
+                        ? s === 'pagado' ? 'rgba(22,163,74,.15)' : 'rgba(202,138,4,.12)'
+                        : 'var(--card)',
+                      color: vEstado === s
+                        ? s === 'pagado' ? '#16a34a' : '#92400E'
+                        : 'var(--text3)',
                       fontFamily: 'var(--font-ui)',
                     }}
                     onClick={() => setVEstado(s)}
                   >
-                    {s === 'pagado' ? '✅ Pagado' : '⏳ Pendiente'}
+                    {s === 'pagado' ? '✓ Pagado' : '⏳ Pendiente'}
                   </button>
                 ))}
               </div>
             </Field>
           </div>
 
+          {/* Método de pago */}
           {vEstado === 'pagado' && (
             <Field label="Método de pago">
               <Select value={vMetodo} onChange={e => setVMetodo(e.target.value)} tabIndex={5}>
-                {METODOS_PAGO.map(m => <option key={m} value={m}>{m}</option>)}
+                {METODOS_PAGO.map(m => (
+                  <option key={m} value={m}>{METODOS_PAGO_ICONS[m]} {m}</option>
+                ))}
               </Select>
             </Field>
           )}
 
+          {/* Nota opcional */}
           {!vNotasOpen ? (
             <button type="button" onClick={() => setVNotasOpen(true)}
               className="text-left text-xs cursor-pointer border-none bg-transparent"
@@ -572,13 +655,32 @@ export function RegistroRapido({ registrosHoy, resumenSemana, alertas, ultimoGas
             </button>
           ) : (
             <Field label="Notas opcionales">
-              <Textarea placeholder="Detalles adicionales..." rows={2} />
+              <Textarea
+                placeholder="Ej: Cliente pidió factura, paga en 2 partes..."
+                rows={2}
+                style={{ borderStyle: 'dashed' }}
+              />
             </Field>
           )}
 
-          <Button type="submit" loading={vLoadng} className="mt-1 w-full" style={{ minHeight: 48 }}>
-            Registrar venta →
-          </Button>
+          {/* Submit */}
+          <button
+            type="submit"
+            disabled={vLoadng || vDone}
+            className="w-full flex items-center justify-center gap-2 rounded-xl font-bold cursor-pointer border-none transition-all mt-1"
+            style={{
+              minHeight: 48,
+              background: vDone ? '#16a34a' : 'var(--g)',
+              color: '#fff',
+              fontSize: 15,
+              fontFamily: 'var(--font-ui)',
+              boxShadow: '0 4px 14px rgba(0,194,122,.35)',
+              transform: vDone ? 'none' : undefined,
+              opacity: vLoadng && !vDone ? 0.7 : 1,
+            }}
+          >
+            {vDone ? '✓ Registrado' : vLoadng ? '...' : 'Registrar venta →'}
+          </button>
         </form>
       </Sheet>
 
