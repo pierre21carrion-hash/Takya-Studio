@@ -25,7 +25,7 @@ export function LoginClient() {
     setLoading(false)
 
     if (authError) {
-      setError('Credenciales incorrectas. Verifica tu email y contraseña.')
+      setError('Supabase error: ' + authError.message + ' [' + authError.status + ']')
       return
     }
 
