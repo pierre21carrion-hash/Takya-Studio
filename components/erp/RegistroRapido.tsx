@@ -67,7 +67,7 @@ function Sheet({ open, onClose, title, icon, iconColor, children, footer }: {
         background: 'rgba(0,0,0,.55)',
         overflowY: 'auto',
         alignItems: 'flex-start',
-        padding: '1rem',
+        padding: '72px 1rem 1rem',
       }}
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
