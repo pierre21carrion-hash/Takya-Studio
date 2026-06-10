@@ -39,7 +39,7 @@ export function Hero() {
         aria-hidden="true"
         className="absolute inset-0"
         style={{
-          background: "linear-gradient(100deg, rgba(0,8,20,0.82) 0%, rgba(0,8,20,0.55) 55%, rgba(0,8,20,0.25) 100%)",
+          background: "linear-gradient(100deg, rgba(0,8,20,0.60) 0%, rgba(0,8,20,0.35) 55%, rgba(0,8,20,0.10) 100%)",
         }}
       />
 
