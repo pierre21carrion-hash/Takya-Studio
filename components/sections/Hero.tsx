@@ -51,7 +51,7 @@ export function Hero() {
         aria-hidden="true"
         className="absolute inset-0"
         style={{
-          background: "linear-gradient(100deg, rgba(0,8,20,0.88) 0%, rgba(0,8,20,0.75) 50%, rgba(0,8,20,0.45) 100%)",
+          background: "linear-gradient(100deg, rgba(0,8,20,0.82) 0%, rgba(0,8,20,0.55) 55%, rgba(0,8,20,0.25) 100%)",
         }}
       />
 
