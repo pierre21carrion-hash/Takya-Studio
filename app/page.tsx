@@ -1,6 +1,7 @@
 import { Hero } from "@/components/sections/Hero";
 import EcuadorSection from "@/components/landing/EcuadorSection";
 import { Services } from "@/components/sections/Services";
+import { Industrias } from "@/components/sections/Industrias";
 import { Process } from "@/components/sections/Process";
 import { Technology } from "@/components/sections/Technology";
 import { Pricing } from "@/components/sections/Pricing";
@@ -18,6 +19,7 @@ export default function Home() {
       <Hero />
       <EcuadorSection />
       <Services />
+      <Industrias />
       <Process />
       <Technology />
       <Pricing />
