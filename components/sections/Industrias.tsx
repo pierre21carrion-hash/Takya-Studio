@@ -7,7 +7,7 @@ import { fadeUp, staggerContainer, inViewOnce } from "@/lib/animations";
 
 export function Industrias() {
   return (
-    <section className="bg-[#F5F4F1] border-y border-border px-6 py-20 md:py-28 lg:px-10">
+    <section className="bg-card border-y border-border px-6 py-20 md:py-28 lg:px-10">
       <div className="mx-auto max-w-[1400px]">
 
         {/* Header */}
