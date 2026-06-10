@@ -50,9 +50,13 @@ export async function crearUsuario(data: {
     cargo: data.cargo,
     rol: data.rol,
     color: data.color,
-    celular: data.celular ?? null,
   })
   if (profileError) return { error: profileError.message }
+
+  // celular es opcional — si la columna no existe en el schema se ignora
+  if (data.celular) {
+    await admin.from('users').update({ celular: data.celular }).eq('id', authData.user.id)
+  }
 
   revalidatePath('/dashboard/equipo')
   return { success: true }
@@ -74,10 +78,14 @@ export async function editarUsuario(userId: string, data: {
     cargo: data.cargo,
     rol: data.rol,
     color: data.color,
-    celular: data.celular ?? null,
   }).eq('id', userId)
 
   if (error) return { error: error.message }
+
+  // celular es opcional — si la columna no existe se ignora silenciosamente
+  if (data.celular !== undefined) {
+    await admin.from('users').update({ celular: data.celular }).eq('id', userId)
+  }
 
   revalidatePath('/dashboard/equipo')
   return { success: true }
