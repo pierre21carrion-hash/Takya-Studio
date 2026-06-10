@@ -2,6 +2,16 @@
 
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
+
+async function assertCeo() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'No autenticado' }
+  const { data: profile } = await supabase.from('users').select('rol').eq('id', user.id).single()
+  if (profile?.rol !== 'ceo') return { error: 'Solo el CEO puede gestionar el equipo' }
+  return { ok: true }
+}
 
 export async function getUsers() {
   const supabase = await createClient()
@@ -12,43 +22,73 @@ export async function getUsers() {
   return data ?? []
 }
 
-export async function crearUsuario(formData: FormData) {
-  const supabase = await createClient()
+export async function crearUsuario(data: {
+  nombre: string
+  email: string
+  password: string
+  cargo: string
+  rol: string
+  celular?: string
+  color: string
+}) {
+  const check = await assertCeo()
+  if ('error' in check) return check
 
-  const nombre = formData.get('nombre') as string
-  const email = formData.get('email') as string
-  const password = formData.get('password') as string
-  const cargo = formData.get('cargo') as string
-  const rol = formData.get('rol') as string
-  const salario = parseFloat(formData.get('salario') as string) || 0
-  const horas_meta = parseInt(formData.get('horas_meta') as string) || 40
-  const color = formData.get('color') as string
+  const admin = createAdminClient()
 
-  if (!nombre || !email || !password) return { error: 'Completa nombre, email y contraseña' }
-
-  const { data: authData, error: authError } = await supabase.auth.admin.createUser({
-    email,
-    password,
+  const { data: authData, error: authError } = await admin.auth.admin.createUser({
+    email: data.email,
+    password: data.password,
     email_confirm: true,
   })
-
   if (authError) return { error: authError.message }
 
-  const { error: profileError } = await supabase.from('users').insert({
+  const { error: profileError } = await admin.from('users').insert({
     id: authData.user.id,
-    nombre, email, cargo, rol, salario, horas_meta, color,
+    nombre: data.nombre,
+    email: data.email,
+    cargo: data.cargo,
+    rol: data.rol,
+    color: data.color,
+    celular: data.celular ?? null,
   })
-
   if (profileError) return { error: profileError.message }
 
   revalidatePath('/dashboard/equipo')
   return { success: true }
 }
 
-export async function eliminarUsuario(userId: string) {
-  const supabase = await createClient()
+export async function editarUsuario(userId: string, data: {
+  nombre: string
+  cargo: string
+  rol: string
+  color: string
+  celular?: string
+}) {
+  const check = await assertCeo()
+  if ('error' in check) return check
 
-  const { error } = await supabase.auth.admin.deleteUser(userId)
+  const admin = createAdminClient()
+  const { error } = await admin.from('users').update({
+    nombre: data.nombre,
+    cargo: data.cargo,
+    rol: data.rol,
+    color: data.color,
+    celular: data.celular ?? null,
+  }).eq('id', userId)
+
+  if (error) return { error: error.message }
+
+  revalidatePath('/dashboard/equipo')
+  return { success: true }
+}
+
+export async function eliminarUsuario(userId: string) {
+  const check = await assertCeo()
+  if ('error' in check) return check
+
+  const admin = createAdminClient()
+  const { error } = await admin.auth.admin.deleteUser(userId)
   if (error) return { error: error.message }
 
   revalidatePath('/dashboard/equipo')
