@@ -1,4 +1,5 @@
 import { Hero } from "@/components/sections/Hero";
+import EcuadorSection from "@/components/landing/EcuadorSection";
 import { Services } from "@/components/sections/Services";
 import { Process } from "@/components/sections/Process";
 import { Technology } from "@/components/sections/Technology";
@@ -15,6 +16,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <EcuadorSection />
       <Services />
       <Process />
       <Technology />
