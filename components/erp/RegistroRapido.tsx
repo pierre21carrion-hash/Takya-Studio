@@ -62,15 +62,21 @@ function Sheet({ open, onClose, title, icon, iconColor, children, footer }: {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center"
-      style={{ background: 'rgba(0,0,0,.55)' }}
+      className="fixed inset-0 z-50 flex justify-center"
+      style={{
+        background: 'rgba(0,0,0,.55)',
+        overflowY: 'auto',
+        alignItems: 'flex-start',
+        padding: '1rem',
+      }}
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
       <div
-        className="relative w-full md:max-w-[480px] md:mx-4 rounded-t-2xl md:rounded-2xl md:shadow-2xl flex flex-col"
-        style={{ background: 'var(--card)', maxHeight: '90dvh', overflow: 'hidden' }}
+        className="relative w-full md:max-w-[480px] md:mx-4 rounded-2xl md:shadow-2xl flex flex-col"
+        style={{ background: 'var(--card)', margin: 'auto' }}
+        onClick={e => e.stopPropagation()}
       >
-        {/* Header — fixed, never scrolls */}
+        {/* Header */}
         <div
           className="flex-shrink-0 flex items-center justify-between px-6 py-4 border-b"
           style={{ borderColor: 'var(--border)' }}
@@ -94,12 +100,12 @@ function Sheet({ open, onClose, title, icon, iconColor, children, footer }: {
           >✕</button>
         </div>
 
-        {/* Body — only this scrolls */}
-        <div className="overflow-y-auto flex-1 min-h-0 px-6 py-5">
+        {/* Body */}
+        <div className="px-6 py-5">
           {children}
         </div>
 
-        {/* Footer — fixed, never scrolls (only rendered if provided) */}
+        {/* Footer */}
         {footer && (
           <div className="flex-shrink-0 px-6 py-4 border-t" style={{ borderColor: 'var(--border)' }}>
             {footer}
