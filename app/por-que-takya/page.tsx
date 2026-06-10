@@ -1,18 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ecuadorStats, ecuadorNichos } from "@/data/ecuador-stats";
-import ChartWrapper from "@/components/charts/ChartWrapper";
-import dynamic from "next/dynamic";
-
-const SurvivalChart     = dynamic(() => import("@/components/charts/SurvivalChart"),     { ssr: false });
-const MotivationChart   = dynamic(() => import("@/components/charts/MotivationChart"),   { ssr: false });
-const BreachesChart     = dynamic(() => import("@/components/charts/BreachesChart"),     { ssr: false });
-const ClosureChart      = dynamic(() => import("@/components/charts/ClosureChart"),      { ssr: false });
-const CompanySizeChart  = dynamic(() => import("@/components/charts/CompanySizeChart"),  { ssr: false });
-const CompoundGrowthChart = dynamic(() => import("@/components/charts/CompoundGrowthChart"), { ssr: false });
-const ImpactChart       = dynamic(() => import("@/components/charts/ImpactChart"),       { ssr: false });
-const SectorLeakChart   = dynamic(() => import("@/components/charts/SectorLeakChart"),   { ssr: false });
-const BarriersChart     = dynamic(() => import("@/components/charts/BarriersChart"),     { ssr: false });
+import { Chart1, Chart2, Chart3, Chart4, Chart5, Chart6, Chart7, Chart8, Chart9 } from "@/components/charts/ChartsSection";
 
 export const metadata: Metadata = {
   title: "¿Por qué Takya? — El problema real de los negocios en Ecuador",
@@ -98,12 +87,7 @@ export default function PorQueTakya() {
             casi a la mitad en un año. El promedio latinoamericano es 7.44%. Ecuador está por debajo.
             No es una tendencia: es una emergencia silenciosa.
           </p>
-          <ChartWrapper
-            title="Negocios establecidos >42 meses — Ecuador vs LATAM"
-            source="GEM Ecuador 2024 (UEES) · GEM 2025–2026 (ESPAE-ESPOL)"
-          >
-            <SurvivalChart />
-          </ChartWrapper>
+          <Chart1 />
         </div>
 
         {/* ARG 2 */}
@@ -118,12 +102,7 @@ export default function PorQueTakya() {
             emprendedores ecuatorianos lo hacen por oportunidad detectada. El resto construye sobre
             necesidad — y sin estructura, la mayoría no sobrevive el tercer año.
           </p>
-          <ChartWrapper
-            title="Motivación para emprender — Ecuador 2025"
-            source="GEM Ecuador 2025–2026 · ESPAE-ESPOL"
-          >
-            <MotivationChart />
-          </ChartWrapper>
+          <Chart2 />
         </div>
 
         {/* ARG 3 */}
@@ -138,12 +117,7 @@ export default function PorQueTakya() {
             Más del 63% no tiene nadie dedicado a lo digital. Estas no son debilidades aisladas —
             son los mismos huecos que aparecen en cada negocio que cierra.
           </p>
-          <ChartWrapper
-            title="Brechas de gestión en microempresas ecuatorianas"
-            source="RFD Ecuador · Uniandes Episteme (n=181) · Horizon Intl. Journal 2025"
-          >
-            <BreachesChart />
-          </ChartWrapper>
+          <Chart3 />
         </div>
 
         {/* ARG 4 */}
@@ -158,12 +132,7 @@ export default function PorQueTakya() {
             Combinadas, estas dos causas representan el 52.6% de los cierres — y ambas se pueden
             intervenir con visibilidad financiera y control operativo a tiempo.
           </p>
-          <ChartWrapper
-            title="Causas declaradas de cierre de negocios — Ecuador"
-            source="GEM Ecuador 2024 · APS Survey"
-          >
-            <ClosureChart />
-          </ChartWrapper>
+          <Chart4 />
         </div>
 
         {/* ARG 5 */}
@@ -178,12 +147,7 @@ export default function PorQueTakya() {
             Las pequeñas cayeron 1.7%. Solo las empresas grandes crecieron (+0.3%). La brecha entre
             micro y grande se amplía cada año — y la diferencia principal es acceso a herramientas.
           </p>
-          <ChartWrapper
-            title="Variación de empresas activas por tamaño — Ecuador 2024"
-            source="INEC REEM 2024 (publicado oct. 2025)"
-          >
-            <CompanySizeChart />
-          </ChartWrapper>
+          <Chart5 />
         </div>
 
         {/* ARG 6 */}
@@ -198,12 +162,7 @@ export default function PorQueTakya() {
             No es magia — es eficiencia operativa compuesta. Mueve el slider para ver
             cómo esa diferencia se vuelve insuperable con el tiempo.
           </p>
-          <ChartWrapper
-            title="Efecto compuesto: digital vs no digital (base $10,000)"
-            source="CONCANACO-Servytur · 2º Estudio Digitalización Pymes 2025 (LATAM)"
-          >
-            <CompoundGrowthChart />
-          </ChartWrapper>
+          <Chart6 />
         </div>
 
         {/* ARG 7 */}
@@ -218,12 +177,7 @@ export default function PorQueTakya() {
             ventas fallidas. Retención de clientes que puede multiplicar ganancias hasta 95%.
             Estos no son casos de Silicon Valley — son estudios con negocios latinoamericanos.
           </p>
-          <ChartWrapper
-            title="Impacto medido de herramientas digitales en negocios LATAM"
-            source="Imperial College London · Bain & Company · AgendaPro LATAM · Datos clientes Takya"
-          >
-            <ImpactChart />
-          </ChartWrapper>
+          <Chart7 />
         </div>
 
         {/* ARG 8 */}
@@ -238,12 +192,7 @@ export default function PorQueTakya() {
             deserción silenciosa) equivale casi al margen neto del negocio. Eso significa que
             el negocio puede estar ocupado y aun así no sobrevivir. Selecciona tu sector.
           </p>
-          <ChartWrapper
-            title="Margen neto vs fuga evitable por sector — selecciona el tuyo"
-            source="Fudo · INIAP/INEC vía CEAP-ESPOL · AgendaPro · elaboración propia"
-          >
-            <SectorLeakChart />
-          </ChartWrapper>
+          <Chart8 />
         </div>
 
         {/* ARG 9 */}
@@ -258,12 +207,7 @@ export default function PorQueTakya() {
             Nadie les ha mostrado que existe una herramienta diseñada exactamente para lo que
             hacen, al precio que pueden pagar, sin curva de aprendizaje. Eso es Takya.
           </p>
-          <ChartWrapper
-            title="Barreras declaradas para no digitalizar — pymes Ecuador"
-            source="Horizon International Journal 2025 · GEM Ecuador 2025–2026"
-          >
-            <BarriersChart />
-          </ChartWrapper>
+          <Chart9 />
         </div>
 
         {/* NICHOS */}
