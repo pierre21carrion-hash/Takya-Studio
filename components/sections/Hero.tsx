@@ -2,25 +2,24 @@
 
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import type { Variants } from "framer-motion";
-import { ArrowRight, CheckCircle } from "@phosphor-icons/react";
+import { ArrowRight, CheckCircle, Lightning } from "@phosphor-icons/react";
 import { TextScramble } from "@/components/animations/TextScramble";
-import { fadeUp, staggerContainer, EASE_STANDARD } from "@/lib/animations";
+import { fadeUp, staggerContainer, inViewOnce } from "@/lib/animations";
 import { whatsappUrl } from "@/lib/utils";
 import { useLang } from "@/lib/LanguageContext";
-
-const stagger = staggerContainer;
+import type { Variants } from "framer-motion";
+import { EASE_STANDARD } from "@/lib/animations";
 
 const slideIn: Variants = {
-  hidden: { opacity: 0, x: 40 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: EASE_STANDARD, delay: 0.3 } },
+  hidden: { opacity: 0, x: 32 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.65, ease: EASE_STANDARD, delay: 0.25 } },
 };
 
 const STATS = [
-  { value: "98+", label: "PageSpeed Score", color: "#C8F04A" },
-  { value: "5d",  label: "Entrega promedio", color: "#C8F04A" },
-  { value: "$149", label: "Desde USD", color: "#C8F04A" },
-  { value: "50+", label: "Proyectos", color: "#C8F04A" },
+  { value: "98+",  label: "PageSpeed Score" },
+  { value: "5d",   label: "Entrega promedio" },
+  { value: "$149", label: "Desde USD" },
+  { value: "50+",  label: "Proyectos" },
 ];
 
 export function Hero() {
@@ -34,199 +33,161 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-[#181714]">
+    <section className="relative overflow-hidden bg-background">
 
-      {/* Video background — only right half visible via clip */}
-      <video
-        ref={videoRef}
-        autoPlay loop muted playsInline preload="auto"
-        className="absolute inset-0 h-full w-full object-cover hidden md:block"
-        style={{ zIndex: 0 }}
-      >
-        <source src="/takya-video-fondo.mp4" type="video/mp4" />
-      </video>
-
-      {/* Gradient: full cover on left, fades on right */}
+      {/* Subtle radial glow — bottom-right */}
       <div
-        className="absolute inset-0"
-        style={{
-          zIndex: 1,
-          background:
-            "linear-gradient(105deg, #181714 0%, #181714 45%, rgba(24,23,20,0.85) 62%, rgba(24,23,20,0.3) 100%)",
-        }}
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-40 -top-40 h-[680px] w-[680px] rounded-full"
+        style={{ background: "radial-gradient(circle, rgba(0,113,227,0.07) 0%, transparent 70%)" }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-20 -left-20 h-[400px] w-[400px] rounded-full"
+        style={{ background: "radial-gradient(circle, rgba(0,113,227,0.04) 0%, transparent 70%)" }}
       />
 
-      {/* Subtle grain texture */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.03]"
-        style={{ zIndex: 2, backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")" }}
-      />
+      <div className="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
+        <div className="grid lg:grid-cols-[1fr_400px] gap-10 xl:gap-16 items-center pt-28 pb-16 md:pt-36 md:pb-20 min-h-screen">
 
-      {/* Content */}
-      <div className="relative flex min-h-screen items-center" style={{ zIndex: 3 }}>
-        <div className="mx-auto w-full max-w-[1400px] px-6 lg:px-10">
-          <div className="grid lg:grid-cols-[1fr_420px] gap-12 items-center pt-28 pb-16 md:pt-36 md:pb-20">
-
-            {/* ── LEFT: Main copy ── */}
-            <motion.div
-              variants={stagger}
-              initial="hidden"
-              animate="visible"
-              className="max-w-[640px]"
-            >
-              {/* Eyebrow badge */}
-              <motion.div variants={fadeUp}>
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-[11px] font-semibold tracking-[0.08em] uppercase text-white/60">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#C8F04A] animate-pulsedot" />
-                  {h.badge}
-                </span>
-              </motion.div>
-
-              {/* Headline — very large, tracking-tighter */}
-              <motion.h1
-                variants={fadeUp}
-                className="mt-6 font-bold leading-[0.93] tracking-tighter text-white"
-                style={{ fontSize: "clamp(3rem, 7vw, 5.5rem)" }}
-              >
-                {h.h1Pre}{" "}
-                <span
-                  className="relative inline-block"
-                  style={{ color: "#C8F04A" }}
-                >
-                  <TextScramble text={h.h1Scramble} />
-                  {/* Underline accent */}
-                  <span
-                    className="absolute -bottom-1 left-0 right-0 h-[3px] rounded-full"
-                    style={{ background: "#C8F04A", opacity: 0.5 }}
-                  />
-                </span>
-                <br />
-                <span className="text-white/90">{h.h1Post}</span>
-              </motion.h1>
-
-              {/* Body */}
-              <motion.p
-                variants={fadeUp}
-                className="mt-6 max-w-[50ch] text-[1.05rem] leading-relaxed"
-                style={{ color: "rgba(255,255,255,0.55)" }}
-              >
-                {h.p}
-              </motion.p>
-
-              {/* CTAs */}
-              <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center gap-3">
-                <a
-                  href={whatsappUrl("Hola Pierre, quiero mi web")}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#C8F04A] px-6 py-3 text-sm font-bold text-[#181714] transition-all duration-200 hover:bg-[#d4f55e] hover:shadow-[0_0_24px_rgba(200,240,74,0.35)]"
-                >
-                  {h.cta}
-                  <ArrowRight size={16} weight="bold" />
-                </a>
-                <a
-                  href="#precios"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/15 px-6 py-3 text-sm font-medium text-white/70 transition-colors hover:border-white/30 hover:text-white"
-                >
-                  {h.ctaSecondary}
-                </a>
-              </motion.div>
-
-              {/* Trust badges */}
-              <motion.ul variants={stagger} className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
-                {h.badges.map((badge) => (
-                  <motion.li
-                    key={badge}
-                    variants={fadeUp}
-                    className="flex items-center gap-2 text-[13px]"
-                    style={{ color: "rgba(255,255,255,0.45)" }}
-                  >
-                    <CheckCircle size={15} weight="fill" style={{ color: "#C8F04A" }} />
-                    {badge}
-                  </motion.li>
-                ))}
-              </motion.ul>
+          {/* ── LEFT: Main copy ── */}
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+            className="max-w-[640px]"
+          >
+            {/* Eyebrow badge */}
+            <motion.div variants={fadeUp}>
+              <span className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent-muted px-3.5 py-1.5 text-[11px] font-semibold tracking-[0.07em] uppercase text-accent">
+                <Lightning size={13} weight="fill" />
+                {h.badge}
+              </span>
             </motion.div>
 
-            {/* ── RIGHT: Stats panel ── */}
-            <motion.div
-              variants={slideIn}
-              initial="hidden"
-              animate="visible"
-              className="hidden lg:grid grid-cols-2 gap-3"
+            {/* Headline */}
+            <motion.h1
+              variants={fadeUp}
+              className="mt-6 font-bold leading-[0.94] tracking-tighter text-foreground"
+              style={{ fontSize: "clamp(2.8rem, 6.5vw, 5rem)" }}
             >
+              {h.h1Pre}{" "}
+              <span className="text-accent">
+                <TextScramble text={h.h1Scramble} />
+              </span>
+              <br />
+              <span className="text-foreground">{h.h1Post}</span>
+            </motion.h1>
+
+            {/* Body */}
+            <motion.p
+              variants={fadeUp}
+              className="mt-5 max-w-[50ch] text-[1.05rem] leading-relaxed text-muted"
+            >
+              {h.p}
+            </motion.p>
+
+            {/* CTAs */}
+            <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center gap-3">
+              <a
+                href={whatsappUrl("Hola Pierre, quiero mi web")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-dark hover:shadow-lg hover:shadow-accent/20 hover:-translate-y-px"
+              >
+                {h.cta}
+                <ArrowRight size={16} weight="bold" />
+              </a>
+              <a
+                href="#precios"
+                className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-foreground/30 hover:bg-card"
+              >
+                {h.ctaSecondary}
+              </a>
+            </motion.div>
+
+            {/* Trust badges */}
+            <motion.ul variants={staggerContainer} className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
+              {h.badges.map((badge) => (
+                <motion.li
+                  key={badge}
+                  variants={fadeUp}
+                  className="flex items-center gap-2 text-[13px] text-muted"
+                >
+                  <CheckCircle size={15} weight="fill" className="text-accent" />
+                  {badge}
+                </motion.li>
+              ))}
+            </motion.ul>
+          </motion.div>
+
+          {/* ── RIGHT: Stats + process panel ── */}
+          <motion.div
+            variants={slideIn}
+            initial="hidden"
+            animate="visible"
+            className="hidden lg:flex flex-col gap-3"
+          >
+            {/* KPI grid */}
+            <div className="grid grid-cols-2 gap-3">
               {STATS.map((s, i) => (
                 <div
                   key={i}
-                  className="rounded-2xl p-5 flex flex-col gap-1"
-                  style={{
-                    background: "rgba(255,255,255,0.04)",
-                    border: "1px solid rgba(255,255,255,0.08)",
-                    backdropFilter: "blur(12px)",
-                  }}
+                  className="rounded-2xl border border-border bg-card p-5 flex flex-col gap-1"
+                  style={{ boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}
                 >
-                  <span
-                    className="text-4xl font-bold tracking-tighter leading-none"
-                    style={{ color: s.color }}
-                  >
+                  <span className="text-[2.4rem] font-bold tracking-tighter leading-none text-accent">
                     {s.value}
                   </span>
-                  <span className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.45)" }}>
-                    {s.label}
-                  </span>
+                  <span className="text-xs text-muted-foreground mt-1">{s.label}</span>
                 </div>
               ))}
+            </div>
 
-              {/* Process mini-steps */}
-              <div
-                className="col-span-2 rounded-2xl p-5"
-                style={{
-                  background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                }}
-              >
-                <p className="text-[10px] font-semibold tracking-[0.1em] uppercase mb-3" style={{ color: "rgba(255,255,255,0.3)" }}>
-                  Proceso · 5 días
-                </p>
-                <div className="flex items-center gap-0">
-                  {["Hablamos", "Diseñamos", "Ajustamos", "Publicamos"].map((step, i) => (
-                    <div key={i} className="flex items-center gap-0 flex-1">
-                      <div className="flex flex-col items-center gap-1 flex-1">
-                        <div
-                          className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold"
-                          style={{ background: i === 3 ? "#C8F04A" : "rgba(255,255,255,0.08)", color: i === 3 ? "#181714" : "rgba(255,255,255,0.5)" }}
-                        >
-                          {i + 1}
-                        </div>
-                        <span className="text-[10px] text-center" style={{ color: "rgba(255,255,255,0.4)" }}>
-                          {step}
-                        </span>
+            {/* Process mini-steps */}
+            <div
+              className="rounded-2xl border border-border bg-card p-5"
+              style={{ boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}
+            >
+              <p className="text-[10px] font-semibold tracking-[0.1em] uppercase text-muted-foreground mb-4">
+                Proceso · 5 días
+              </p>
+              <div className="flex items-center">
+                {["Hablamos", "Diseñamos", "Ajustamos", "Publicamos"].map((step, i) => (
+                  <div key={i} className="flex items-center flex-1">
+                    <div className="flex flex-col items-center gap-1.5 flex-1">
+                      <div
+                        className="w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold transition-colors"
+                        style={{
+                          background: i === 3 ? "var(--accent)" : "var(--card)",
+                          color: i === 3 ? "#fff" : "var(--muted)",
+                          border: `1.5px solid ${i === 3 ? "var(--accent)" : "var(--border)"}`,
+                        }}
+                      >
+                        {i + 1}
                       </div>
-                      {i < 3 && (
-                        <div className="h-px w-full mb-4" style={{ background: "rgba(255,255,255,0.1)" }} />
-                      )}
+                      <span className="text-[10px] text-center text-muted-foreground">{step}</span>
                     </div>
-                  ))}
-                </div>
+                    {i < 3 && (
+                      <div className="h-px flex-1 mb-5 mx-1" style={{ background: "var(--border)" }} />
+                    )}
+                  </div>
+                ))}
               </div>
+            </div>
 
-              {/* Ecuador note */}
-              <div
-                className="col-span-2 rounded-2xl px-4 py-3 flex items-center gap-3"
-                style={{
-                  background: "rgba(200,240,74,0.05)",
-                  border: "1px solid rgba(200,240,74,0.15)",
-                }}
-              >
-                <span className="text-lg">🇪🇨</span>
-                <p className="text-[11px] leading-snug" style={{ color: "rgba(255,255,255,0.45)" }}>
-                  Desde Quito para toda LATAM.<br />
-                  <span style={{ color: "rgba(200,240,74,0.8)" }}>100% en español · José & Pierre</span>
-                </p>
-              </div>
-            </motion.div>
+            {/* Ecuador origin note */}
+            <div
+              className="rounded-2xl border border-accent/15 bg-accent-muted px-4 py-3 flex items-center gap-3"
+            >
+              <span className="text-xl">🇪🇨</span>
+              <p className="text-[11px] leading-snug text-muted">
+                Desde Quito para toda LATAM.{" "}
+                <span className="text-accent font-medium">100% en español · José & Pierre</span>
+              </p>
+            </div>
+          </motion.div>
 
-          </div>
         </div>
       </div>
     </section>

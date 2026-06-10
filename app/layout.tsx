@@ -70,16 +70,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <MotionConfig reducedMotion="user">
           <LanguageProvider>
             {/* Announcement bar — fixed at top, z-60 so it sits above the floating Navbar (z-50) */}
-            <div className="fixed top-0 left-0 right-0 z-[60] w-full bg-[#181714] text-white py-2.5 text-center">
+            <div className="fixed top-0 left-0 right-0 z-[60] w-full bg-accent py-2.5 text-center">
               <Link href="/por-que-takya" className="inline-flex items-center gap-2 text-xs group">
-                <span className="text-[#C8F04A] font-semibold">
+                <span className="text-white font-semibold">
                   −100,000 empresas cerraron en Ecuador en 2024
                 </span>
                 <span className="text-white/60">—</span>
                 <span className="text-white/80">Por qué existe Takya</span>
                 <svg
                   width="12" height="12" viewBox="0 0 12 12" fill="none"
-                  className="group-hover:translate-x-0.5 transition-transform"
+                  className="group-hover:translate-x-0.5 transition-transform text-white"
                 >
                   <path
                     d="M2.5 6h7M7 3.5l2.5 2.5L7 8.5"
