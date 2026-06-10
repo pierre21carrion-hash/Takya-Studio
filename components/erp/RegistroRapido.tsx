@@ -258,6 +258,15 @@ export function RegistroRapido({ registrosHoy, resumenSemana, alertas, ultimoGas
   const [vDone, setVDone] = useState(false)
   const [vChip, setVChip] = useState<string | null>(null)
 
+  useEffect(() => {
+    if (modal !== 'venta') return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setModal(null); resetVenta() } }
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = '' }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modal])
+
   function resetVenta() {
     setVCliente(''); setVDesc(''); setVMonto(''); setVMontoErr(false)
     setVFecha(today()); setVEstado('pagado'); setVMetodo('Transferencia')
@@ -540,163 +549,211 @@ export function RegistroRapido({ registrosHoy, resumenSemana, alertas, ultimoGas
       </div>
 
       {/* ── MODAL: NUEVA VENTA ─────────────────────────────────────────────── */}
-      <Sheet
-        open={modal === 'venta'}
-        onClose={() => { setModal(null); resetVenta() }}
-        title="Nueva Venta"
-        icon="↑"
-        iconColor="#16a34a"
-        footer={
-          <button
-            type="submit"
-            form="form-venta"
-            disabled={vLoadng || vDone}
-            className="w-full flex items-center justify-center gap-2 rounded-xl font-bold cursor-pointer border-none transition-all"
-            style={{
-              minHeight: 48, background: vDone ? '#16a34a' : 'var(--g)', color: '#fff',
-              fontSize: 15, fontFamily: 'var(--font-ui)',
-              boxShadow: '0 4px 14px rgba(0,194,122,.35)',
-              opacity: vLoadng && !vDone ? 0.7 : 1,
-            }}
-          >
-            {vDone ? '✓ Registrado' : vLoadng ? '...' : 'Registrar venta →'}
-          </button>
-        }
-      >
-        <form id="form-venta" onSubmit={handleVenta} className="flex flex-col gap-3">
-
-          {/* Cliente */}
-          <Field label="Cliente *">
-            <ClienteInput
-              value={vCliente}
-              onChange={setVCliente}
-              onSelect={s => { setVCliente(s.cliente); if (!vDesc) setVDesc(s.ultimoServicio) }}
-            />
-          </Field>
-
-          {/* Descripción + chips */}
-          <div className="flex flex-col gap-2">
-            <Field label="Descripción del servicio *">
-              <Input
-                value={vDesc}
-                onChange={e => { setVDesc(e.target.value); setVChip(null) }}
-                placeholder="Plan Escala · Web 10 secciones + blog"
-                tabIndex={2}
-                required
-              />
-            </Field>
-            <div className="flex flex-wrap gap-1.5">
-              {SUGERENCIAS_VENTA.map(s => {
-                const sel = vChip === s.label
-                return (
-                  <button
-                    key={s.label}
-                    type="button"
-                    onClick={() => { setVDesc(s.descripcion); setVMonto(String(s.monto)); setVChip(s.label); setVMontoErr(false) }}
-                    className="px-2.5 py-1 rounded-full text-xs font-medium cursor-pointer border transition-all"
-                    style={{
-                      background: sel ? 'rgba(37,99,235,.1)' : 'var(--card2)',
-                      borderColor: sel ? '#2563EB' : 'var(--border)',
-                      color: sel ? '#2563EB' : 'var(--text3)',
-                      fontFamily: 'var(--font-ui)',
-                    }}
-                  >
-                    {s.label} · ${s.monto}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* Monto */}
-          <Field label="Monto *">
-            <div className="relative">
-              <span
-                className="absolute left-4 top-1/2 -translate-y-1/2 font-mono font-semibold"
-                style={{ color: 'var(--text3)', fontSize: 16 }}
-              >$</span>
-              <input
-                value={vMonto}
-                onChange={e => { setVMonto(e.target.value); setVMontoErr(false); setVChip(null) }}
-                onBlur={() => { if (!vMonto || parseFloat(vMonto) <= 0) setVMontoErr(true) }}
-                onKeyDown={e => { if (e.key === 'Enter') e.currentTarget.form?.requestSubmit() }}
-                type="number" inputMode="decimal" min="0" step="0.01"
-                placeholder="0.00"
-                tabIndex={3}
-                className="w-full bg-[var(--card)] border rounded-xl outline-none transition-all focus:shadow-[0_0_0_3px_var(--g-dim)] placeholder:text-[var(--text4)]"
-                style={{
-                  paddingLeft: 28, paddingRight: 16, paddingTop: 10, paddingBottom: 10,
-                  fontSize: 22, fontFamily: 'var(--font-mono)', fontWeight: 700,
-                  borderColor: vMontoErr ? '#DC2626' : vMonto && parseFloat(vMonto) > 0 ? '#16a34a' : 'var(--border2)',
-                  color: 'var(--text)',
-                }}
-              />
-            </div>
-            {vMontoErr && <p className="text-xs mt-0.5" style={{ color: '#DC2626' }}>Ingresa un monto mayor a $0</p>}
-          </Field>
-
-          {/* Separador */}
-          <div style={{ borderTop: '1px solid var(--border)', margin: '2px 0' }} />
-
-          {/* Fecha + Estado */}
-          <div className="grid grid-cols-2 gap-3">
-            <Field label="Fecha">
-              <Input type="date" value={vFecha} onChange={e => setVFecha(e.target.value)} max={today()} tabIndex={4} />
-            </Field>
-            <Field label="Estado">
-              <div className="flex rounded-xl overflow-hidden border" style={{ borderColor: 'var(--border2)' }}>
-                {(['pagado', 'pendiente'] as const).map(s => (
-                  <button
-                    key={s} type="button"
-                    className="flex-1 py-2.5 text-xs font-bold cursor-pointer border-none transition-all"
-                    style={{
-                      background: vEstado === s
-                        ? s === 'pagado' ? 'rgba(22,163,74,.15)' : 'rgba(202,138,4,.12)'
-                        : 'var(--card)',
-                      color: vEstado === s
-                        ? s === 'pagado' ? '#16a34a' : '#92400E'
-                        : 'var(--text3)',
-                      fontFamily: 'var(--font-ui)',
-                    }}
-                    onClick={() => setVEstado(s)}
-                  >
-                    {s === 'pagado' ? '✓ Pagado' : '⏳ Pendiente'}
-                  </button>
-                ))}
+      {modal === 'venta' && (
+        <div
+          style={{
+            position: 'fixed', inset: 0, zIndex: 50,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
+          }}
+          onClick={e => { if (e.target === e.currentTarget) { setModal(null); resetVenta() } }}
+        >
+          <div style={{
+            width: '100%', maxWidth: 480,
+            backgroundColor: 'var(--card)',
+            borderRadius: '16px 16px 0 0',
+            display: 'flex', flexDirection: 'column',
+            maxHeight: '90dvh',
+            boxShadow: '0 -4px 32px rgba(0,0,0,0.15)',
+          }}>
+            {/* HEADER */}
+            <div style={{
+              flexShrink: 0, display: 'flex', alignItems: 'center',
+              justifyContent: 'space-between', padding: '20px 24px 16px',
+              borderBottom: '1px solid var(--border)',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{
+                  width: 34, height: 34, background: 'rgba(22,163,74,.12)',
+                  borderRadius: 10, display: 'flex', alignItems: 'center',
+                  justifyContent: 'center', color: '#16a34a', fontSize: 16, fontWeight: 'bold',
+                }}>↑</div>
+                <span style={{ fontSize: 17, fontWeight: 600, color: 'var(--text)', fontFamily: 'var(--font-ui)' }}>
+                  Nueva Venta
+                </span>
               </div>
-            </Field>
+              <button
+                onClick={() => { setModal(null); resetVenta() }}
+                style={{
+                  width: 30, height: 30, borderRadius: '50%', background: 'var(--card2)',
+                  border: 'none', cursor: 'pointer', fontSize: 14, color: 'var(--text3)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}
+              >✕</button>
+            </div>
+
+            {/* BODY */}
+            <form
+              id="form-venta"
+              onSubmit={handleVenta}
+              style={{ flex: 1, overflowY: 'auto', padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: 16 }}
+            >
+              {/* Cliente */}
+              <Field label="Cliente *">
+                <ClienteInput
+                  value={vCliente}
+                  onChange={setVCliente}
+                  onSelect={s => { setVCliente(s.cliente); if (!vDesc) setVDesc(s.ultimoServicio) }}
+                />
+              </Field>
+
+              {/* Descripción + chips */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <Field label="Descripción del servicio *">
+                  <Input
+                    value={vDesc}
+                    onChange={e => { setVDesc(e.target.value); setVChip(null) }}
+                    placeholder="Plan Escala · Web 10 secciones + blog"
+                    tabIndex={2}
+                    required
+                  />
+                </Field>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                  {SUGERENCIAS_VENTA.map(s => {
+                    const sel = vChip === s.label
+                    return (
+                      <button
+                        key={s.label}
+                        type="button"
+                        onClick={() => { setVDesc(s.descripcion); setVMonto(String(s.monto)); setVChip(s.label); setVMontoErr(false) }}
+                        style={{
+                          padding: '4px 10px', borderRadius: 999, fontSize: 12, fontWeight: 500,
+                          cursor: 'pointer', border: `1px solid ${sel ? '#2563EB' : 'var(--border)'}`,
+                          background: sel ? 'rgba(37,99,235,.1)' : 'var(--card2)',
+                          color: sel ? '#2563EB' : 'var(--text3)',
+                          fontFamily: 'var(--font-ui)',
+                        }}
+                      >
+                        {s.label} · ${s.monto}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              {/* Monto */}
+              <Field label="Monto *">
+                <div style={{ position: 'relative' }}>
+                  <span style={{
+                    position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)',
+                    fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text3)', fontSize: 16,
+                  }}>$</span>
+                  <input
+                    value={vMonto}
+                    onChange={e => { setVMonto(e.target.value); setVMontoErr(false); setVChip(null) }}
+                    onBlur={() => { if (!vMonto || parseFloat(vMonto) <= 0) setVMontoErr(true) }}
+                    onKeyDown={e => { if (e.key === 'Enter') e.currentTarget.form?.requestSubmit() }}
+                    type="number" inputMode="decimal" min="0" step="0.01"
+                    placeholder="0.00"
+                    tabIndex={3}
+                    style={{
+                      width: '100%', paddingLeft: 28, paddingRight: 16, paddingTop: 10, paddingBottom: 10,
+                      fontSize: 22, fontFamily: 'var(--font-mono)', fontWeight: 700,
+                      borderColor: vMontoErr ? '#DC2626' : vMonto && parseFloat(vMonto) > 0 ? '#16a34a' : 'var(--border2)',
+                      color: 'var(--text)', background: 'var(--card)',
+                      border: `1px solid ${vMontoErr ? '#DC2626' : vMonto && parseFloat(vMonto) > 0 ? '#16a34a' : 'var(--border2)'}`,
+                      borderRadius: 12, outline: 'none', boxSizing: 'border-box',
+                    }}
+                  />
+                </div>
+                {vMontoErr && <p style={{ color: '#DC2626', fontSize: 12, marginTop: 2 }}>Ingresa un monto mayor a $0</p>}
+              </Field>
+
+              {/* Separador */}
+              <div style={{ borderTop: '1px solid var(--border)', margin: '2px 0' }} />
+
+              {/* Fecha + Estado */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <Field label="Fecha">
+                  <Input type="date" value={vFecha} onChange={e => setVFecha(e.target.value)} max={today()} tabIndex={4} />
+                </Field>
+                <Field label="Estado">
+                  <div style={{ display: 'flex', borderRadius: 12, overflow: 'hidden', border: `1px solid var(--border2)` }}>
+                    {(['pagado', 'pendiente'] as const).map(s => (
+                      <button
+                        key={s} type="button"
+                        style={{
+                          flex: 1, padding: '10px 0', fontSize: 12, fontWeight: 700,
+                          cursor: 'pointer', border: 'none',
+                          background: vEstado === s
+                            ? s === 'pagado' ? 'rgba(22,163,74,.15)' : 'rgba(202,138,4,.12)'
+                            : 'var(--card)',
+                          color: vEstado === s
+                            ? s === 'pagado' ? '#16a34a' : '#92400E'
+                            : 'var(--text3)',
+                          fontFamily: 'var(--font-ui)',
+                        }}
+                        onClick={() => setVEstado(s)}
+                      >
+                        {s === 'pagado' ? '✓ Pagado' : '⏳ Pendiente'}
+                      </button>
+                    ))}
+                  </div>
+                </Field>
+              </div>
+
+              {/* Método de pago */}
+              {vEstado === 'pagado' && (
+                <Field label="Método de pago">
+                  <Select value={vMetodo} onChange={e => setVMetodo(e.target.value)} tabIndex={5}>
+                    {METODOS_PAGO.map(m => (
+                      <option key={m} value={m}>{METODOS_PAGO_ICONS[m]} {m}</option>
+                    ))}
+                  </Select>
+                </Field>
+              )}
+
+              {/* Nota opcional */}
+              {!vNotasOpen ? (
+                <button
+                  type="button"
+                  onClick={() => setVNotasOpen(true)}
+                  style={{ textAlign: 'left', fontSize: 12, cursor: 'pointer', border: 'none', background: 'transparent', color: 'var(--text3)', fontFamily: 'var(--font-ui)' }}
+                >
+                  ＋ Añadir nota
+                </button>
+              ) : (
+                <Field label="Notas opcionales">
+                  <Textarea
+                    placeholder="Ej: Cliente pidió factura, paga en 2 partes..."
+                    rows={2}
+                    style={{ borderStyle: 'dashed' }}
+                  />
+                </Field>
+              )}
+            </form>
+
+            {/* FOOTER */}
+            <div style={{ flexShrink: 0, padding: '16px 24px', borderTop: '1px solid var(--border)' }}>
+              <button
+                type="submit"
+                form="form-venta"
+                disabled={vLoadng || vDone}
+                style={{
+                  width: '100%', minHeight: 48, background: vDone ? '#16a34a' : 'var(--g)',
+                  color: '#fff', border: 'none', borderRadius: 12, fontWeight: 700, fontSize: 15,
+                  cursor: 'pointer', fontFamily: 'var(--font-ui)',
+                  boxShadow: '0 4px 14px rgba(0,194,122,.35)',
+                  opacity: vLoadng && !vDone ? 0.7 : 1,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}
+              >
+                {vDone ? '✓ Registrado' : vLoadng ? '...' : 'Registrar venta →'}
+              </button>
+            </div>
           </div>
-
-          {/* Método de pago */}
-          {vEstado === 'pagado' && (
-            <Field label="Método de pago">
-              <Select value={vMetodo} onChange={e => setVMetodo(e.target.value)} tabIndex={5}>
-                {METODOS_PAGO.map(m => (
-                  <option key={m} value={m}>{METODOS_PAGO_ICONS[m]} {m}</option>
-                ))}
-              </Select>
-            </Field>
-          )}
-
-          {/* Nota opcional */}
-          {!vNotasOpen ? (
-            <button type="button" onClick={() => setVNotasOpen(true)}
-              className="text-left text-xs cursor-pointer border-none bg-transparent"
-              style={{ color: 'var(--text3)', fontFamily: 'var(--font-ui)' }}>
-              ＋ Añadir nota
-            </button>
-          ) : (
-            <Field label="Notas opcionales">
-              <Textarea
-                placeholder="Ej: Cliente pidió factura, paga en 2 partes..."
-                rows={2}
-                style={{ borderStyle: 'dashed' }}
-              />
-            </Field>
-          )}
-
-        </form>
-      </Sheet>
+        </div>
+      )}
 
       {/* ── MODAL: NUEVO GASTO ──────────────────────────────────────────────── */}
       <Sheet open={modal === 'gasto'} onClose={() => { setModal(null); resetGasto() }} title="Nuevo Gasto">
