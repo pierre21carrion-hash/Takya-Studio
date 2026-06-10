@@ -554,8 +554,8 @@ export function RegistroRapido({ registrosHoy, resumenSemana, alertas, ultimoGas
           style={{
             position: 'fixed', inset: 0, zIndex: 50,
             backgroundColor: 'rgba(0,0,0,0.5)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            padding: 16,
+            display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
+            padding: '10vh 16px 16px',
           }}
           onClick={e => { if (e.target === e.currentTarget) { setModal(null); resetVenta() } }}
         >
@@ -564,7 +564,7 @@ export function RegistroRapido({ registrosHoy, resumenSemana, alertas, ultimoGas
             backgroundColor: 'var(--card)',
             borderRadius: 16,
             display: 'flex', flexDirection: 'column',
-            maxHeight: '90dvh',
+            maxHeight: '80vh',
             overflow: 'hidden',
             boxShadow: '0 8px 40px rgba(0,0,0,0.18)',
           }}>
