@@ -554,17 +554,18 @@ export function RegistroRapido({ registrosHoy, resumenSemana, alertas, ultimoGas
           style={{
             position: 'fixed', inset: 0, zIndex: 50,
             backgroundColor: 'rgba(0,0,0,0.5)',
-            display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: 16,
           }}
           onClick={e => { if (e.target === e.currentTarget) { setModal(null); resetVenta() } }}
         >
           <div style={{
             width: '100%', maxWidth: 480,
             backgroundColor: 'var(--card)',
-            borderRadius: '16px 16px 0 0',
+            borderRadius: 16,
             display: 'flex', flexDirection: 'column',
             maxHeight: '90dvh',
-            boxShadow: '0 -4px 32px rgba(0,0,0,0.15)',
+            boxShadow: '0 8px 40px rgba(0,0,0,0.18)',
           }}>
             {/* HEADER */}
             <div style={{
