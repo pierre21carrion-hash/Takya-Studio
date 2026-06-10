@@ -21,15 +21,21 @@ interface Resultado {
 
 interface Props { historial: Estimado[] }
 
+const EXTRAS_CONFIG = [
+  { key: 'blog',            label: '📝 Blog integrado',          precio: 80  },
+  { key: 'ecommerce',       label: '🛒 E-commerce',              precio: 250 },
+  { key: 'animaciones',     label: '✨ Animaciones avanzadas',   precio: 120 },
+  { key: 'crm',             label: '📊 CRM básico',              precio: 180 },
+  { key: 'google_business', label: '📍 Google Business',         precio: 60  },
+  { key: 'citas',           label: '📅 Sistema de citas',        precio: 150 },
+]
+
 export function EstimadorClient({ historial }: Props) {
   const [step, setStep] = useState<'form' | 'loading' | 'result'>('form')
   const [resultado, setResultado] = useState<Resultado | null>(null)
-  const [streamText, setStreamText] = useState('')
-  const [savedId, setSavedId] = useState<string | null>(null)
   const { toast } = useToast()
   const router = useRouter()
 
-  // Form state
   const [form, setForm] = useState({
     cliente: '',
     tipo_negocio: '',
@@ -43,41 +49,85 @@ export function EstimadorClient({ historial }: Props) {
     plazo: '15 días',
   })
 
-  function buildPrompt() {
-    const extras = [
-      form.blog && 'blog integrado',
-      form.ecommerce && 'e-commerce / tienda online',
-      form.animaciones && 'animaciones avanzadas',
-      form.crm && 'CRM básico integrado',
-      form.google_business && 'optimización Google Business',
-      form.citas && 'sistema de citas / reservas',
-    ].filter(Boolean)
+  function calcularEstimado(): Resultado {
+    const secs = parseInt(form.secciones)
 
-    return `Eres un experto en proyectos digitales de Nixo Studio (agencia de diseño web en Quito, Ecuador).
+    // Plan selection
+    let plan: string
+    let precio_base: number
+    let entregables: string[]
 
-Analiza este requerimiento de cliente y genera una cotización estructurada:
+    if (secs > 10 || form.ecommerce || form.crm) {
+      plan = 'Plan Dominio'
+      precio_base = 349
+      entregables = [
+        'Diseño premium a medida',
+        'Secciones ilimitadas',
+        'SEO avanzado + sitemap',
+        'Google Analytics + Tag Manager',
+        'Velocidad y Core Web Vitals optimizados',
+        'Dominio .com 1 año',
+        'Hosting SSD premium 1 año',
+        'SSL gratuito',
+        'Mantenimiento 1 mes incluido',
+      ]
+    } else if (secs > 5 || form.blog || form.animaciones || form.google_business || form.citas) {
+      plan = 'Plan Escala'
+      precio_base = 299
+      entregables = [
+        'Diseño profesional',
+        `Hasta ${secs} secciones`,
+        'SEO básico',
+        'Formularios avanzados',
+        'Google Analytics',
+        'Dominio .com 1 año',
+        'Hosting SSD 1 año',
+        'SSL gratuito',
+      ]
+    } else {
+      plan = 'Plan Inicio'
+      precio_base = 149
+      entregables = [
+        'Diseño personalizado',
+        'Hasta 5 secciones',
+        'Formulario de contacto',
+        'Dominio .com 1 año',
+        'Hosting 1 año',
+        'SSL gratuito',
+      ]
+    }
 
-Cliente: ${form.cliente}
-Tipo de negocio: ${form.tipo_negocio}
-Secciones de la web: ${form.secciones}
-Funcionalidades extra: ${extras.length > 0 ? extras.join(', ') : 'ninguna'}
-Plazo deseado: ${form.plazo}
+    // Extras seleccionados
+    const extras: { nombre: string; precio: number }[] = EXTRAS_CONFIG
+      .filter(e => form[e.key as keyof typeof form])
+      .map(e => ({ nombre: e.label.replace(/^.{2}\s/, ''), precio: e.precio }))
 
-Nuestros planes base (con IVA incluido):
-- Plan Inicio: $149 — web informativa básica, hasta 5 secciones, hosting 1 año
-- Plan Escala: $299 — web profesional, hasta 10 secciones, SEO básico, formularios
-- Plan Dominio: $349 — web completa, ilimitadas secciones, SEO avanzado, analytics
+    const total = precio_base + extras.reduce((s, e) => s + e.precio, 0)
 
-Responde ÚNICAMENTE con este JSON (sin markdown, sin explicaciones):
-{
-  "plan": "Plan Inicio|Plan Escala|Plan Dominio",
-  "precio_base": 149,
-  "extras": [{"nombre": "E-commerce básico", "precio": 200}],
-  "total": 349,
-  "tiempo": "15 días hábiles",
-  "entregables": ["Diseño personalizado", "Dominio .com 1 año", "Hosting compartido 1 año"],
-  "mensaje_whatsapp": "Hola [nombre], te presento la propuesta para tu proyecto web..."
-}`
+    // Tiempo estimado
+    const baseDias = plan === 'Plan Inicio' ? 10 : plan === 'Plan Escala' ? 15 : 20
+    const extraDias = extras.length * 2
+    const tiempo = `${baseDias + extraDias} días hábiles`
+
+    // Mensaje WhatsApp
+    const extrasTexto = extras.length > 0
+      ? `\n\nFuncionalidades incluidas:\n${extras.map(e => `• ${e.nombre}`).join('\n')}`
+      : ''
+
+    const mensaje_whatsapp =
+`Hola ${form.cliente} 👋, te escribimos de Nixo Studio.
+
+Analizamos tu requerimiento para *${form.tipo_negocio}* y te preparamos esta propuesta:
+
+✅ *${plan}*
+💰 Inversión total: *${usd(total)}*
+⏱ Entrega estimada: *${tiempo}*${extrasTexto}
+
+Incluye: ${entregables.slice(0, 3).join(', ')} y más.
+
+¿Te parece bien si coordinamos una llamada para afinar los detalles? 🚀`
+
+    return { plan, precio_base, extras, total, tiempo, entregables, mensaje_whatsapp }
   }
 
   async function handleGenerar(e: React.FormEvent) {
@@ -87,37 +137,22 @@ Responde ÚNICAMENTE con este JSON (sin markdown, sin explicaciones):
       return
     }
     setStep('loading')
-    setStreamText('')
-    setResultado(null)
+    await new Promise(r => setTimeout(r, 500))
 
-    try {
-      const res = await fetch('/api/claude', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: buildPrompt() }),
-      })
-      const data = await res.json() as { text?: string; error?: string }
-      if (!res.ok || data.error) throw new Error(data.error ?? 'Error API')
+    const res = calcularEstimado()
+    setResultado(res)
+    setStep('result')
 
-      const parsed = JSON.parse(data.text ?? '{}') as Resultado
-      setResultado(parsed)
-      setStep('result')
-
-      // Save to history
-      await guardarEstimado({
-        cliente: form.cliente,
-        tipo_negocio: form.tipo_negocio,
-        respuestas: { ...form },
-        resultado: parsed as unknown as Record<string, unknown>,
-        plan_recomendado: parsed.plan,
-        precio_base: parsed.precio_base,
-        tiempo_estimado: parsed.tiempo,
-      })
-      router.refresh()
-    } catch {
-      toast('Error generando estimado. Verifica la API key de Claude.', '⚠')
-      setStep('form')
-    }
+    await guardarEstimado({
+      cliente: form.cliente,
+      tipo_negocio: form.tipo_negocio,
+      respuestas: { ...form },
+      resultado: res as unknown as Record<string, unknown>,
+      plan_recomendado: res.plan,
+      precio_base: res.precio_base,
+      tiempo_estimado: res.tiempo,
+    })
+    router.refresh()
   }
 
   function handleCopiarWA() {
@@ -129,8 +164,8 @@ Responde ÚNICAMENTE con este JSON (sin markdown, sin explicaciones):
   return (
     <div>
       <PageHeader
-        title="Estimador IA"
-        subtitle="Claude analiza el requerimiento y genera precio, plan y mensaje para el cliente"
+        title="Estimador de proyectos"
+        subtitle="Selecciona las opciones del cliente y genera precio, plan y mensaje automáticamente"
       />
 
       <div className="grid md:grid-cols-[1fr_380px] gap-5 items-start">
@@ -140,8 +175,12 @@ Responde ÚNICAMENTE con este JSON (sin markdown, sin explicaciones):
             <div className="rounded-2xl border p-6" style={{ background: 'var(--card)', borderColor: 'var(--border)' }}>
               <form onSubmit={handleGenerar} className="flex flex-col gap-4">
                 <div className="grid grid-cols-2 gap-3">
-                  <Field label="Nombre del cliente *"><Input value={form.cliente} onChange={e => setForm(p => ({ ...p, cliente: e.target.value }))} placeholder="Pastelería Dulce" required /></Field>
-                  <Field label="Tipo de negocio *"><Input value={form.tipo_negocio} onChange={e => setForm(p => ({ ...p, tipo_negocio: e.target.value }))} placeholder="Pastelería / Restaurante" required /></Field>
+                  <Field label="Nombre del cliente *">
+                    <Input value={form.cliente} onChange={e => setForm(p => ({ ...p, cliente: e.target.value }))} placeholder="Pastelería Dulce" required />
+                  </Field>
+                  <Field label="Tipo de negocio *">
+                    <Input value={form.tipo_negocio} onChange={e => setForm(p => ({ ...p, tipo_negocio: e.target.value }))} placeholder="Pastelería / Restaurante" required />
+                  </Field>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <Field label="Secciones del sitio">
@@ -155,17 +194,13 @@ Responde ÚNICAMENTE con este JSON (sin markdown, sin explicaciones):
                     </Select>
                   </Field>
                 </div>
+
                 <div>
-                  <div className="font-mono text-xs font-bold uppercase tracking-widest mb-3" style={{ color: 'var(--text3)' }}>Funcionalidades adicionales</div>
+                  <div className="font-mono text-xs font-bold uppercase tracking-widest mb-3" style={{ color: 'var(--text3)' }}>
+                    Funcionalidades adicionales
+                  </div>
                   <div className="grid grid-cols-2 gap-2">
-                    {[
-                      { key: 'blog', label: '📝 Blog integrado' },
-                      { key: 'ecommerce', label: '🛒 E-commerce' },
-                      { key: 'animaciones', label: '✨ Animaciones avanzadas' },
-                      { key: 'crm', label: '📊 CRM básico' },
-                      { key: 'google_business', label: '📍 Google Business' },
-                      { key: 'citas', label: '📅 Sistema de citas' },
-                    ].map(({ key, label }) => (
+                    {EXTRAS_CONFIG.map(({ key, label, precio }) => (
                       <label key={key}
                         className="flex items-center gap-2.5 rounded-lg border p-3 cursor-pointer transition-all"
                         style={{
@@ -175,13 +210,17 @@ Responde ÚNICAMENTE con este JSON (sin markdown, sin explicaciones):
                         <input type="checkbox" checked={!!form[key as keyof typeof form]}
                           onChange={e => setForm(p => ({ ...p, [key]: e.target.checked }))}
                           className="w-4 h-4 accent-[var(--g)]" />
-                        <span className="text-sm font-semibold" style={{ color: 'var(--text)' }}>{label}</span>
+                        <div>
+                          <div className="text-sm font-semibold" style={{ color: 'var(--text)' }}>{label}</div>
+                          <div className="font-mono text-xs" style={{ color: 'var(--text3)' }}>+{usd(precio)}</div>
+                        </div>
                       </label>
                     ))}
                   </div>
                 </div>
+
                 <Button type="submit" className="w-full mt-2">
-                  ◈ Generar estimado con Claude
+                  ◈ Generar estimado
                 </Button>
               </form>
             </div>
@@ -190,8 +229,8 @@ Responde ÚNICAMENTE con este JSON (sin markdown, sin explicaciones):
           {step === 'loading' && (
             <div className="rounded-2xl border flex flex-col items-center justify-center py-20" style={{ background: 'var(--card)', borderColor: 'var(--border)' }}>
               <div className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl text-white font-black mb-4 animate-pulse" style={{ background: 'var(--g)' }}>◈</div>
-              <div className="font-bold text-lg mb-1" style={{ color: 'var(--text)' }}>Claude está analizando...</div>
-              <div className="text-sm" style={{ color: 'var(--text3)' }}>Generando recomendación personalizada</div>
+              <div className="font-bold text-lg mb-1" style={{ color: 'var(--text)' }}>Calculando estimado...</div>
+              <div className="text-sm" style={{ color: 'var(--text3)' }}>Generando propuesta personalizada</div>
             </div>
           )}
 
@@ -211,12 +250,20 @@ Responde ÚNICAMENTE con este JSON (sin markdown, sin explicaciones):
                 {resultado.extras.length > 0 && (
                   <div className="mb-4">
                     <div className="font-mono text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--text3)' }}>Extras incluidos</div>
-                    {resultado.extras.map(ex => (
-                      <div key={ex.nombre} className="flex justify-between text-sm py-1.5 border-b" style={{ borderColor: 'var(--border)' }}>
-                        <span style={{ color: 'var(--text2)' }}>{ex.nombre}</span>
-                        <span className="font-mono font-semibold" style={{ color: 'var(--text)' }}>+{usd(ex.precio)}</span>
+                    <div className="rounded-xl overflow-hidden border" style={{ borderColor: 'var(--border)' }}>
+                      <div className="flex justify-between text-xs font-mono px-3 py-1.5" style={{ background: 'var(--card2)', color: 'var(--text3)' }}>
+                        <span>Plan base</span><span>{usd(resultado.precio_base)}</span>
                       </div>
-                    ))}
+                      {resultado.extras.map(ex => (
+                        <div key={ex.nombre} className="flex justify-between text-sm px-3 py-2 border-t" style={{ borderColor: 'var(--border)' }}>
+                          <span style={{ color: 'var(--text2)' }}>{ex.nombre}</span>
+                          <span className="font-mono font-semibold" style={{ color: 'var(--text)' }}>+{usd(ex.precio)}</span>
+                        </div>
+                      ))}
+                      <div className="flex justify-between text-sm font-bold px-3 py-2 border-t" style={{ borderColor: 'var(--border)', background: 'var(--g-dim)', color: 'var(--g)' }}>
+                        <span>Total</span><span className="font-mono">{usd(resultado.total)}</span>
+                      </div>
+                    </div>
                   </div>
                 )}
                 <div className="mb-4">
@@ -233,7 +280,7 @@ Responde ÚNICAMENTE con este JSON (sin markdown, sin explicaciones):
                 </div>
                 <div className="flex gap-2">
                   <Button size="sm" onClick={handleCopiarWA} className="flex-1">📋 Copiar mensaje WA</Button>
-                  <Button size="sm" variant="ghost" onClick={() => setStep('form')}>Nuevo estimado</Button>
+                  <Button size="sm" variant="ghost" onClick={() => { setStep('form'); setResultado(null) }}>Nuevo estimado</Button>
                 </div>
               </div>
             </div>
