@@ -565,6 +565,7 @@ export function RegistroRapido({ registrosHoy, resumenSemana, alertas, ultimoGas
             borderRadius: 16,
             display: 'flex', flexDirection: 'column',
             maxHeight: '90dvh',
+            overflow: 'hidden',
             boxShadow: '0 8px 40px rgba(0,0,0,0.18)',
           }}>
             {/* HEADER */}
@@ -597,7 +598,7 @@ export function RegistroRapido({ registrosHoy, resumenSemana, alertas, ultimoGas
             <form
               id="form-venta"
               onSubmit={handleVenta}
-              style={{ flex: 1, overflowY: 'auto', padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: 16 }}
+              style={{ flex: 1, minHeight: 0, overflowY: 'auto', padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: 16 }}
             >
               {/* Cliente */}
               <Field label="Cliente *">
